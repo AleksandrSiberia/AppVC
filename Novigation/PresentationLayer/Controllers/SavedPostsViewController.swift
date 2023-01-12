@@ -59,7 +59,7 @@ class SavedPostsViewController: UIViewController {
 
         self.navigationItem.title = NSLocalizedString("navigationItem.title", tableName: "SavedPostsViewControllerLocalizable", comment: "Saved posts")
 
-        self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.delegate = self
+        self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.delegate = self
 
         self.navigationItem.rightBarButtonItems = [self.barButtonItemCancelSearch, self.barButtonItemSearch ]
         self.view.addSubview(self.tableView)
@@ -76,10 +76,6 @@ class SavedPostsViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-
-
-        self.coreDataCoordinator.getPosts(nameFolder: "SavedPosts")
 
         self.coreDataCoordinator.performFetchPostCoreData()
 
@@ -107,7 +103,7 @@ class SavedPostsViewController: UIViewController {
             if self.textFieldSearchAuthor?.text != "" {
 
 
-                self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.fetchRequest.predicate = NSPredicate(format: "author contains[c] %@", self.textFieldSearchAuthor!.text!)
+                self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.fetchRequest.predicate = NSPredicate(format: "author contains[c] %@", self.textFieldSearchAuthor!.text!)
 
                 self.coreDataCoordinator.performFetchPostCoreData()
 
@@ -127,8 +123,11 @@ class SavedPostsViewController: UIViewController {
 
     @objc private func actionBarButtonItemCancelSearch() {
 
+        let folder = self.coreDataCoordinator.getFolderByName(nameFolder: "SavedPosts")
 
-        self.coreDataCoordinator.getPosts(nameFolder: "SavedPosts")
+        self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.fetchRequest.predicate = NSPredicate(format: "relationFolder contains %@", folder!)
+
+        self.coreDataCoordinator.performFetchPostCoreData()
 
         self.tableView.reloadData()
     }
@@ -143,8 +142,9 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?[section].numberOfObjects ?? 0
+        return self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.sections?[0].numberOfObjects ?? 0
     }
+
 
 
 
@@ -158,7 +158,7 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
         cell.selectionStyle = .none
 
 
-        let postCoreData = self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.object(at: indexPath)
+        let postCoreData = self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.object(at: indexPath)
 
 
         cell.setup(author: postCoreData?.author, image: postCoreData?.image, likes: postCoreData?.likes, text: postCoreData?.text, views: postCoreData?.views, coreDataCoordinator: self.coreDataCoordinator)
@@ -181,7 +181,7 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
 
 
-            let post = self!.coreDataCoordinator.fetchedResultsControllerPostCoreData?.object(at: indexPath)
+            let post = self!.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.object(at: indexPath)
 
             if let post {
                 self!.coreDataCoordinator.deletePost(post: post)

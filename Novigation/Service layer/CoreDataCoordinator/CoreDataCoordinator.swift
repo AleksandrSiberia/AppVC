@@ -61,7 +61,10 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         request.sortDescriptors = [ NSSortDescriptor(key: "author", ascending: true) ]
 
-        request.predicate = NSPredicate(format: "relationFolder contains %@", "SavedPosts")
+        let folder = self.getFolderByName(nameFolder: "SavedPosts")
+
+        request.predicate = NSPredicate(format: "relationFolder contains %@", folder!)
+
 
         let fetchedResultsControllerSavePostCoreData = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.backgroundContext, sectionNameKeyPath: nil, cacheName: nil)
 
@@ -88,7 +91,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
     func getPosts(nameFolder: String) {
 
         let folder = self.getFolderByName(nameFolder: nameFolder)
-
         
         self.fetchedResultsControllerPostCoreData?.fetchRequest.predicate = NSPredicate(format: "relationFolder contains %@", folder!)
 
@@ -98,6 +100,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
+    
     func performFetchPostCoreData() {
 
         do {
@@ -162,6 +165,9 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
             if postInCoreData.text == text {
                 completion(NSLocalizedString("appendPost", tableName: "ProfileViewControllerLocalizable", comment: "This post has already been saved"))
+
+                self.getPosts(nameFolder: "AllPosts")
+
                 return
             }
         }

@@ -95,7 +95,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
 
-        //        self.coreDataCoordinator.fetchedResultsControllerPostCoreData.delegate = self
+        //    self.coreDataCoordinator.fetchedResultsControllerPostCoreData.delegate = self
 
         
         if self.delegate != nil {
@@ -180,7 +180,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
             return 1
         }
         if section == 1 {
-            return self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?[0].objects?.count ?? 0
+            return self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?[0].numberOfObjects ?? 0
         }
         else {
             return 0

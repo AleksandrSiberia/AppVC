@@ -15,6 +15,8 @@ protocol CoreDataCoordinatorProtocol {
 
     var fetchedResultsControllerPostCoreData: NSFetchedResultsController<PostCoreData>? { get set }
 
+    var fetchedResultsControllerSavePostCoreData: NSFetchedResultsController<PostCoreData>? { get set }
+
     func getPosts(nameFolder: String)
 
     func performFetchPostCoreData()
