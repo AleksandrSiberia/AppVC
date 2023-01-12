@@ -9,6 +9,7 @@ import UIKit
 import iOSIntPackage
 import FirebaseAuth
 import CoreData
+import UniformTypeIdentifiers
 
 
 
@@ -28,7 +29,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     var delegate: ProfileViewDelegate! {
 
         didSet {
-        
+
             self.delegate.didChange = { [ unowned self ] delegate in
                 
                 if delegate.posts != nil {
@@ -61,6 +62,9 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.dragDelegate = self
+        tableView.dropDelegate = self
+
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
         tableView.register(ProfileHeaderView.self, forHeaderFooterViewReuseIdentifier: "ProfileHeaderView")
         tableView.register(PostCell.self, forCellReuseIdentifier: "PostCell")
@@ -82,8 +86,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
-
         self.view.addSubview(self.tableView)
         self.view.addGestureRecognizer(self.tapGestureRecogniser)
         self.setupConstraints()
@@ -95,7 +97,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
 
-        //    self.coreDataCoordinator.fetchedResultsControllerPostCoreData.delegate = self
+        self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.delegate = self
 
         
         if self.delegate != nil {
@@ -115,7 +117,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
             }
         }
 
-        self.tableView.reloadData()
+        //      self.tableView.reloadData()
     }
 
 
@@ -257,6 +259,9 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 }
 
 
+
+
+
 extension ProfileViewController: NSFetchedResultsControllerDelegate {
 
 
@@ -268,3 +273,36 @@ extension ProfileViewController: NSFetchedResultsControllerDelegate {
 
 
 
+extension ProfileViewController: UITableViewDragDelegate {
+
+
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+
+        let text = (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?[0].objects?[indexPath.row] as? PostCoreData)?.text
+
+        let textData = NSItemProvider(item: text?.data(using: .utf8) as? NSData,
+                                      typeIdentifier: UTType.plainText.identifier)
+
+        let image = UIImage(named: (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?[0].objects?[indexPath.row] as? PostCoreData)?.image ?? "" )
+
+        let imageData = image?.pngData() as? NSData
+
+        let imageItemProvider = NSItemProvider(item: imageData, typeIdentifier: UTType.image.identifier)
+
+
+        return [UIDragItem(itemProvider: textData), UIDragItem(itemProvider: imageItemProvider)]
+    }
+}
+
+
+
+extension ProfileViewController: UITableViewDropDelegate {
+
+
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+
+    }
+
+
+
+}

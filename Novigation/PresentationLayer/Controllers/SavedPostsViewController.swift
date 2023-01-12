@@ -11,7 +11,7 @@ import CoreData
 
 class SavedPostsViewController: UIViewController {
 
- 
+
     
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
@@ -79,7 +79,7 @@ class SavedPostsViewController: UIViewController {
 
         self.coreDataCoordinator.performFetchPostCoreData()
 
-        self.tableView.reloadData()
+        //       self.tableView.reloadData()
 
     }
 
@@ -95,13 +95,11 @@ class SavedPostsViewController: UIViewController {
 
             textField.clearButtonMode = .whileEditing
             self.textFieldSearchAuthor = textField
-            }
+        }
 
         let actionSearch = UIAlertAction(title: NSLocalizedString("actionBarButtonItemSearchAlertActionSearch", tableName: "SavedPostsViewControllerLocalizable", comment: "Найти") , style: .default) {action in
 
-
             if self.textFieldSearchAuthor?.text != "" {
-
 
                 self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.fetchRequest.predicate = NSPredicate(format: "author contains[c] %@", self.textFieldSearchAuthor!.text!)
 
@@ -168,9 +166,9 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
 
 
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        self.coreDataCoordinator.fetchResultController.sections?.count ?? 0
-//    }
+    //    func numberOfSections(in tableView: UITableView) -> Int {
+    //        self.coreDataCoordinator.fetchResultController.sections?.count ?? 0
+    //    }
 
 
 
@@ -209,6 +207,7 @@ extension SavedPostsViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 
 
+        
         switch type {
 
         case .insert:
@@ -223,4 +222,5 @@ extension SavedPostsViewController: NSFetchedResultsControllerDelegate {
             self.tableView.reloadData()
         }
     }
+
 }
