@@ -70,9 +70,4 @@ class FileManagerService: FileManagerServiceable {
         return  completionHandler((conditionCreateFile, urlNewFile, stringDateNameFoto))
 
     }
-
-
-
-
-
 }

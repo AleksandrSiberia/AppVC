@@ -115,7 +115,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
         if (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?.first?.objects?.isEmpty)! {
             for post in arrayModelPost {
-                self.coreDataCoordinator.appendPost(author: post.author, image: post.image, likes: String(post.likes), text: post.description, views: String(post.views), folderName: "AllPosts", urlFoto: nil) { _ in
+                self.coreDataCoordinator.appendPost(author: post.author, image: post.image, likes: String(post.likes), text: post.description, views: String(post.views), folderName: "AllPosts", nameForUrlFoto: nil) { _ in
                 }
             }
         }
@@ -218,7 +218,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
                     let post = posts[indexPath.row ]
 
-                    cell.setup(author: post.author, image: post.image, likes: post.likes, text: post.text, views: post.views, urlFoto: post.urlFoto, coreDataCoordinator: self.coreDataCoordinator)
+                    cell.setup(author: post.author, image: post.image, likes: post.likes, text: post.text, views: post.views, nameFoto: post.urlFoto, coreDataCoordinator: self.coreDataCoordinator)
                     return cell
                 }
                 else {
@@ -251,7 +251,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
     }
 
 
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         if indexPath.section == 0 && indexPath.row == 0 {
@@ -267,7 +266,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
 extension ProfileViewController: NSFetchedResultsControllerDelegate {
 
-
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 
         self.tableView.reloadData()
@@ -276,8 +274,8 @@ extension ProfileViewController: NSFetchedResultsControllerDelegate {
 
 
 
-extension ProfileViewController: UITableViewDragDelegate {
 
+extension ProfileViewController: UITableViewDragDelegate {
 
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
 
@@ -319,12 +317,14 @@ extension ProfileViewController: UITableViewDropDelegate {
                         return
                     }
 
-                    let urlFoto = "file://" + tuple.1
-                 //   let nameFoto = tuple.2
 
-                    print("🎀", urlFoto)
 
-                    self.coreDataCoordinator.appendPost(author: "Drag&Drop", image: nil, likes: "0", text: "Drag&Drop", views: "0", folderName: "AllPosts", urlFoto: urlFoto) { _ in }
+                    let nameFoto =  tuple.2
+                 //   let nameFoto = tuple.1
+
+                    print("🎀", nameFoto)
+
+                    self.coreDataCoordinator.appendPost(author: "Drag&Drop", image: nil, likes: "0", text: UUID().uuidString, views: "0", folderName: "AllPosts", nameForUrlFoto: nameFoto) { _ in }
 
                     self.coreDataCoordinator.performFetchPostCoreData()
 

@@ -118,7 +118,7 @@ class PostCell: UITableViewCell {
 
         var errorSave: String?
         
-        self.coreDataCoordinator.appendPost(author: self.authorLabel.text, image: self.nameImage, likes: self.likesLabel.text, text: self.descriptionLabel.text, views: self.viewsLabel.text, folderName: "SavedPosts", urlFoto: self.urlFoto) { error in
+        self.coreDataCoordinator.appendPost(author: self.authorLabel.text, image: self.nameImage, likes: self.likesLabel.text, text: self.descriptionLabel.text, views: self.viewsLabel.text, folderName: "SavedPosts", nameForUrlFoto: self.urlFoto) { error in
             errorSave = error
         }
         return errorSave
@@ -162,7 +162,9 @@ class PostCell: UITableViewCell {
 
 
     
-    func setup(author: String?, image: String?, likes: String?, text: String?, views: String?, urlFoto: String?, coreDataCoordinator: CoreDataCoordinatorProtocol) {
+    func setup(author: String?, image: String?, likes: String?, text: String?, views: String?, nameFoto: String?, coreDataCoordinator: CoreDataCoordinatorProtocol) {
+
+        let urlDocument = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
 
         self.coreDataCoordinator = coreDataCoordinator
 
@@ -170,18 +172,27 @@ class PostCell: UITableViewCell {
 
         self.nameImage = image
 
-        self.urlFoto = urlFoto
+        self.urlFoto = nameFoto
 
         let filter = ImageProcessor()
 
         var filteredImage: UIImage?
 
 
-        if let urlFoto {
+        if let nameFoto {
+
+            guard let urlDocument else { return }
+
+            let fileURL = "file://" + urlDocument + "/" + nameFoto
+
+            print("🎄", fileURL)
+
+
 
             do {
 
-                guard let url = URL(string: urlFoto) else {
+                guard let url = URL(string: fileURL) else {
+
                     print("‼️ URL(string: urlFoto) == nil")
                     return
                 }

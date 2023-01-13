@@ -157,7 +157,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    func appendPost(author: String?, image: String?, likes: String?, text: String?, views: String?, folderName: String, urlFoto: String?, completion: (String?) -> Void) {
+    func appendPost(author: String?, image: String?, likes: String?, text: String?, views: String?, folderName: String, nameForUrlFoto: String?, completion: (String?) -> Void) {
 
 
         for postInCoreData in (self.fetchedResultsControllerSavePostCoreData?.sections![0].objects) as! [PostCoreData] {
@@ -175,7 +175,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         post.text = text
         post.likes = likes
         post.views = views
-        post.urlFoto = urlFoto
+        post.urlFoto = nameForUrlFoto
 
         let folder = self.getFolderByName(nameFolder: folderName)
 

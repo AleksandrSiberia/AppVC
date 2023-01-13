@@ -159,7 +159,7 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
         let postCoreData = self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.object(at: indexPath)
 
 
-        cell.setup(author: postCoreData?.author, image: postCoreData?.image, likes: postCoreData?.likes, text: postCoreData?.text, views: postCoreData?.views, urlFoto: postCoreData?.urlFoto, coreDataCoordinator: self.coreDataCoordinator)
+        cell.setup(author: postCoreData?.author, image: postCoreData?.image, likes: postCoreData?.likes, text: postCoreData?.text, views: postCoreData?.views, nameFoto: postCoreData?.urlFoto, coreDataCoordinator: self.coreDataCoordinator)
         return cell
         
     }
