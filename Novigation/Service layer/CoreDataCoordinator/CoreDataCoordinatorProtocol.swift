@@ -25,7 +25,7 @@ protocol CoreDataCoordinatorProtocol {
 
     func appendFolder(name: String)
 
-    func appendPost(author: String?, image: String?, likes: String?, text: String?, views: String?, folderName: String, completion: (String?) -> Void)
+    func appendPost(author: String?, image: String?, likes: String?, text: String?, views: String?, folderName: String, urlFoto: String?, completion: (String?) -> Void)
 
     func getFolderByName(nameFolder: String) -> FoldersPostCoreData?
 

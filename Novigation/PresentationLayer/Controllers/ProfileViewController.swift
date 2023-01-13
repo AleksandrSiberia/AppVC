@@ -23,6 +23,8 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
+    var fileManager: FileManagerServiceable?
+
     var handle: AuthStateDidChangeListenerHandle?
 
 
@@ -86,6 +88,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
+
         self.view.addSubview(self.tableView)
         self.view.addGestureRecognizer(self.tapGestureRecogniser)
         self.setupConstraints()
@@ -112,7 +115,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
         if (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?.first?.objects?.isEmpty)! {
             for post in arrayModelPost {
-                self.coreDataCoordinator.appendPost(author: post.author, image: post.image, likes: String(post.likes), text: post.description, views: String(post.views), folderName: "AllPosts") { _ in
+                self.coreDataCoordinator.appendPost(author: post.author, image: post.image, likes: String(post.likes), text: post.description, views: String(post.views), folderName: "AllPosts", urlFoto: nil) { _ in
                 }
             }
         }
@@ -301,8 +304,35 @@ extension ProfileViewController: UITableViewDropDelegate {
 
     func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
 
+        _ = coordinator.session.loadObjects(ofClass: UIImage.self) { array in
+
+            if array.count > 0 {
+
+                let image = array.first as! UIImage
+
+                self.fileManager?.saveImage(imageData: image) {
+
+                    ( tuple: (completion: Bool, urlString: String, nameFoto: String)? ) -> Void   in
+
+                    guard let tuple else {
+
+                        return
+                    }
+
+                    let urlFoto = tuple.1
+                    let nameFoto = tuple.2
+
+//                    self.coreDataCoordinator.appendPost(author: , image: <#T##String?#>, likes: <#T##String?#>, text: <#T##String?#>, views: <#T##String?#>, folderName: <#T##String#>) {
+//
+//                        string in
+//
+//                    }
+
+                }
+
+                print("🌹", image)
+
+            }
+        }
     }
-
-
-
 }

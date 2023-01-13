@@ -116,7 +116,7 @@ class PostCell: UITableViewCell {
 
         var errorSave: String?
         
-        self.coreDataCoordinator.appendPost(author: self.authorLabel.text, image: self.nameImage, likes: self.likesLabel.text, text: self.descriptionLabel.text, views: self.viewsLabel.text, folderName: "SavedPosts") { error in
+        self.coreDataCoordinator.appendPost(author: self.authorLabel.text, image: self.nameImage, likes: self.likesLabel.text, text: self.descriptionLabel.text, views: self.viewsLabel.text, folderName: "SavedPosts", urlFoto: nil) { error in
             errorSave = error
         }
         return errorSave
