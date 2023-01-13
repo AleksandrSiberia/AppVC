@@ -336,4 +336,12 @@ extension ProfileViewController: UITableViewDropDelegate {
             }
         }
     }
+
+
+
+    func tableView(_ tableView: UITableView, canHandle session: UIDropSession) -> Bool {
+
+
+        return session.canLoadObjects(ofClass: UIImage.self)
+    }
 }
