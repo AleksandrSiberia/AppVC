@@ -218,7 +218,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
                     let post = posts[indexPath.row ]
 
-                    cell.setup(author: post.author, image: post.image, likes: post.likes, text: post.text, views: post.views, coreDataCoordinator: self.coreDataCoordinator)
+                    cell.setup(author: post.author, image: post.image, likes: post.likes, text: post.text, views: post.views, urlFoto: post.urlFoto, coreDataCoordinator: self.coreDataCoordinator)
                     return cell
                 }
                 else {
@@ -315,18 +315,19 @@ extension ProfileViewController: UITableViewDropDelegate {
                     ( tuple: (completion: Bool, urlString: String, nameFoto: String)? ) -> Void   in
 
                     guard let tuple else {
-
+                        print("‼️ (completion: Bool, urlString: String, nameFoto: String)? == nil")
                         return
                     }
 
-                    let urlFoto = tuple.1
-                    let nameFoto = tuple.2
+                    let urlFoto = "file://" + tuple.1
+                 //   let nameFoto = tuple.2
 
-//                    self.coreDataCoordinator.appendPost(author: , image: <#T##String?#>, likes: <#T##String?#>, text: <#T##String?#>, views: <#T##String?#>, folderName: <#T##String#>) {
-//
-//                        string in
-//
-//                    }
+                    print("🎀", urlFoto)
+
+                    self.coreDataCoordinator.appendPost(author: "Drag&Drop", image: nil, likes: "0", text: "Drag&Drop", views: "0", folderName: "AllPosts", urlFoto: urlFoto) { _ in }
+
+                    self.coreDataCoordinator.performFetchPostCoreData()
+
 
                 }
 

@@ -175,6 +175,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         post.text = text
         post.likes = likes
         post.views = views
+        post.urlFoto = urlFoto
 
         let folder = self.getFolderByName(nameFolder: folderName)
 

@@ -13,6 +13,8 @@ class PostCell: UITableViewCell {
 
     private var nameImage: String?
 
+    private var urlFoto: String?
+
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
     private lazy var authorLabel: UILabel = {
@@ -116,7 +118,7 @@ class PostCell: UITableViewCell {
 
         var errorSave: String?
         
-        self.coreDataCoordinator.appendPost(author: self.authorLabel.text, image: self.nameImage, likes: self.likesLabel.text, text: self.descriptionLabel.text, views: self.viewsLabel.text, folderName: "SavedPosts", urlFoto: nil) { error in
+        self.coreDataCoordinator.appendPost(author: self.authorLabel.text, image: self.nameImage, likes: self.likesLabel.text, text: self.descriptionLabel.text, views: self.viewsLabel.text, folderName: "SavedPosts", urlFoto: self.urlFoto) { error in
             errorSave = error
         }
         return errorSave
@@ -160,7 +162,7 @@ class PostCell: UITableViewCell {
 
 
     
-    func setup(author: String?, image: String?, likes: String?, text: String?, views: String?, coreDataCoordinator: CoreDataCoordinatorProtocol) {
+    func setup(author: String?, image: String?, likes: String?, text: String?, views: String?, urlFoto: String?, coreDataCoordinator: CoreDataCoordinatorProtocol) {
 
         self.coreDataCoordinator = coreDataCoordinator
 
@@ -168,15 +170,55 @@ class PostCell: UITableViewCell {
 
         self.nameImage = image
 
+        self.urlFoto = urlFoto
+
         let filter = ImageProcessor()
 
         var filteredImage: UIImage?
 
 
-        filter.processImage(sourceImage: UIImage(named: image ?? "")!, filter: ColorFilter.noir) { outputImage in
-            filteredImage = outputImage
+        if let urlFoto {
+
+            do {
+
+                guard let url = URL(string: urlFoto) else {
+                    print("‼️ URL(string: urlFoto) == nil")
+                    return
+                }
+                let imageData = try Data(contentsOf: url )
+
+                guard let image = UIImage(data: imageData) else {
+                    print("‼️ UIImage(data: imageData == nil")
+                    return
+                }
+
+                print("🏓", image, url)
+
+                filter.processImage(sourceImage: image, filter: ColorFilter.noir) { outputImage in
+                    filteredImage = outputImage
+                }
+
+
+            }
+            catch {
+                print(error.localizedDescription)
+            }
         }
 
+
+        else {
+
+            guard let image = UIImage(named: image ?? "") else {
+                print("‼️ image = UIImage(named: image ?? ) == nil")
+                return
+            }
+
+            filter.processImage(sourceImage: image, filter: ColorFilter.noir) { outputImage in
+                filteredImage = outputImage
+            }
+        }
+
+        
         let localized = NSLocalizedString("LocalizedLike", tableName: "LocalizableDict", comment: "")
         let likeValue = Int(likes ?? "") ?? 0
         let formatLocalized = String(format: localized, likeValue)
