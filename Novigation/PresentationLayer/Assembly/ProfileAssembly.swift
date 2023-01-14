@@ -10,13 +10,18 @@ import Foundation
 
 final class ProfileAssembly {
 
-    static func createProfileViewController() -> ProfileViewController {
+    static func createProfileViewController() -> ProfileViewControllable {
 
         let view = ProfileViewController()
+
+        let fileManager = FileManagerService()
      
         let viewModel = ProfileViewModel(director: view)
 
         view.delegate = viewModel
+
+        view.fileManager = fileManager
+
         return  view
     }
 }

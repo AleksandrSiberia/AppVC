@@ -6,12 +6,32 @@
 //
 
 import UIKit
+import FirebaseCore
+import RealmSwift
+
 
 @main
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    private let localNotificationsService = LocalNotificationsService()
+
+
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+        localNotificationsService.registerForLatestUpdatesIfPossible { string , localNotificationsService in
+        }
+
+   //     localNotificationsService.unCenter.delegate = self
+        
+        FirebaseApp.configure()
+
+
+        let realmMyConfiguration = Realm.Configuration(schemaVersion: 4)
+        Realm.Configuration.defaultConfiguration = realmMyConfiguration
+        
+
         // Override point for customization after application launch.
         return true
     }
