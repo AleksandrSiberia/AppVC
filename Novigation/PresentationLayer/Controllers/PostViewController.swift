@@ -14,7 +14,6 @@ class PostViewController: UIViewController {
     var post: Post?
 
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemOrange

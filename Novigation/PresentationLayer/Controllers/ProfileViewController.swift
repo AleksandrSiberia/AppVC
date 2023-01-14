@@ -88,6 +88,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
 
         self.view.addSubview(self.tableView)
         self.view.addGestureRecognizer(self.tapGestureRecogniser)
@@ -266,7 +267,38 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
 extension ProfileViewController: NSFetchedResultsControllerDelegate {
 
+
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+
+
+//        switch type {
+//
+//        case .insert:
+//            guard var newIndexPath else { return }
+//            newIndexPath.section = 1
+//            self.tableView.insertRows(at: [newIndexPath], with: .automatic)
+//            print("🛍️", newIndexPath.row)
+//
+//        case .delete:
+//            guard var indexPath else { return }
+//            indexPath.section = 1
+//            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+//
+//        case .move:
+//            guard var indexPath else { return }
+//            indexPath.section = 1
+//            guard var newIndexPath else { return }
+//            newIndexPath.section = 1
+//            self.tableView.moveRow(at: indexPath, to: newIndexPath)
+//
+//        case .update:
+//            guard var indexPath else { return }
+//            indexPath.section = 1
+//            self.tableView.reloadRows(at: [indexPath], with: .automatic)
+//
+//        @unknown default:
+//            self.tableView.reloadData()
+//        }
 
         self.tableView.reloadData()
     }
@@ -281,17 +313,22 @@ extension ProfileViewController: UITableViewDragDelegate {
 
         let text = (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?[0].objects?[indexPath.row] as? PostCoreData)?.text
 
+        // можно передать NSString
         let textData = NSItemProvider(item: text?.data(using: .utf8) as? NSData,
                                       typeIdentifier: UTType.plainText.identifier)
 
         let image = UIImage(named: (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?[0].objects?[indexPath.row] as? PostCoreData)?.image ?? "" )
 
+        // можно передавать UIImage
         let imageData = image?.pngData() as? NSData
 
         let imageItemProvider = NSItemProvider(item: imageData, typeIdentifier: UTType.image.identifier)
 
 
-        return [UIDragItem(itemProvider: textData), UIDragItem(itemProvider: imageItemProvider)]
+        return [
+            UIDragItem(itemProvider: textData),
+            UIDragItem(itemProvider: imageItemProvider)
+        ]
     }
 }
 
@@ -302,11 +339,15 @@ extension ProfileViewController: UITableViewDropDelegate {
 
     func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
 
-        _ = coordinator.session.loadObjects(ofClass: UIImage.self) { array in
+        coordinator.session.loadObjects(ofClass: UIImage.self) { array in
 
             if array.count > 0 {
 
                 let image = array.first as! UIImage
+
+
+                //      let group = DispatchGroup()
+
 
                 self.fileManager?.saveImage(imageData: image) {
 
@@ -317,22 +358,15 @@ extension ProfileViewController: UITableViewDropDelegate {
                         return
                     }
 
-
-
                     let nameFoto =  tuple.2
-                 //   let nameFoto = tuple.1
+                    //   let nameFoto = tuple.1
 
-                    print("🎀", nameFoto)
 
                     self.coreDataCoordinator.appendPost(author: "Drag&Drop", image: nil, likes: "0", text: UUID().uuidString, views: "0", folderName: "AllPosts", nameForUrlFoto: nameFoto) { _ in }
 
                     self.coreDataCoordinator.performFetchPostCoreData()
 
-
                 }
-
-                print("🌹", image)
-
             }
         }
     }
@@ -341,7 +375,20 @@ extension ProfileViewController: UITableViewDropDelegate {
 
     func tableView(_ tableView: UITableView, canHandle session: UIDropSession) -> Bool {
 
-
-        return session.canLoadObjects(ofClass: UIImage.self)
+        return session.canLoadObjects(ofClass: UIImage.self) || session.canLoadObjects(ofClass: NSString.self)
     }
+
+
+
+//    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+//        //        guard session.items.count == 2 else {
+//        //            return UITableViewDropProposal(operation: .cancel)
+//        //        }
+//
+//        if tableView.hasActiveDrag {
+//            return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+//        } else {
+//            return UITableViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
+//        }
+//    }
 }

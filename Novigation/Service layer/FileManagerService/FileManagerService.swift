@@ -54,11 +54,9 @@ class FileManagerService: FileManagerServiceable {
 
         let urlNewFile = url + "/" + stringDateNameFoto
 
-        print("📩", urlNewFile)
 
         let conditionCreateFile = manager.createFile(atPath: urlNewFile, contents: imageData.pngData())
 
-        print("✨ Condition Create File = \(conditionCreateFile)")
 
 
         guard conditionCreateFile else {

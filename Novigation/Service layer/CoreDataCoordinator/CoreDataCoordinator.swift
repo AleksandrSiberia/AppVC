@@ -203,7 +203,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
             if folders.count >= 1 {
 
-              //  print("🥀", folders, folders.count)
                 let folder = (folders.filter { ($0 as AnyObject).name == nameFolder }).first
 
                 return folder as? FoldersPostCoreData

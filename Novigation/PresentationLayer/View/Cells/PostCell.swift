@@ -153,7 +153,6 @@ class PostCell: UITableViewCell {
             self.likesLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             self.likesLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
 
-            self.viewsLabel.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 16),
             self.viewsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             self.viewsLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
         ])
