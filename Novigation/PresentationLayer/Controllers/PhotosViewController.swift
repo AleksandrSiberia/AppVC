@@ -67,12 +67,6 @@ class PhotosViewController: UIViewController {
                 let timeInterval = Double(nanoTime) / 1_000_000_000
                 print("Время исполнения метода \(timeInterval) секунд")
 
-                //  Время исполнения метода processImagesOnThread:
-                //    .background 8.463020833 секунд
-                //    .utility    1.70017675 секунд
-                //    .userInitiated 1.76629675 секунд
-                //    .userInteractive  1.751627459 сукунд
-
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -92,13 +86,21 @@ class PhotosViewController: UIViewController {
     }
 }
 
+
+
+
+
 extension PhotosViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+
+
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
         self.arrayUIImage.count
 
     }
+
+
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.nameCollectionCell, for: indexPath) as? PhotosCollectionViewCell else { let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DefaultCell", for: indexPath)
@@ -108,6 +110,8 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout, UICollection
         cell.setupImage(self.arrayUIImage[indexPath.row])
         return cell
     }
+
+
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let minimumInteritemSpacing = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumInteritemSpacing ?? .zero

@@ -186,7 +186,6 @@ class LoginViewController: UIViewController {
         let action = UIAction { action in
 
             if
-                //            (UserDefaults.standard.object(forKey: "userOnline") != nil)
                 self.keychain.get("userOnline") != nil   {
 
                 self.localAuthorizationService.canEvaluateBiometric { bool, error in
@@ -258,8 +257,6 @@ class LoginViewController: UIViewController {
         else {
             buttonBiometric.isHidden = true
         }
-
-        //   buttonBiometric.frame.size = CGSize(width: 40, height: 40)
         buttonBiometric.translatesAutoresizingMaskIntoConstraints = false
 
         return buttonBiometric
@@ -394,7 +391,6 @@ class LoginViewController: UIViewController {
     func autoAuthorization() {
 
         if self.keychain.get("userOnline") != nil
-        //        (UserDefaults.standard.object(forKey: "userOnline") != nil)
         {
 
             let currentUserService = CurrentUserService()
@@ -406,7 +402,6 @@ class LoginViewController: UIViewController {
             let userService = currentUserService
 #endif
 
-            //        let loginUserOnline = UserDefaults.standard.object(forKey: "userOnline") as! String
 
             let loginUserOnline = keychain.get("userOnline")
 
@@ -417,18 +412,18 @@ class LoginViewController: UIViewController {
 
                         userService.checkTheLogin(user.login, password: user.password, loginInspector: self.loginDelegate!, loginViewController: self) {  user in
 
-                            self.output.coordinator.startProfileCoordinator(user: user!)
+                            guard let user else {
+                                print("‼️ user == nil")
+                                return
+                            }
+
+                            self.output.coordinator.startProfileCoordinator(user: user)
                         }
                     }
                 }
             }
         }
     }
-
-
-
-
-
 
 
 
@@ -459,8 +454,6 @@ class LoginViewController: UIViewController {
                 return
             }
 
-            //           UserDefaults.standard.set(self.textFieldLogin.text, forKey: "userOnline")
-
             self.keychain.set(self.textFieldLogin.text ?? "", forKey: "userOnline")
 
             for (index, user) in RealmService.shared.getAllUsers()!.enumerated() {
@@ -470,12 +463,16 @@ class LoginViewController: UIViewController {
             }
 
             let newUser = RealmUserModel()
-            newUser.login = self.textFieldLogin.text!
-            newUser.password = self.textFieldPassword.text!
+            newUser.login = self.textFieldLogin.text ?? ""
+            newUser.password = self.textFieldPassword.text ?? ""
 
             RealmService.shared.setUser(user: newUser)
-            
-            self.output.coordinator.startProfileCoordinator(user: user!)
+
+            guard let user else {
+                print("‼️ user == nil")
+                return }
+
+            self.output.coordinator.startProfileCoordinator(user: user)
 
         }
     }
