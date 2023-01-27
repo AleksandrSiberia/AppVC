@@ -15,11 +15,14 @@ import CoreData
 final class CoreDataCoordinatorTests: XCTestCase {
 
     var sut: CoreDataCoordinator!
- //   var reportService: ReportService!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         self.sut = CoreDataCoordinator()
+
+        if sut.getFolderByName(nameFolder: "SavedPosts") == nil {
+            sut.appendFolder(name: "SavedPosts")
+        }
     }
 
 
@@ -50,7 +53,7 @@ final class CoreDataCoordinatorTests: XCTestCase {
     func testInitBackgroundContext() throws {
 
         // when
-        let backgroundContext = sut.backgroundContext
+        let backgroundContext = sut.backgroundContext as AnyObject
 
         //then
 

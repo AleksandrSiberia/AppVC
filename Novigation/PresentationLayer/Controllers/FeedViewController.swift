@@ -8,9 +8,14 @@
 import UIKit
 import StorageService
 import RealmSwift
+import SwiftUI
 
 
 class FeedViewController: UIViewController {
+
+
+   
+
 
     var delegate: FeedViewDelegate! {
 
@@ -47,6 +52,7 @@ class FeedViewController: UIViewController {
         var buttonCheckWord = CustomButton(title: "buttonCheckWord".feedViewControllerLocalizable) {
          self.delegate.wordVerification = self.textFieldCheckWord.text
         }
+
         return buttonCheckWord
     }()
 

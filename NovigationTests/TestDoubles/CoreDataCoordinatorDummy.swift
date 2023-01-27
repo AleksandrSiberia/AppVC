@@ -12,6 +12,7 @@ import CoreData
 
 
 class CoreDataCoordinatorDummy: CoreDataCoordinatorProtocol {
+    var fetchedResultsControllerSavePostCoreData: NSFetchedResultsController<PostCoreData>?
 
     var fetchedResultsControllerPostCoreData: NSFetchedResultsController<PostCoreData>?
 
@@ -25,8 +26,6 @@ class CoreDataCoordinatorDummy: CoreDataCoordinatorProtocol {
 
     func appendFolder(name: String) {}
 
-    func appendPost(author: String?, image: String?, likes: String?, text: String?, views: String?, folderName: String, completion: (String?) -> Void) {}
-
     func getFolderByName(nameFolder: String) -> FoldersPostCoreData? { return nil }
 
     func getAllFolders() -> [FoldersPostCoreData]? { return nil }
@@ -34,6 +33,8 @@ class CoreDataCoordinatorDummy: CoreDataCoordinatorProtocol {
     func deleteFolder(folder: FoldersPostCoreData) {}
 
     func deletePost(post: PostCoreData) {}
+
+    func appendPost(author: String?, image: String?, likes: String?, text: String?, views: String?, folderName: String, nameForUrlFoto: String?, completion: (String?) -> Void) {}
 
     }
 

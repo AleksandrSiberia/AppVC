@@ -71,6 +71,22 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         return statusButton
     }()
 
+
+    private var buttonAddPost: UIButton = {
+
+        var action = UIAction { _ in
+            print("🌺")
+        }
+        var buttonAddPost = UIButton(frame: CGRect(), primaryAction: action)
+        buttonAddPost.setBackgroundImage(UIImage(systemName: "plus.circle"), for: .normal)
+        buttonAddPost.translatesAutoresizingMaskIntoConstraints = false
+        buttonAddPost.frame.size = CGSize(width: 50.0, height: 50.0)
+        buttonAddPost.sizeToFit()
+        return buttonAddPost
+    }()
+
+
+
     private lazy var statusText: String = {
         return ""
     }()
@@ -133,7 +149,8 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         self.topStack.addArrangedSubview(self.fullNameLabel)
         self.topStack.addArrangedSubview(self.statusLabel)
 
-        [topStack, statusTextField, setStatusButton,viewForAnimation, buttonOffAnimation, avatarImageView].forEach({self.addSubview($0)})
+
+        [topStack, statusTextField, setStatusButton,viewForAnimation, buttonOffAnimation, avatarImageView, buttonAddPost].forEach({self.addSubview($0)})
     }
 
 
@@ -167,7 +184,6 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
             make.top.equalTo(self.statusTextField.snp.bottom).offset(18)
             make.leading.equalTo(self.snp.leading).offset(16)
             make.trailing.equalTo(self.snp.trailing).offset(-16)
-            make.bottom.equalTo(self.snp.bottom).offset(-16)
             make.height.equalTo(50)
         }
 
@@ -180,6 +196,13 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
             make.top.equalTo(self.viewForAnimation.snp.top).offset(14)
             make.trailing.equalTo(self.viewForAnimation.snp.trailing).offset(-14)
             make.height.width.equalTo(40)
+        }
+
+        self.buttonAddPost.snp.makeConstraints { make in
+            make.top.equalTo(self.setStatusButton.snp.bottom).offset(14)
+            make.bottom.equalTo(self.snp.bottom).offset(-20)
+            make.centerX.equalTo(self.snp.centerX).offset(14)
+            make.height.width.equalTo(35)
         }
     }
 

@@ -18,6 +18,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
     private lazy var persistentContainer: NSPersistentContainer = {
 
+
         var persistentContainer = NSPersistentContainer(name: "CoreDadaModel")
 
         persistentContainer.loadPersistentStores { nsPersistentStoreDescription, error in
@@ -33,8 +34,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    lazy var backgroundContext: NSManagedObjectContext = {
-        //       backgroundContext.automaticallyMergesChangesFromParent = true
+   lazy var backgroundContext: NSManagedObjectContext = {
         return persistentContainer.newBackgroundContext()
     }()
 
@@ -63,6 +63,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         let folder = self.getFolderByName(nameFolder: "SavedPosts")
 
+
         request.predicate = NSPredicate(format: "relationFolder contains %@", folder!)
 
 
@@ -78,11 +79,12 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         if self.getFolderByName(nameFolder: "SavedPosts") == nil {
                     self.appendFolder(name: "SavedPosts")
                 }
-                if self.getFolderByName(nameFolder: "AllPosts") == nil {
+
+        if self.getFolderByName(nameFolder: "AllPosts") == nil {
                     self.appendFolder(name: "AllPosts")
                 }
 
-        self.performFetchPostCoreData()
+  //      self.performFetchPostCoreData()
 
     }
 
@@ -128,6 +130,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
     func savePersistentContainerContext() {
 
         if self.backgroundContext.hasChanges {
+            
 
             do {
 
@@ -150,7 +153,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         )
         folder.name = name
         self.savePersistentContainerContext()
-//        self.reloadFolders()
 
     }
 
@@ -180,8 +182,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         let folder = self.getFolderByName(nameFolder: folderName)
 
         post.addToRelationFolder(folder!)
-
-   //     post.relationFolder = [folder!]
 
         self.savePersistentContainerContext()
         self.performFetchPostCoreData()
@@ -254,36 +254,3 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 }
 
 
-
-
-
-
-
-
-
-
-//    func reloadPosts(searchAuthor: String?) {
-//
-//        let request = PostCoreData.fetchRequest()
-//
-//        if searchAuthor != nil {
-//
-//            request.predicate = NSPredicate(format: "author contains[c] %@", searchAuthor!)
-//        }
-//
-//        do {
-//
-//            let savedPosts = try self.backgroundContext.fetch(request)
-//
-//            self.savedPosts = savedPosts
-//
-////            DispatchQueue.main.async {
-////                self.savedPosts = savedPosts
-////                completionHandler(savedPosts)
-////            }
-//        }
-//
-//        catch {
-//            print(error.localizedDescription)
-//        }
-//    }
