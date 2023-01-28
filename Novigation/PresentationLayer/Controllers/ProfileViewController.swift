@@ -12,6 +12,9 @@ import CoreData
 import UniformTypeIdentifiers
 
 
+protocol ProfileViewControllerDelegate {
+    func addNewPost()
+}
 
 protocol ProfileViewControllerOutput {
     func timerStop()
@@ -19,7 +22,7 @@ protocol ProfileViewControllerOutput {
 
 
 
-final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable {
+final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable, ProfileViewControllerDelegate {
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
@@ -132,6 +135,14 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
 
+    func addNewPost() {
+        let controller = AddNewPostViewController()
+        let nav = UINavigationController(rootViewController: controller)
+        self.present(nav, animated: true)
+    }
+
+
+
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -236,10 +247,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+
         if section == 0 {
             guard let profileHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "ProfileHeaderView") as? ProfileHeaderView else { return nil }
+
             if currentUser != nil {
-                profileHeaderView.setupUser(currentUser!)
+                profileHeaderView.setupHeader(currentUser!, delegate: self)
             }
             return profileHeaderView
         }
@@ -341,7 +355,7 @@ extension ProfileViewController: UITableViewDropDelegate {
                 let image = array.first as! UIImage
 
 
-                //      let group = DispatchGroup()
+                //let group = DispatchGroup()
 
 
                 self.fileManager?.saveImage(imageData: image) {

@@ -10,6 +10,8 @@ import SnapKit
 
 final class ProfileHeaderView: UITableViewHeaderFooterView {
 
+    private var delegate: ProfileViewControllerDelegate?
+
     private lazy var startAvatarPosition: CGPoint = {
         var startAvatarPosition = CGPoint()
         return startAvatarPosition
@@ -28,6 +30,7 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         return avatarImageView
     }()
 
+
     private lazy var topStack: UIStackView = {
         var topStack: UIStackView = UIStackView()
         topStack.axis = .vertical
@@ -36,6 +39,7 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         topStack.translatesAutoresizingMaskIntoConstraints = false
         return topStack
     }()
+
 
     private lazy var fullNameLabel: UILabel = {
         var titleLabel: UILabel = UILabel()
@@ -72,11 +76,12 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
     }()
 
 
-    private var buttonAddPost: UIButton = {
+    private lazy var buttonAddPost: UIButton = {
 
         var action = UIAction { _ in
-            print("🌺")
+            self.delegate?.addNewPost()
         }
+
         var buttonAddPost = UIButton(frame: CGRect(), primaryAction: action)
         buttonAddPost.setBackgroundImage(UIImage(systemName: "plus.circle"), for: .normal)
         buttonAddPost.translatesAutoresizingMaskIntoConstraints = false
@@ -129,10 +134,11 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.height / 2
             }
 
-    func setupUser(_ currentUser: User) {
+    func setupHeader(_ currentUser: User, delegate: ProfileViewControllerDelegate) {
         self.avatarImageView.image = currentUser.userImage
         self.statusLabel.text = currentUser.userStatus
         self.fullNameLabel.text = currentUser.userFullName
+        self.delegate = delegate
     }
 
 
@@ -141,16 +147,18 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         tapGestureRecognizer.addTarget(self, action: #selector(handleTapGestureRecognizer(_:)))
         self.avatarImageView.addGestureRecognizer(tapGestureRecognizer) }
 
+
+
     func setFirtResponder() {
         self.statusTextField.becomeFirstResponder()
     }
+
 
     private func setupView() {
         self.topStack.addArrangedSubview(self.fullNameLabel)
         self.topStack.addArrangedSubview(self.statusLabel)
 
-
-        [topStack, statusTextField, setStatusButton,viewForAnimation, buttonOffAnimation, avatarImageView, buttonAddPost].forEach({self.addSubview($0)})
+        [topStack, buttonAddPost, statusTextField, setStatusButton,viewForAnimation, buttonOffAnimation, avatarImageView].forEach({self.addSubview($0)})
     }
 
 
@@ -240,6 +248,8 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
             statusText = text
         }
     }
+
+
     @objc private func buttonOffAnimationTarget() {
         print(#function)
 
