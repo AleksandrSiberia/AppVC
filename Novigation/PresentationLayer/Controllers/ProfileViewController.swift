@@ -136,7 +136,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
     func addNewPost() {
-        let controller = AddNewPostViewController()
+        let controller = AddNewPostViewController(coreDataCoordinator: self.coreDataCoordinator, fileManagerService: self.fileManager)
         let nav = UINavigationController(rootViewController: controller)
         self.present(nav, animated: true)
     }
@@ -368,7 +368,6 @@ extension ProfileViewController: UITableViewDropDelegate {
                     }
 
                     let nameFoto =  tuple.2
-                    //   let nameFoto = tuple.1
 
 
                     self.coreDataCoordinator.appendPost(author: "Drag&Drop", image: nil, likes: "0", text: UUID().uuidString, views: "0", folderName: "AllPosts", nameForUrlFoto: nameFoto) { _ in }

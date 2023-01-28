@@ -12,5 +12,5 @@ import UIKit
 
 protocol FileManagerServiceable {
 
-    func saveImage(imageData: UIImage?, completionHandler: @escaping ((Bool, String, String)?) -> Void)
+    func saveImage(imageData: UIImage?, completionHandler: @escaping ((Bool, urlNewFile: String, String)?) -> Void)
 }
