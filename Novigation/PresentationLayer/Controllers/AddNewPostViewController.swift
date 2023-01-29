@@ -109,7 +109,7 @@ class AddNewPostViewController: UIViewController {
         self.imagePicker.delegate = self
         self.view.addGestureRecognizer(gestureRecognizer)
 
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white , darkTheme: .black )
         self.navigationItem.title = "AddNewPostViewControllerTitle".allLocalizable
 
         self.setupConstrains()
