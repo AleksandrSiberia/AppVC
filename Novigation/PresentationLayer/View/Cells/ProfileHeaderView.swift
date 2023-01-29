@@ -134,6 +134,8 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.height / 2
             }
 
+
+
     func setupHeader(_ currentUser: User, delegate: ProfileViewControllerDelegate) {
         self.avatarImageView.image = currentUser.userImage
         self.statusLabel.text = currentUser.userStatus

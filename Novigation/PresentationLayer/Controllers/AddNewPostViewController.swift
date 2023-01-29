@@ -17,6 +17,13 @@ class AddNewPostViewController: UIViewController {
     private var imagePost: UIImage?
 
 
+    private lazy var scrollView: UIScrollView = {
+
+        var scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+
 
     private lazy var gestureRecognizer: UITapGestureRecognizer = {
         var gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector( gestureRecognizerAction(recogniser:)))
@@ -24,6 +31,7 @@ class AddNewPostViewController: UIViewController {
         return gestureRecognizer
 
     }()
+
 
     private lazy var imageViewPost: UIImageView = {
         var imageViewPost = UIImageView(image: UIImage(systemName: "plus"))
@@ -104,7 +112,8 @@ class AddNewPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [imageViewPost, textView, buttonAddPost].forEach { self.view.addSubview($0) }
+        view.addSubview(scrollView)
+        [imageViewPost, textView, buttonAddPost].forEach { scrollView.addSubview($0) }
 
         self.imagePicker.delegate = self
         self.view.addGestureRecognizer(gestureRecognizer)
@@ -117,8 +126,26 @@ class AddNewPostViewController: UIViewController {
     }
 
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
-    func alert(alertMassage: String?) {
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardDidHideNotification, object: nil)
+    }
+
+
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+
+        self.view.endEditing(true)
+    }
+
+
+    private func alert(alertMassage: String?) {
 
         let alert = UIAlertController(title: nil, message: alertMassage, preferredStyle: .actionSheet)
 
@@ -131,27 +158,68 @@ class AddNewPostViewController: UIViewController {
 
 
 
-    func setupConstrains() {
+    private func setupConstrains() {
 
         let viewSafeAreaLayoutGuide = self.view.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
 
-            self.imageViewPost.topAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.topAnchor, constant: 15),
+
+            self.scrollView.topAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.topAnchor),
+            self.scrollView.leadingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.leadingAnchor, constant: 15),
+            self.scrollView.trailingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.trailingAnchor, constant: -15),
+            self.scrollView.bottomAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.bottomAnchor, constant: -15),
+
+
+            self.imageViewPost.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 15),
             self.imageViewPost.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.imageViewPost.widthAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.widthAnchor),
-            self.imageViewPost.heightAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.widthAnchor),
+            self.imageViewPost.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            self.imageViewPost.heightAnchor.constraint(equalTo: scrollView.widthAnchor),
 
             self.textView.topAnchor.constraint(equalTo: self.imageViewPost.bottomAnchor, constant: 15),
-            self.textView.leadingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.leadingAnchor),
-            self.textView.trailingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.trailingAnchor),
+            self.textView.heightAnchor.constraint(equalToConstant: view.frame.width / 2 ),
+            self.textView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
 
 
             self.buttonAddPost.topAnchor.constraint(equalTo: self.textView.bottomAnchor, constant: 15),
-            self.buttonAddPost.bottomAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.bottomAnchor, constant: -15),
-            self.buttonAddPost.leadingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.leadingAnchor, constant: 15),
-            self.buttonAddPost.trailingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.trailingAnchor, constant: -15)
+            self.buttonAddPost.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
+            self.buttonAddPost.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
+    }
+
+
+
+    @objc private func keyboardWillShow(notification: Notification) {
+
+        guard let keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey ] as? NSValue)?.cgRectValue.height else { return }
+
+        let heightView = view.frame.height
+
+        let screen = view.window?.screen.bounds.height
+
+        guard let screen else { return }
+
+        let navigationBarHeight = screen - heightView
+
+        let bottomScrollViewElements = buttonAddPost.frame.maxY
+
+        let keyboardTop = heightView - keyboardHeight
+
+        if bottomScrollViewElements > keyboardTop {
+
+            let contentOffSet = bottomScrollViewElements - keyboardTop + navigationBarHeight + 15
+
+            scrollView.contentOffset.y = contentOffSet
+        }
+
+    }
+
+
+
+    @objc private func keyboardWillHide(notification: Notification) {
+
+        scrollView.contentOffset = CGPoint(x: 0.0, y: 0.0)
+
     }
 
 

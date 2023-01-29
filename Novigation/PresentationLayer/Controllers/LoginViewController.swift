@@ -480,8 +480,6 @@ class LoginViewController: UIViewController {
 
 
 
-
-
     private func setupGestures() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(offKeyboard))
         self.view.addGestureRecognizer(gesture)

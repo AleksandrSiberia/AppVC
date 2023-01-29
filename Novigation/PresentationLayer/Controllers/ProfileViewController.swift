@@ -135,6 +135,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
 
+
     func addNewPost() {
         let controller = AddNewPostViewController(coreDataCoordinator: self.coreDataCoordinator, fileManagerService: self.fileManager)
         let nav = UINavigationController(rootViewController: controller)
