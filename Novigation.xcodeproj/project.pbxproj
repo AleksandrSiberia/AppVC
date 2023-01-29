@@ -89,6 +89,8 @@
 		8B8870D8297129050066884E /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870D7297129050066884E /* FileManagerService.swift */; };
 		8B8870DB297134FC0066884E /* FileManagerServable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870DA297134FC0066884E /* FileManagerServable.swift */; };
 		8B8870DD2984FACE0066884E /* AddNewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870DC2984FACE0066884E /* AddNewPostViewController.swift */; };
+		8B8870E0298647360066884E /* AllLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B8870E2298647360066884E /* AllLocalizable.strings */; };
+		8B8870E529864A9B0066884E /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870E429864A9B0066884E /* StringExtension.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */; };
@@ -232,6 +234,9 @@
 		8B8870D7297129050066884E /* FileManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
 		8B8870DA297134FC0066884E /* FileManagerServable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerServable.swift; sourceTree = "<group>"; };
 		8B8870DC2984FACE0066884E /* AddNewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPostViewController.swift; sourceTree = "<group>"; };
+		8B8870E1298647360066884E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/AllLocalizable.strings; sourceTree = "<group>"; };
+		8B8870E32986473B0066884E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AllLocalizable.strings; sourceTree = "<group>"; };
+		8B8870E429864A9B0066884E /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -620,6 +625,8 @@
 		8BF7CEAC29407EDE001FD64C /* Localizable  */ = {
 			isa = PBXGroup;
 			children = (
+				8B8870E429864A9B0066884E /* StringExtension.swift */,
+				8B8870E2298647360066884E /* AllLocalizable.strings */,
 				8BF7CEF32941F3A5001FD64C /* LocalizableDict.stringsdict */,
 				8BF7CEA929407A96001FD64C /* FeedViewControllerLocalizable.strings */,
 				8BF7CEB229409575001FD64C /* LoginViewControllerLocalizable.strings */,
@@ -801,6 +808,7 @@
 				8B474A1228FAC698007DE402 /* GoogleService-Info.plist in Resources */,
 				8BF7CED02940B3A6001FD64C /* PostViewControllerLocalizable.strings in Resources */,
 				8BF7CEBE2940AB72001FD64C /* SavedPostsViewControllerLocalizable.strings in Resources */,
+				8B8870E0298647360066884E /* AllLocalizable.strings in Resources */,
 				8B4749C228EC2335007DE402 /* Tinlicker_Robert_Miles_-_Children.mp3 in Resources */,
 				8BF7CED62940B543001FD64C /* AudioViewControllerLocalizable.strings in Resources */,
 				8BF7CEF52941FA3C001FD64C /* LocalizableDict.stringsdict in Resources */,
@@ -951,6 +959,7 @@
 				8B4749B828EC1757007DE402 /* AudioViewController.swift in Sources */,
 				8B138F2628D87FDB00ACA1B9 /* FeedViewDelegate.swift in Sources */,
 				8B8870D6295DACC20066884E /* LocalNotificationsService.swift in Sources */,
+				8B8870E529864A9B0066884E /* StringExtension.swift in Sources */,
 				8B35326D2859F47200704D08 /* PostCell.swift in Sources */,
 				8B975F5028D1FE8100CC47D9 /* ProfileCoordinator.swift in Sources */,
 				8BED12E228CA061C006FF146 /* bluePixel.swift in Sources */,
@@ -1010,6 +1019,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		8B8870E2298647360066884E /* AllLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B8870E1298647360066884E /* en */,
+				8B8870E32986473B0066884E /* ru */,
+			);
+			name = AllLocalizable.strings;
+			sourceTree = "<group>";
+		};
 		8BF7CEA929407A96001FD64C /* FeedViewControllerLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

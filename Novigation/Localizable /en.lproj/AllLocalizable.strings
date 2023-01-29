@@ -1,0 +1,9 @@
+
+// AllLocalizable
+
+
+"buttonAddPost" = "Add Post";
+
+"AddNewPostViewControllerTitle" = "Add new post";
+"buttonAddPostAlertSuccess" = "Post added";
+"buttonAddPostAlertFailed" = "Add a photo with text";

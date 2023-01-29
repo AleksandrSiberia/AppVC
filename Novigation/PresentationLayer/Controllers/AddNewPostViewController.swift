@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class AddNewPostViewController: UIViewController {
 
     private var coreDataCoordinator: CoreDataCoordinatorProtocol?
@@ -41,19 +42,19 @@ class AddNewPostViewController: UIViewController {
 
 
 
-    private lazy var textField: UITextField = {
-        var textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = .systemGray6
-        return textField
+    private lazy var textView: UITextView = {
+        var textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.backgroundColor = .systemGray6
+        return textView
     }()
 
 
     private lazy var buttonAddPost: CustomButton = {
-        var buttonAddPost = CustomButton(title: "Добавить пост") {
+        var buttonAddPost = CustomButton(title: "buttonAddPost".allLocalizable) {
 
 
-            if let imagePost = self.imagePost, let text = self.textField.text, text != ""  {
+            if let imagePost = self.imagePost, let text = self.textView.text, text != ""  {
 
                 self.fileManagerService?.saveImage(imageData: imagePost, completionHandler: { tuple in
 
@@ -67,7 +68,7 @@ class AddNewPostViewController: UIViewController {
 
                     self.coreDataCoordinator?.performFetchPostCoreData()
 
-                    self.alert(alertMassage: "Пост сохранен")
+                    self.alert(alertMassage: "buttonAddPostAlertSuccess".allLocalizable)
 
                 })
 
@@ -75,7 +76,7 @@ class AddNewPostViewController: UIViewController {
 
             else {
 
-                self.alert(alertMassage: "Добавьте фото c текстом")
+                self.alert(alertMassage: "buttonAddPostAlertFailed".allLocalizable)
 
             }
 
@@ -103,13 +104,13 @@ class AddNewPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [imageViewPost, textField, buttonAddPost].forEach { self.view.addSubview($0) }
+        [imageViewPost, textView, buttonAddPost].forEach { self.view.addSubview($0) }
 
         self.imagePicker.delegate = self
         self.view.addGestureRecognizer(gestureRecognizer)
 
         self.view.backgroundColor = .white
-        self.navigationItem.title = "Добавить новый пост"
+        self.navigationItem.title = "AddNewPostViewControllerTitle".allLocalizable
 
         self.setupConstrains()
 
@@ -141,12 +142,12 @@ class AddNewPostViewController: UIViewController {
             self.imageViewPost.widthAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.widthAnchor),
             self.imageViewPost.heightAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.widthAnchor),
 
-            self.textField.topAnchor.constraint(equalTo: self.imageViewPost.bottomAnchor, constant: 15),
-            self.textField.leadingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.leadingAnchor),
-            self.textField.trailingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.trailingAnchor),
+            self.textView.topAnchor.constraint(equalTo: self.imageViewPost.bottomAnchor, constant: 15),
+            self.textView.leadingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.leadingAnchor),
+            self.textView.trailingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.trailingAnchor),
 
 
-            self.buttonAddPost.topAnchor.constraint(equalTo: self.textField.bottomAnchor, constant: 15),
+            self.buttonAddPost.topAnchor.constraint(equalTo: self.textView.bottomAnchor, constant: 15),
             self.buttonAddPost.bottomAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.bottomAnchor, constant: -15),
             self.buttonAddPost.leadingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.leadingAnchor, constant: 15),
             self.buttonAddPost.trailingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.trailingAnchor, constant: -15)
@@ -194,3 +195,6 @@ extension AddNewPostViewController: UIImagePickerControllerDelegate,  UINavigati
 extension AddNewPostViewController: UIGestureRecognizerDelegate {
 
 }
+
+
+
