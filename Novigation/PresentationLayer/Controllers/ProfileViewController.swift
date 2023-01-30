@@ -91,6 +91,8 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
+
+
         self.view.addSubview(self.tableView)
         self.view.addGestureRecognizer(self.tapGestureRecogniser)
         self.setupConstraints()
@@ -100,6 +102,9 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        print("📩", currentUser)
+
         self.navigationController?.navigationBar.isHidden = true
 
         self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.delegate = self
@@ -113,6 +118,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         }
 
 
+
         self.coreDataCoordinator.getPosts(nameFolder: "AllPosts")
 
         if (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?.first?.objects?.isEmpty)! {
@@ -122,6 +128,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
             }
         }
     }
+
 
 
 

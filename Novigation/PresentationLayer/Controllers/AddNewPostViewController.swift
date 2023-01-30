@@ -16,6 +16,8 @@ class AddNewPostViewController: UIViewController {
 
     private var imagePost: UIImage?
 
+    private var keyboardHided: Bool = true
+
 
     private lazy var scrollView: UIScrollView = {
 
@@ -79,19 +81,18 @@ class AddNewPostViewController: UIViewController {
                     self.alert(alertMassage: "buttonAddPostAlertSuccess".allLocalizable)
 
                 })
-
             }
+
 
             else {
 
                 self.alert(alertMassage: "buttonAddPostAlertFailed".allLocalizable)
 
             }
-
-
         }
         return buttonAddPost
     }()
+
 
 
     init(coreDataCoordinator: CoreDataCoordinatorProtocol?, fileManagerService: FileManagerServiceable?) {
@@ -129,9 +130,7 @@ class AddNewPostViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
@@ -142,6 +141,35 @@ class AddNewPostViewController: UIViewController {
         super.touchesBegan(touches, with: event)
 
         self.view.endEditing(true)
+    }
+
+
+
+
+    private func setupConstrains() {
+
+        let viewSafeAreaLayoutGuide = self.view.safeAreaLayoutGuide
+
+        NSLayoutConstraint.activate([
+
+            self.scrollView.topAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.topAnchor),
+            self.scrollView.leadingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.leadingAnchor, constant: 15),
+            self.scrollView.trailingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.trailingAnchor, constant: -15),
+            self.scrollView.bottomAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.bottomAnchor, constant: -15),
+
+            self.imageViewPost.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 15),
+            self.imageViewPost.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            self.imageViewPost.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            self.imageViewPost.heightAnchor.constraint(equalTo: scrollView.widthAnchor),
+
+            self.textView.topAnchor.constraint(equalTo: self.imageViewPost.bottomAnchor, constant: 15),
+            self.textView.heightAnchor.constraint(equalToConstant: view.frame.width / 2 ),
+            self.textView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+
+            self.buttonAddPost.topAnchor.constraint(equalTo: self.textView.bottomAnchor, constant: 15),
+            self.buttonAddPost.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
+            self.buttonAddPost.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+        ])
     }
 
 
@@ -158,38 +186,9 @@ class AddNewPostViewController: UIViewController {
 
 
 
-    private func setupConstrains() {
+    @objc private func keyboardDidShow(notification: Notification) {
 
-        let viewSafeAreaLayoutGuide = self.view.safeAreaLayoutGuide
-
-        NSLayoutConstraint.activate([
-
-
-            self.scrollView.topAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.topAnchor),
-            self.scrollView.leadingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.leadingAnchor, constant: 15),
-            self.scrollView.trailingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.trailingAnchor, constant: -15),
-            self.scrollView.bottomAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.bottomAnchor, constant: -15),
-
-
-            self.imageViewPost.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 15),
-            self.imageViewPost.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.imageViewPost.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            self.imageViewPost.heightAnchor.constraint(equalTo: scrollView.widthAnchor),
-
-            self.textView.topAnchor.constraint(equalTo: self.imageViewPost.bottomAnchor, constant: 15),
-            self.textView.heightAnchor.constraint(equalToConstant: view.frame.width / 2 ),
-            self.textView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-
-
-            self.buttonAddPost.topAnchor.constraint(equalTo: self.textView.bottomAnchor, constant: 15),
-            self.buttonAddPost.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
-            self.buttonAddPost.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-        ])
-    }
-
-
-
-    @objc private func keyboardWillShow(notification: Notification) {
+        keyboardHided = false
 
         guard let keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey ] as? NSValue)?.cgRectValue.height else { return }
 
@@ -211,21 +210,20 @@ class AddNewPostViewController: UIViewController {
 
             scrollView.contentOffset.y = contentOffSet
         }
-
     }
 
 
 
     @objc private func keyboardWillHide(notification: Notification) {
 
-        scrollView.contentOffset = CGPoint(x: 0.0, y: 0.0)
+        keyboardHided = true
 
+        scrollView.contentOffset.y = 0.0
     }
 
 
 
     @objc func gestureRecognizerAction(recogniser: UITapGestureRecognizer) {
-
 
         if recogniser.state == .ended {
 
@@ -233,15 +231,19 @@ class AddNewPostViewController: UIViewController {
 
             let frameImage = imageViewPost.frame
 
-            if frameImage.minX <= tapLocation.x, frameImage.maxX >= tapLocation.x, frameImage.minY <= tapLocation.y, frameImage.maxY >= tapLocation.y  {
+            if keyboardHided == false {
+                view.endEditing(true)
+            }
 
-                present(imagePicker, animated: true)
+            else {
+
+                if frameImage.minX <= tapLocation.x, frameImage.maxX >= tapLocation.x, frameImage.minY <= tapLocation.y, frameImage.maxY >= tapLocation.y  {
+
+                    present(imagePicker, animated: true)
+                }
             }
         }
     }
-
-
-
 }
 
 
