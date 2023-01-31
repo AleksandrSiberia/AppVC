@@ -52,7 +52,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     var currentUser: User?
 
 
-
     private lazy var tapGestureRecogniser: UITapGestureRecognizer = {
         var tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.actionTapGestureRecogniser(recogniser:)))
         tapGestureRecogniser.delegate = self
@@ -103,7 +102,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        print("📩", currentUser)
 
         self.navigationController?.navigationBar.isHidden = true
 
@@ -122,7 +120,9 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         self.coreDataCoordinator.getPosts(nameFolder: "AllPosts")
 
         if (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?.first?.objects?.isEmpty)! {
+
             for post in arrayModelPost {
+
                 self.coreDataCoordinator.appendPost(author: post.author, image: post.image, likes: String(post.likes), text: post.description, views: String(post.views), folderName: "AllPosts", nameForUrlFoto: nil) { _ in
                 }
             }

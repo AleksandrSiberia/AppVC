@@ -83,26 +83,24 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         if self.getFolderByName(nameFolder: "AllPosts") == nil {
                     self.appendFolder(name: "AllPosts")
                 }
-
-  //      self.performFetchPostCoreData()
-
     }
 
 
 
     func getPosts(nameFolder: String) {
 
-        let folder = self.getFolderByName(nameFolder: nameFolder)
+        guard let folder = getFolderByName(nameFolder: nameFolder) else {
+            print(" ‼️ getFolderByName(nameFolder: \(nameFolder) == nil " )
+            return}
+
         
-        self.fetchedResultsControllerPostCoreData?.fetchRequest.predicate = NSPredicate(format: "relationFolder contains %@", folder!)
+        self.fetchedResultsControllerPostCoreData?.fetchRequest.predicate = NSPredicate(format: "relationFolder contains %@", folder)
 
         self.performFetchPostCoreData()
     }
 
 
 
-
-    
     func performFetchPostCoreData() {
 
         do {
@@ -110,7 +108,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         }
         catch {
-            print(error.localizedDescription)
+            print("‼️", error.localizedDescription)
         }
 
 
@@ -119,10 +117,9 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         }
 
         catch {
-            print(error.localizedDescription)
+            print("‼️", error.localizedDescription)
         }
     }
-
 
 
 
@@ -130,7 +127,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
     func savePersistentContainerContext() {
 
         if self.backgroundContext.hasChanges {
-            
 
             do {
 
@@ -149,13 +145,12 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
     func appendFolder(name: String) {
 
-        let folder = FoldersPostCoreData(context: self.backgroundContext
+        let folder = FoldersCoreData(context: self.backgroundContext
         )
         folder.name = name
         self.savePersistentContainerContext()
 
     }
-
 
 
 
@@ -189,11 +184,29 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
+    func appendProfile(values: [String: String]) {
 
-    func getFolderByName(nameFolder: String) -> FoldersPostCoreData? {
+        guard let folder = getFolderByName(nameFolder: "FolderProfile") else {
+            print(" ‼️ getFolderByName(nameFolder: FolderProfile) == nil " )
+            return}
+
+        let newProfile = ProfileCoreData(context: self.backgroundContext)
+
+        newProfile.relationFolder = folder
+
+        newProfile.email = values["email"]
+        newProfile.name = values["name"]
+        newProfile.status = values["status"]
+
+        savePersistentContainerContext()
+
+    }
 
 
-        let request = FoldersPostCoreData.fetchRequest()
+
+    func getFolderByName(nameFolder: String) -> FoldersCoreData? {
+
+        let request = FoldersCoreData.fetchRequest()
 
         request.predicate = NSPredicate(format: "name == %@", nameFolder)
 
@@ -205,14 +218,14 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
                 let folder = (folders.filter { ($0 as AnyObject).name == nameFolder }).first
 
-                return folder as? FoldersPostCoreData
+                return folder as? FoldersCoreData
             }
             else {
                 return nil
             }
         }
         catch {
-            print(error.localizedDescription)
+            print("‼️", error.localizedDescription)
             return nil
         }
     }
@@ -220,26 +233,52 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    func getAllFolders() -> [FoldersPostCoreData]? {
+    func getAllFolders() -> [FoldersCoreData]? {
 
-        let request = FoldersPostCoreData.fetchRequest()
+        let request = FoldersCoreData.fetchRequest()
 
         do {
             return try self.backgroundContext.fetch(request)
         }
         catch {
-            print(error.localizedDescription)
+            print("‼️", error.localizedDescription)
             return nil
         }
     }
 
 
 
-    func deleteFolder(folder: FoldersPostCoreData) {
+    func getProfiles(completionHandler: @escaping ([ProfileCoreData]?) -> Void ) {
+
+        guard let folder = getFolderByName(nameFolder: "FolderProfile") else {
+            print(" ‼️ getFolderByName(nameFolder: FolderProfile) == nil " )
+            return completionHandler(nil)
+        }
+
+        let request = ProfileCoreData.fetchRequest()
+
+        request.predicate = NSPredicate(format: "relationFolder == %@", folder)
+
+        do {
+            let profiles = try self.backgroundContext.fetch(request)
+
+            DispatchQueue.main.async {
+                 return completionHandler(profiles)
+            }
+        }
+        catch {
+            print("‼️", error.localizedDescription)
+            return completionHandler(nil)
+        }
+    }
+
+
+
+
+    func deleteFolder(folder: FoldersCoreData) {
 
         self.backgroundContext.delete(folder)
         self.savePersistentContainerContext()
-//        self.reloadFolders()
     }
 
 

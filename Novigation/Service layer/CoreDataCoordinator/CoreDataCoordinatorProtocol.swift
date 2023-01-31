@@ -27,13 +27,17 @@ protocol CoreDataCoordinatorProtocol {
 
     func appendPost(author: String?, image: String?, likes: String?, text: String?, views: String?, folderName: String, nameForUrlFoto: String?, completion: (String?) -> Void)
 
-    func getFolderByName(nameFolder: String) -> FoldersPostCoreData?
+    func getFolderByName(nameFolder: String) -> FoldersCoreData?
 
-    func getAllFolders() -> [FoldersPostCoreData]?
+    func getAllFolders() -> [FoldersCoreData]?
 
-    func deleteFolder(folder: FoldersPostCoreData)
+    func deleteFolder(folder: FoldersCoreData)
 
     func deletePost(post: PostCoreData)
+
+    func appendProfile(values: [String: String])
+
+    func getProfiles(completionHandler: @escaping ([ProfileCoreData]?) -> Void )
 }
 
 

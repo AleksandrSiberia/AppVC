@@ -24,7 +24,7 @@ class RootCoordinator: AppCoordinatorProtocol {
     }
 
 
-// старт логики открытия UITabBarController
+
     func start() -> UITabBarController? {
         if transitionHandler != nil {
         return showTabBarScreen()!
@@ -41,7 +41,10 @@ class RootCoordinator: AppCoordinatorProtocol {
         let navFeedView = UINavigationController(rootViewController: FeedAssembly.createFeedViewController())
         let feedCoordinator = FeedCoordinator(transitionHandler: navFeedView)
 
-        let navLoginView = UINavigationController(rootViewController: LoginAssembly.createLoginViewController(coordinator: self))
+        let navLoginView = UINavigationController(rootViewController: LoginAssembly.createLoginViewController(coordinator: self, coreData: self.coreDataCoordinator))
+
+
+
         navLoginView.tabBarItem = UITabBarItem(title: NSLocalizedString("navLoginView", tableName: "TabBarItemLocalizable", comment: "Profile") , image: UIImage(systemName: "person.circle"), tag: 2)
                 self.childs.append(feedCoordinator)
 
@@ -57,12 +60,6 @@ class RootCoordinator: AppCoordinatorProtocol {
 
         self.navLoginView = navLoginView
 
-        // делаем дополнительные настройки
-//        viewModel.input
-//        viewModel.output = {
-       // определяем то что происходит на выходе из модуля
-//        }
-        // передаем в transitionHandler
 
         transitionHandler!.tabBar.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
         
@@ -78,7 +75,7 @@ class RootCoordinator: AppCoordinatorProtocol {
 
         profileCoordinator.coreDataCoordinator = self.coreDataCoordinator
 
-        profileCoordinator.start(user: user)
+        _ = profileCoordinator.start(user: user)
     }
 }
 

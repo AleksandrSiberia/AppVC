@@ -11,7 +11,7 @@ import Foundation
 
 final class LoginAssembly {
 
-    static func createLoginViewController(coordinator: RootCoordinator) -> LoginViewController {
+    static func createLoginViewController(coordinator: RootCoordinator, coreData: CoreDataCoordinatorProtocol) -> LoginViewController {
 
 
         let view = LoginViewController()
@@ -22,6 +22,7 @@ final class LoginAssembly {
 
         view.loginDelegate = loginInspector
         view.outputCheckPassword = checkPassword
+        view.corseDataCoordinator = coreData
 
         view.output = viewModel
 

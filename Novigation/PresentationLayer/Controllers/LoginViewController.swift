@@ -17,6 +17,8 @@ class LoginViewController: UIViewController {
 
     private var localAuthorizationService = LocalAuthorizationService()
 
+    var corseDataCoordinator: CoreDataCoordinatorProtocol?
+
     private var keychain = KeychainSwift()
 
     var output: LoginViewProtocol!
@@ -396,10 +398,12 @@ class LoginViewController: UIViewController {
             let currentUserService = CurrentUserService()
             let testUserService = TestUserService()
 
+            testUserService.coreDataCoordinator = self.corseDataCoordinator
+
 #if DEBUG
             let userService = testUserService
 #else
-            let userService = currentUserService
+            let userService = testUserService
 #endif
 
 
@@ -432,11 +436,14 @@ class LoginViewController: UIViewController {
 
         let currentUserService = CurrentUserService()
         let testUserService = TestUserService()
+
+        testUserService.coreDataCoordinator = self.corseDataCoordinator
         
 #if DEBUG
         let userService = testUserService
+
 #else
-        let userService = currentUserService
+        let userService = testUserService
 #endif
 
         userService.checkTheLogin( self.textFieldLogin.text!, password: self.textFieldPassword.text!, loginInspector: self.loginDelegate!, loginViewController: self) { user in
@@ -456,17 +463,17 @@ class LoginViewController: UIViewController {
 
             self.keychain.set(self.textFieldLogin.text ?? "", forKey: "userOnline")
 
+            
             for (index, user) in RealmService.shared.getAllUsers()!.enumerated() {
                 if user.login == self.textFieldLogin.text {
                     RealmService.shared.deleteUser(indexInArrayUsers: index)
                 }
             }
-
             let newUser = RealmUserModel()
             newUser.login = self.textFieldLogin.text ?? ""
             newUser.password = self.textFieldPassword.text ?? ""
-
             RealmService.shared.setUser(user: newUser)
+
 
             guard let user else {
                 print("‼️ user == nil")
