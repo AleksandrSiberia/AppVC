@@ -14,6 +14,7 @@ import UniformTypeIdentifiers
 
 protocol ProfileViewControllerDelegate {
     func addNewPost()
+    func showSettingViewController()
 }
 
 protocol ProfileViewControllerOutput {
@@ -149,6 +150,12 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         self.present(nav, animated: true)
     }
 
+
+    func showSettingViewController() {
+        let settingViewController = SettingViewController(coreData: self.coreDataCoordinator)
+        let nav = UINavigationController(rootViewController: settingViewController)
+        present(nav, animated: true)
+    }
 
 
     private func setupConstraints() {

@@ -7,7 +7,7 @@
 
 "statusTextField" = "   Новый статус";
 
-"statusButton" = "Поменять статус";
+"EditingProfileButton" = "Редактировать профиль";
 
 "actionTapGestureRecogniser" = "Пост сохранен";
 

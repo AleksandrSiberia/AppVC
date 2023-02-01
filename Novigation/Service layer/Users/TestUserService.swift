@@ -14,7 +14,9 @@ class TestUserService: UserServiceProtocol {
     var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
 
-    private func saveProfile(values: [String: String]) {
+    private func saveProfile(login: String) {
+
+        let values = ["email": login, "name": "AleksandrSiberia test1", "status": "test", "avatar": "avatar" ]
 
         if coreDataCoordinator?.getFolderByName(nameFolder: "FolderProfile") != nil {
 
@@ -29,8 +31,6 @@ class TestUserService: UserServiceProtocol {
         }
 
     }
-
-
 
 
 
@@ -57,9 +57,13 @@ class TestUserService: UserServiceProtocol {
                     return
                 }
 
+
+                let avatar = UIImage(named: currentProfile.avatar ?? "")
+
                 let currentUser: User = User(currentProfile.name ?? "",
                                              userStatus: currentProfile.status ?? "",
-                                             userImage: UIImage(named: "avatar")! )
+                                             userImage: avatar!,
+                                            userEmail: login)
 
                 completion(currentUser)
 
@@ -82,29 +86,17 @@ class TestUserService: UserServiceProtocol {
                 for user in RealmService.shared.getAllUsers() ?? [] {
 
                     if login == user.login {
-                        print("🤸🏼‍♂️ user is cached")
-
+                        print("🤸🏼‍♂️ this is cached user")
 
                         getProfileByEmail()
 
-                        // CoreDadaUser подгружаем по логину из CoreData
-
-
-//                        let currentUser: User = User("Cashed AleksandrSiberia",
-//                                                     userStatus: "Test",
-//                                                     userImage: UIImage(named: "avatar")! )
-//
-//                        completion(currentUser)
                     }
-
-
 
 
                     else {
                         print("📩 save new user" )
 
-                        let values = ["email": login, "name": "AleksandrSiberia test1", "status": "test"]
-                        self.saveProfile(values: values)
+                        self.saveProfile(login: login)
 
                         getProfileByEmail()
 
@@ -120,20 +112,9 @@ class TestUserService: UserServiceProtocol {
 
                 print("📩 save new user, 0 cashed users" )
 
-                let values = ["email": login, "name": "AleksandrSiberia test1", "status": "test"]
-                self.saveProfile(values: values)
+                self.saveProfile(login: login)
 
                 getProfileByEmail()
-
-
-
-
-                // пишем в CoreDate и сразу грузим
-
-//                let currentUser: User = User("New Zero AleksandrSiberia",
-//                                             userStatus: "Test",
-//                                             userImage: UIImage(named: "avatar")! )
-//                completion(currentUser)
             }
         }
 

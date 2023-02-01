@@ -15,6 +15,7 @@
         <relationship name="relationFolder" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FoldersCoreData" inverseName="relationPost" inverseEntity="FoldersCoreData"/>
     </entity>
     <entity name="ProfileCoreData" representedClassName="ProfileCoreData" syncable="YES" codeGenerationType="class">
+        <attribute name="avatar" optional="YES" attributeType="String"/>
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="status" optional="YES" attributeType="String"/>

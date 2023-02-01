@@ -70,9 +70,12 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         return statusTextField
     }()
 
-    private lazy var setStatusButton: CustomButton = {
-        var statusButton = CustomButton(title: NSLocalizedString("statusButton", tableName: "ProfileViewControllerLocalizable", comment: "")) {  self.statusLabel.text = self.statusText }
-        return statusButton
+    private lazy var buttonEditingProfile: CustomButton = {
+        var editingProfileButton = CustomButton(title: NSLocalizedString("EditingProfileButton", tableName: "ProfileViewControllerLocalizable", comment: ""))
+        {
+            self.delegate?.showSettingViewController()
+        }
+        return editingProfileButton
     }()
 
 
@@ -96,6 +99,7 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         return ""
     }()
 
+
     private var viewForAnimation: UIView = {
         var viewForAnimation = UIView()
         viewForAnimation.translatesAutoresizingMaskIntoConstraints = false
@@ -104,7 +108,7 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         return viewForAnimation
     }()
 
-    private var buttonOffAnimation: UIButton = {
+    private lazy var buttonOffAnimation: UIButton = {
         var buttonOffAnimation = UIButton()
         buttonOffAnimation.translatesAutoresizingMaskIntoConstraints = false
         buttonOffAnimation.isHidden = true
@@ -160,7 +164,7 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         self.topStack.addArrangedSubview(self.fullNameLabel)
         self.topStack.addArrangedSubview(self.statusLabel)
 
-        [topStack, buttonAddPost, statusTextField, setStatusButton,viewForAnimation, buttonOffAnimation, avatarImageView].forEach({self.addSubview($0)})
+        [topStack, buttonAddPost, statusTextField, buttonEditingProfile,viewForAnimation, buttonOffAnimation, avatarImageView].forEach({self.addSubview($0)})
     }
 
 
@@ -190,7 +194,7 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
             make.height.equalTo(40)
         }
 
-        self.setStatusButton.snp.makeConstraints { make in
+        self.buttonEditingProfile.snp.makeConstraints { make in
             make.top.equalTo(self.statusTextField.snp.bottom).offset(18)
             make.leading.equalTo(self.snp.leading).offset(16)
             make.trailing.equalTo(self.snp.trailing).offset(-16)
@@ -209,9 +213,9 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         }
 
         self.buttonAddPost.snp.makeConstraints { make in
-            make.top.equalTo(self.setStatusButton.snp.bottom).offset(14)
+            make.top.equalTo(self.buttonEditingProfile.snp.bottom).offset(14)
             make.bottom.equalTo(self.snp.bottom).offset(-20)
-            make.centerX.equalTo(self.snp.centerX).offset(14)
+            make.centerX.equalTo(self.snp.centerX)
             make.height.width.equalTo(35)
         }
     }

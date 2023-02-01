@@ -7,7 +7,7 @@
 
 "statusTextField" = "   New status";
 
-"statusButton" = "Change status";
+"EditingProfileButton" = "Edit Profile";
 
 "actionTapGestureRecogniser" = "Post saved";
 

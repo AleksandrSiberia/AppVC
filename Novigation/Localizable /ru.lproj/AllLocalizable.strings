@@ -7,3 +7,12 @@
 "AddNewPostViewControllerTitle" = "Добавить новый пост";
 "buttonAddPostAlertSuccess" = "Пост добавлен";
 "buttonAddPostAlertFailed" = "Добавьте фото с текстом";
+
+"nameUser" = "Имя";
+
+//SettingViewController
+"Основная информация" = "Основная информация";
+"Образование" = "Образование";
+"Карьера" = "Карьера";
+"Интересы" = "Интересы";
+"Контакты" = "Контакты";

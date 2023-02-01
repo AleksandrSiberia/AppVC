@@ -21,12 +21,14 @@ class User {
     var userFullName: String
     var userStatus: String
     var userImage: UIImage
+    var userEmail: String
 
 
-    init (_ userFullName: String, userStatus: String, userImage: UIImage) {
+    init (_ userFullName: String, userStatus: String, userImage: UIImage, userEmail: String) {
         self.userFullName = userFullName
         self.userStatus = userStatus
         self.userImage = userImage
+        self.userEmail = userEmail
     }
 }
 

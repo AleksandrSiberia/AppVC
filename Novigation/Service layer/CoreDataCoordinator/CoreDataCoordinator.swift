@@ -197,6 +197,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         newProfile.email = values["email"]
         newProfile.name = values["name"]
         newProfile.status = values["status"]
+        newProfile.avatar = values["avatar"]
 
         savePersistentContainerContext()
 

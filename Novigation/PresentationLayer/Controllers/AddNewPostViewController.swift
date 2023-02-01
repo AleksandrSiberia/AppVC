@@ -19,6 +19,11 @@ class AddNewPostViewController: UIViewController {
     private var keyboardHided: Bool = true
 
 
+    private lazy var barButtonItemCancel: UIBarButtonItem = {
+        var barButtonItemCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(barButtonItemCancelAction))
+        return barButtonItemCancel
+    }()
+
     private lazy var scrollView: UIScrollView = {
 
         var scrollView = UIScrollView()
@@ -116,6 +121,8 @@ class AddNewPostViewController: UIViewController {
         view.addSubview(scrollView)
         [imageViewPost, textView, buttonAddPost].forEach { scrollView.addSubview($0) }
 
+        navigationItem.leftBarButtonItem = barButtonItemCancel
+
         self.imagePicker.delegate = self
         self.view.addGestureRecognizer(gestureRecognizer)
 
@@ -145,7 +152,6 @@ class AddNewPostViewController: UIViewController {
 
 
 
-
     private func setupConstrains() {
 
         let viewSafeAreaLayoutGuide = self.view.safeAreaLayoutGuide
@@ -170,6 +176,11 @@ class AddNewPostViewController: UIViewController {
             self.buttonAddPost.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
             self.buttonAddPost.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
+    }
+
+
+    @objc private func barButtonItemCancelAction() {
+        dismiss(animated: true)
     }
 
 

@@ -79,8 +79,6 @@ class SavedPostsViewController: UIViewController {
 
         self.coreDataCoordinator.performFetchPostCoreData()
 
-        //       self.tableView.reloadData()
-
     }
 
 
