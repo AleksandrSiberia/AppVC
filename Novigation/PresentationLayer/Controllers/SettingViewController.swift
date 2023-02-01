@@ -7,16 +7,21 @@
 
 import UIKit
 import KeychainSwift
+import CoreData
 
 class SettingViewController: UIViewController {
 
 
     private var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
+    private var currentProfile: ProfileCoreData?
+
+
     private lazy var barButtonItemCancel: UIBarButtonItem = {
         var barButtonItemCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(barButtonItemCancelAction) )
         return barButtonItemCancel
     }()
+
 
     
     private lazy var namesCells = ["Основная информация".allLocalizable,
@@ -64,12 +69,16 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+
+
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
         navigationItem.title = NSLocalizedString("navigationItem.title", tableName: "InfoViewControllerLocalizable", comment: "Настройки")
 
+        saveProfileInProperty()
         addSubview()
         setupConstrains()
+
     }
 
 
@@ -82,6 +91,30 @@ class SettingViewController: UIViewController {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+
+
+    func saveProfileInProperty() {
+
+        guard let emailCurrentUser = KeychainSwift().get("userOnline") else {
+            print("‼️ KeychainSwift().get(userOnline) == nil")
+            return
+        }
+
+        coreDataCoordinator?.getProfiles(completionHandler: { profiles in
+
+            let profiles = profiles?.filter { $0.email == emailCurrentUser }
+
+            guard let profiles, profiles.isEmpty == false else {
+                print("‼️ no profiles ")
+                return
+            }
+
+            let profile = profiles.first
+
+            self.currentProfile = profile
+        })
     }
 
 
@@ -154,6 +187,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         var content = cell.defaultContentConfiguration()
 
         content.text = namesCells[indexPath.row]
+        content.image = UIImage(systemName: "chevron.right")
 
         cell.contentConfiguration = content
 
@@ -164,7 +198,28 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        print(indexPath.row)
+        let navigationBarTitle = namesCells[indexPath.row]
+
+
+        switch indexPath.row {
+        case 0:
+
+            let vc = MainInformationViewController(profile: currentProfile)
+
+            vc.navigationItem.title = navigationBarTitle
+            navigationController?.pushViewController(vc, animated: true)
+
+        case 1:
+            print(navigationBarTitle)
+        case 2:
+            print(navigationBarTitle)
+        case 3:
+            print(navigationBarTitle)
+        case 4:
+            print(navigationBarTitle)
+        default:
+            print("‼️ this page does not exist")
+        }
     }
 
 

@@ -92,6 +92,7 @@
 		8B8870E0298647360066884E /* AllLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B8870E2298647360066884E /* AllLocalizable.strings */; };
 		8B8870E529864A9B0066884E /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870E429864A9B0066884E /* StringExtension.swift */; };
 		8B8870E7298934250066884E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870E6298934250066884E /* SettingViewController.swift */; };
+		8B8870E9298A741B0066884E /* MainInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870E8298A741B0066884E /* MainInformationViewController.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */; };
@@ -239,6 +240,7 @@
 		8B8870E32986473B0066884E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AllLocalizable.strings; sourceTree = "<group>"; };
 		8B8870E429864A9B0066884E /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		8B8870E6298934250066884E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		8B8870E8298A741B0066884E /* MainInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInformationViewController.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -612,6 +614,7 @@
 				8B4749C328ED5FBD007DE402 /* VideoViewController.swift */,
 				8B8870DC2984FACE0066884E /* AddNewPostViewController.swift */,
 				8B8870E6298934250066884E /* SettingViewController.swift */,
+				8B8870E8298A741B0066884E /* MainInformationViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -912,6 +915,7 @@
 				8B30E003283FAF91006763B9 /* PostViewController.swift in Sources */,
 				8B975F4C28D1F02800CC47D9 /* LoginAssembly.swift in Sources */,
 				8B4749C428ED5FBD007DE402 /* VideoViewController.swift in Sources */,
+				8B8870E9298A741B0066884E /* MainInformationViewController.swift in Sources */,
 				8B138F3028D9E8C600ACA1B9 /* LoginViewModel.swift in Sources */,
 				8BED12E028C8C01D006FF146 /* CustomButton.swift in Sources */,
 				8B77B9A029530E4E00A8D1A3 /* ProfileViewControllable.swift in Sources */,

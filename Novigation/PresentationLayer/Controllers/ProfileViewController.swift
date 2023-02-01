@@ -48,9 +48,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
     var output: ProfileViewControllerOutput?
 
-    private var posts: [ModelPost] = []
-
-    var currentUser: User?
 
 
     private lazy var tapGestureRecogniser: UITapGestureRecognizer = {
@@ -60,7 +57,15 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         return tapGestureRecogniser
     }()
 
+    private var number = {
 
+        return 3
+    }()
+
+
+    var currentUser: User?
+
+    private var posts: [ModelPost] = []
 
     private lazy var tableView: UITableView = {
         var tableView = UITableView(frame: .zero, style: .grouped)
@@ -79,7 +84,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         tableView.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 #else
         tableView.backgroundColor =  UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
-
 #endif
 
         return tableView
