@@ -8,10 +8,13 @@
 import UIKit
 import CoreData
 
+
 class MainInformationViewController: UIViewController {
 
 
     private var currentProfile: ProfileCoreData?
+
+    private var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
     private lazy var barButtonSave: UIBarButtonItem = {
 
@@ -19,35 +22,21 @@ class MainInformationViewController: UIViewController {
         return barButtonSave
     }()
 
+    private lazy var labelName = setupLabel(text: "labelNameMainInformation".allLocalizable)
 
+    private lazy var textFieldName = setupTextField(text: currentProfile?.name)
 
-    private var labelName: UILabel = {
+    private lazy var labelSurname = setupLabel(text: "labelSurnameMainInformation".allLocalizable)
 
-        var labelName = UILabel()
-        labelName.text = "labelNameMainInformation".allLocalizable
-        labelName.translatesAutoresizingMaskIntoConstraints = false
-        labelName.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        return labelName
-    }()
-
-
-    
-    private lazy var textFieldName: UITextField = {
-        
-        var textFieldName = UITextField()
-        textFieldName.text = currentProfile?.name
-        textFieldName.translatesAutoresizingMaskIntoConstraints = false
-        textFieldName.backgroundColor = .systemGray6
-        textFieldName.layer.cornerRadius = 12
-        return textFieldName
-    }()
+    private lazy var textFieldSurname = setupTextField(text: currentProfile?.surname)
 
 
 
-    init(profile: ProfileCoreData?) {
+    init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?) {
         super.init(nibName: nil, bundle: nil)
 
         self.currentProfile = profile
+        self.coreDataCoordinator = coreDataCoordinator
 
     }
 
@@ -62,7 +51,7 @@ class MainInformationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [labelName, textFieldName].forEach { view.addSubview($0) }
+        [labelName, textFieldName, labelSurname, textFieldSurname].forEach { view.addSubview($0) }
 
         navigationItem.rightBarButtonItem = barButtonSave
 
@@ -72,6 +61,25 @@ class MainInformationViewController: UIViewController {
     }
 
 
+    private func setupTextField(text: String?) -> UITextField {
+
+            let textField = UITextField()
+            textField.text = text
+            textField.translatesAutoresizingMaskIntoConstraints = false
+            textField.backgroundColor = .systemGray6
+            textField.layer.cornerRadius = 12
+            return textField
+    }
+
+
+    private func setupLabel(text: String) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        return label
+    }
+
 
     private func setupConstraints()  {
 
@@ -79,7 +87,7 @@ class MainInformationViewController: UIViewController {
 
         NSLayoutConstraint.activate([
 
-            labelName.topAnchor.constraint(equalTo: safeAria.topAnchor),
+            labelName.topAnchor.constraint(equalTo: safeAria.topAnchor, constant: 10),
             labelName.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
 
             textFieldName.topAnchor.constraint(equalTo: labelName.bottomAnchor, constant: 5),
@@ -87,14 +95,39 @@ class MainInformationViewController: UIViewController {
             textFieldName.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
             textFieldName.heightAnchor.constraint(equalToConstant: 40),
 
+            labelSurname.topAnchor.constraint(equalTo: textFieldName.bottomAnchor, constant: 20),
+            labelSurname.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+
+            textFieldSurname.topAnchor.constraint(equalTo: labelSurname.bottomAnchor, constant: 5),
+            textFieldSurname.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            textFieldSurname.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
+            textFieldSurname.heightAnchor.constraint(equalToConstant: 40),
+
         ])
 
     }
 
 
+
+
     @objc private func barButtonSaveAction() {
 
-        print("save")
+        let values = ["email": currentProfile?.email ?? "",
+                      "name": textFieldName.text ?? "",
+                      "status": "Test",
+                      "avatar": "avatar",
+                      "surname": textFieldSurname.text ?? ""
+        ]
+
+
+        coreDataCoordinator?.deleteCurrentProfile { _ in
+
+            self.coreDataCoordinator?.appendProfile(values: values)
+        }
+
+
+
+
     }
 
 

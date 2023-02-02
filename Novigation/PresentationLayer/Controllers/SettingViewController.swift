@@ -69,13 +69,14 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
-
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
         navigationItem.title = NSLocalizedString("navigationItem.title", tableName: "InfoViewControllerLocalizable", comment: "Настройки")
 
-        saveProfileInProperty()
+
+        coreDataCoordinator?.getCurrentProfile { currentProfile in
+            self.currentProfile = currentProfile
+        }
         addSubview()
         setupConstrains()
 
@@ -93,29 +94,6 @@ class SettingViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-
-
-    func saveProfileInProperty() {
-
-        guard let emailCurrentUser = KeychainSwift().get("userOnline") else {
-            print("‼️ KeychainSwift().get(userOnline) == nil")
-            return
-        }
-
-        coreDataCoordinator?.getProfiles(completionHandler: { profiles in
-
-            let profiles = profiles?.filter { $0.email == emailCurrentUser }
-
-            guard let profiles, profiles.isEmpty == false else {
-                print("‼️ no profiles ")
-                return
-            }
-
-            let profile = profiles.first
-
-            self.currentProfile = profile
-        })
-    }
 
 
     func addSubview() {
@@ -204,7 +182,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0:
 
-            let vc = MainInformationViewController(profile: currentProfile)
+            let vc = MainInformationViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator)
 
             vc.navigationItem.title = navigationBarTitle
             navigationController?.pushViewController(vc, animated: true)

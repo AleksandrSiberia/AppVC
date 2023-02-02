@@ -17,7 +17,7 @@ class CurrentUserService: UserServiceProtocol {
   
         let currentUser: User = User("AleksandrSiberia",
                                                 userStatus: "Работаю",
-                                     userImage: UIImage(named: "avatar")!, userEmail: login )
+                                     userImage: UIImage(named: "avatar")!)
 
         loginInspector.checkCredentials(withEmail: login, password: password) {string in
             

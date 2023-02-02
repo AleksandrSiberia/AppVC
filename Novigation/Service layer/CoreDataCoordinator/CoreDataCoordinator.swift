@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import KeychainSwift
 
 
 
@@ -186,23 +187,73 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
     func appendProfile(values: [String: String]) {
 
-        guard let folder = getFolderByName(nameFolder: "FolderProfile") else {
-            print(" ‼️ getFolderByName(nameFolder: FolderProfile) == nil " )
-            return}
 
-        let newProfile = ProfileCoreData(context: self.backgroundContext)
 
-        newProfile.relationFolder = folder
+        if getFolderByName(nameFolder: "FolderProfile") != nil {
 
-        newProfile.email = values["email"]
-        newProfile.name = values["name"]
-        newProfile.status = values["status"]
-        newProfile.avatar = values["avatar"]
+            append(values: values)
+        }
 
-        savePersistentContainerContext()
 
+        else {
+            appendFolder(name: "FolderProfile")
+
+            append(values: values)
+        }
+
+
+
+        func append(values: [String: String]) {
+
+            guard let folder = getFolderByName(nameFolder: "FolderProfile") else {
+                print(" ‼️ getFolderByName(nameFolder: FolderProfile) == nil " )
+                return}
+
+            let newProfile = ProfileCoreData(context: self.backgroundContext)
+
+            newProfile.relationFolder = folder
+
+            newProfile.email = values["email"]
+            newProfile.name = values["name"]
+            newProfile.surname = values["surname"]
+            newProfile.status = values["status"]
+            newProfile.avatar = values["avatar"]
+
+            savePersistentContainerContext()
+        }
     }
 
+
+    
+    func getCurrentProfile(completionHandler: @escaping (ProfileCoreData?) -> Void) {
+
+        guard let emailCurrentUser = KeychainSwift().get("userOnline") else {
+            print("‼️ KeychainSwift().get(userOnline) == nil")
+            return
+        }
+
+        getProfiles(completionHandler: { profiles in
+
+            let profiles = profiles?.filter { $0.email == emailCurrentUser }
+
+            guard let profiles, profiles.isEmpty == false else {
+                print("‼️ no profiles ")
+                return
+            }
+
+            if let profile = profiles.first {
+                return completionHandler(profile)
+            }
+
+            else {
+
+                return  completionHandler(nil)
+            }
+
+
+
+        })
+    }
 
 
     func getFolderByName(nameFolder: String) -> FoldersCoreData? {
@@ -275,7 +326,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-
     func deleteFolder(folder: FoldersCoreData) {
 
         self.backgroundContext.delete(folder)
@@ -290,6 +340,22 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         self.savePersistentContainerContext()
         self.performFetchPostCoreData()
     }
+
+
+
+    func deleteCurrentProfile(completionHandler: @escaping (_ success: String?) -> Void) {
+
+        getCurrentProfile { currentProfile in
+
+            if let currentProfile {
+                self.backgroundContext.delete(currentProfile)
+                self.savePersistentContainerContext()
+                completionHandler("current profile deleted")
+            }
+        }
+    }
+
+
 
 }
 

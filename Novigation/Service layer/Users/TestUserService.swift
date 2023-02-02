@@ -16,19 +16,11 @@ class TestUserService: UserServiceProtocol {
 
     private func saveProfile(login: String) {
 
-        let values = ["email": login, "name": "AleksandrSiberia test1", "status": "test", "avatar": "avatar" ]
-
-        if coreDataCoordinator?.getFolderByName(nameFolder: "FolderProfile") != nil {
-
-            coreDataCoordinator?.appendProfile(values: values)
-        }
+        let values = ["email": login, "name": "AleksandrSiberia", "status": "Test", "avatar": "avatar", "surname": "Khmyrov" ]
 
 
-        else {
-            coreDataCoordinator?.appendFolder(name: "FolderProfile")
+        coreDataCoordinator?.appendProfile(values: values)
 
-            coreDataCoordinator?.appendProfile(values: values)
-        }
 
     }
 
@@ -62,8 +54,7 @@ class TestUserService: UserServiceProtocol {
 
                 let currentUser: User = User(currentProfile.name ?? "",
                                              userStatus: currentProfile.status ?? "",
-                                             userImage: avatar!,
-                                            userEmail: login)
+                                             userImage: avatar!)
 
                 completion(currentUser)
 
