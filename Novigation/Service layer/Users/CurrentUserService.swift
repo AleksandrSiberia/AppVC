@@ -10,7 +10,6 @@ import RealmSwift
 
 class CurrentUserService: UserServiceProtocol {
 
-   
 
     func checkTheLogin(_ login: String, password: String, loginInspector: LoginViewControllerDelegate, loginViewController: LoginViewController, completion: @escaping (User?) -> Void ) {
 

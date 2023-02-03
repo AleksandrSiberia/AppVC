@@ -25,10 +25,6 @@ class ProfileCoordinator: AppCoordinatorProtocol {
 
     func start(user: User) -> Bool {
 
-      
-
-//        let profileViewController = ProfileAssembly.createProfileViewController()
-
         self.profileViewController.currentUser = user
         self.profileViewController.coreDataCoordinator = self.coreDataCoordinator
 

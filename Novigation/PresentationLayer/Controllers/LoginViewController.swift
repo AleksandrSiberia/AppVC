@@ -19,6 +19,16 @@ class LoginViewController: UIViewController {
 
     var corseDataCoordinator: CoreDataCoordinatorProtocol?
 
+    lazy var userService = {
+#if DEBUG
+        return TestUserService(coreDataCoordinator: corseDataCoordinator)
+#else
+        return TestUserService(coreDataCoordinator: corseDataCoordinator)
+#endif
+    }()
+
+    lazy var currentUserService = TestUserService(coreDataCoordinator: corseDataCoordinator)
+
     private var keychain = KeychainSwift()
 
     var output: LoginViewProtocol!
@@ -395,18 +405,6 @@ class LoginViewController: UIViewController {
         if self.keychain.get("userOnline") != nil
         {
 
-            let currentUserService = CurrentUserService()
-            let testUserService = TestUserService()
-
-            testUserService.coreDataCoordinator = self.corseDataCoordinator
-
-#if DEBUG
-            let userService = testUserService
-#else
-            let userService = testUserService
-#endif
-
-
             let loginUserOnline = keychain.get("userOnline")
 
             if RealmService.shared.getAllUsers() != nil && RealmService.shared.getAllUsers()?.isEmpty == false {
@@ -414,7 +412,7 @@ class LoginViewController: UIViewController {
                 for user in RealmService.shared.getAllUsers()! {
                     if user.login == loginUserOnline {
 
-                        userService.checkTheLogin(user.login, password: user.password, loginInspector: self.loginDelegate!, loginViewController: self) {  user in
+                        self.userService.checkTheLogin(user.login, password: user.password, loginInspector: self.loginDelegate!, loginViewController: self) {  user in
 
                             guard let user else {
                                 print("‼️ user == nil")
@@ -434,19 +432,7 @@ class LoginViewController: UIViewController {
 
     private func actionLoginButton() {
 
-        let currentUserService = CurrentUserService()
-        let testUserService = TestUserService()
-
-        testUserService.coreDataCoordinator = self.corseDataCoordinator
-        
-#if DEBUG
-        let userService = testUserService
-
-#else
-        let userService = testUserService
-#endif
-
-        userService.checkTheLogin( self.textFieldLogin.text!, password: self.textFieldPassword.text!, loginInspector: self.loginDelegate!, loginViewController: self) { user in
+        userService.checkTheLogin( self.textFieldLogin.text ?? "", password: self.textFieldPassword.text ?? "", loginInspector: self.loginDelegate!, loginViewController: self) { user in
 
             guard user != nil  else {
 
@@ -480,7 +466,6 @@ class LoginViewController: UIViewController {
                 return }
 
             self.output.coordinator.startProfileCoordinator(user: user)
-
         }
     }
 

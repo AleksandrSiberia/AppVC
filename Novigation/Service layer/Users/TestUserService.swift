@@ -11,59 +11,66 @@ import CoreData
 
 class TestUserService: UserServiceProtocol {
 
+
     var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
 
-    private func saveProfile(login: String) {
+    init(coreDataCoordinator: CoreDataCoordinatorProtocol?) {
+        self.coreDataCoordinator = coreDataCoordinator
+    }
 
-        let values = ["email": login, "name": "AleksandrSiberia", "status": "Test", "avatar": "avatar", "surname": "Khmyrov" ]
+    private func saveDefaultProfile(login: String) {
 
+        let values = ["email": login, "name": "Aleksandr", "status": "Test", "avatar": "avatar", "surname": "Khmyrov" ]
 
         coreDataCoordinator?.appendProfile(values: values)
-
 
     }
 
 
 
-    func checkTheLogin(_ login: String, password: String, loginInspector: LoginViewControllerDelegate, loginViewController: LoginViewController, completion: @escaping (User?) -> Void ) {
+    func getUserByEmail(email: String, completionHandler: @escaping (User) -> Void ) {
 
 
-        func getProfileByEmail() {
+        self.coreDataCoordinator?.getProfiles { profileCoreData in
 
-            self.coreDataCoordinator?.getProfiles { profileCoreData in
-
-                guard let profileCoreData = profileCoreData  else {
-                    print("‼️ self.coreDataCoordinator?.getProfiles == nil")
-                    return
-                }
-
-                let currentsProfile = profileCoreData.filter { $0.email == login}
-
-                guard currentsProfile.isEmpty == false else {
-                    print("‼️ currentProfile.isEmpty == true")
-                    return}
-
-                guard let currentProfile = currentsProfile.first else {
-                    print("‼️ currentProfile == nil")
-                    return
-                }
-
-
-                let avatar = UIImage(named: currentProfile.avatar ?? "")
-
-                let currentUser: User = User(currentProfile.name ?? "",
-                                             userStatus: currentProfile.status ?? "",
-                                             userImage: avatar!)
-
-                completion(currentUser)
-
+            guard let profileCoreData = profileCoreData  else {
+                print("‼️ self.coreDataCoordinator?.getProfiles == nil")
+                return
             }
+
+            let currentsProfile = profileCoreData.filter { $0.email == email}
+
+            guard currentsProfile.isEmpty == false else {
+                print("‼️ currentProfile.isEmpty == true")
+                return}
+
+            guard let currentProfile = currentsProfile.first else {
+                print("‼️ currentProfile == nil")
+                return
+            }
+
+
+            let avatar = UIImage(named: currentProfile.avatar ?? "")
+
+            let fullName = (currentProfile.name ?? "") + " " + (currentProfile.surname ?? "")
+
+            let currentUser: User = User(fullName,
+                                         userStatus: currentProfile.status ?? "",
+                                         userImage: avatar!)
+
+            completionHandler(currentUser)
 
         }
 
+    }
 
 
+
+
+    func checkTheLogin(_ login: String, password: String, loginInspector: LoginViewControllerDelegate, loginViewController: LoginViewController, completion: @escaping (User?) -> Void ) {
+
+        
         loginInspector.checkCredentials(withEmail: login, password: password) {string in
 
             guard string == "Открыть доступ" else {
@@ -77,45 +84,41 @@ class TestUserService: UserServiceProtocol {
                 for user in RealmService.shared.getAllUsers() ?? [] {
 
                     if login == user.login {
+
                         print("🤸🏼‍♂️ this is cached user")
 
-                        getProfileByEmail()
+                        self.getUserByEmail(email: login) { currentUser in
 
+                            completion(currentUser)
+                        }
                     }
+
 
 
                     else {
                         print("📩 save new user" )
 
-                        self.saveProfile(login: login)
+                        self.saveDefaultProfile(login: login)
 
-                        getProfileByEmail()
-
+                        self.getUserByEmail(email: login) { currentUser in
+                            completion(currentUser)
+                        }
                     }
                 }
-
             }
-
-
 
 
             else {
 
                 print("📩 save new user, 0 cashed users" )
 
-                self.saveProfile(login: login)
+                self.saveDefaultProfile(login: login)
 
-                getProfileByEmail()
+                self.getUserByEmail(email: login) { currentUser in
+                    completion(currentUser)
+                }
             }
         }
 
-
-
-
-
-
-
     }
-
 }
-

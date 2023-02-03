@@ -16,6 +16,8 @@ class MainInformationViewController: UIViewController {
 
     private var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
+    private var delegate: ProfileViewControllerDelegate
+
     private lazy var barButtonSave: UIBarButtonItem = {
 
         var barButtonSave = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(barButtonSaveAction))
@@ -32,11 +34,12 @@ class MainInformationViewController: UIViewController {
 
 
 
-    init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?) {
-        super.init(nibName: nil, bundle: nil)
-
+    init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, delegate: ProfileViewControllerDelegate) {
         self.currentProfile = profile
         self.coreDataCoordinator = coreDataCoordinator
+        self.delegate = delegate
+
+        super.init(nibName: nil, bundle: nil)
 
     }
 
@@ -118,17 +121,12 @@ class MainInformationViewController: UIViewController {
                       "avatar": "avatar",
                       "surname": textFieldSurname.text ?? ""
         ]
-
-
         coreDataCoordinator?.deleteCurrentProfile { _ in
 
             self.coreDataCoordinator?.appendProfile(values: values)
+            self.delegate.loadUserFromCoreData()
+            self.navigationController?.popViewController(animated: true)
+
         }
-
-
-
-
     }
-
-
 }

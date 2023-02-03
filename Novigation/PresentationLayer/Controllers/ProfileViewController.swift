@@ -10,11 +10,13 @@ import iOSIntPackage
 import FirebaseAuth
 import CoreData
 import UniformTypeIdentifiers
+import KeychainSwift
 
 
 protocol ProfileViewControllerDelegate {
     func addNewPost()
     func showSettingViewController()
+    func loadUserFromCoreData()
 }
 
 protocol ProfileViewControllerOutput {
@@ -25,12 +27,21 @@ protocol ProfileViewControllerOutput {
 
 final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable, ProfileViewControllerDelegate {
 
+
+    lazy var userService = {
+#if DEBUG
+        return TestUserService(coreDataCoordinator: coreDataCoordinator)
+#else
+        return TestUserService(coreDataCoordinator: coreDataCoordinator)
+#endif
+    }()
+
+    
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
     var fileManager: FileManagerServiceable?
 
     var handle: AuthStateDidChangeListenerHandle?
-
 
     var delegate: ProfileViewDelegate! {
 
@@ -61,7 +72,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
         return 3
     }()
-
 
     var currentUser: User?
 
@@ -95,8 +105,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
-
         self.view.addSubview(self.tableView)
         self.view.addGestureRecognizer(self.tapGestureRecogniser)
         self.setupConstraints()
@@ -107,6 +115,8 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        loadUserFromCoreData()
+        loadPostsFromCoreData()
 
         self.navigationController?.navigationBar.isHidden = true
 
@@ -119,22 +129,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         handle = Auth.auth().addStateDidChangeListener { auth, user in
             // ...
         }
-
-
-
-        self.coreDataCoordinator.getPosts(nameFolder: "AllPosts")
-
-        if (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?.first?.objects?.isEmpty)! {
-
-            for post in arrayModelPost {
-
-                self.coreDataCoordinator.appendPost(author: post.author, image: post.image, likes: String(post.likes), text: post.description, views: String(post.views), folderName: "AllPosts", nameForUrlFoto: nil) { _ in
-                }
-            }
-        }
     }
-
-
 
 
 
@@ -148,6 +143,38 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
 
+    func loadUserFromCoreData() {
+
+        guard let emailUser = KeychainSwift().get("userOnline") else {
+            print("‼️ error: KeychainSwift().get(userOnline) == nil")
+            return
+        }
+
+        userService.getUserByEmail(email: emailUser) { currentUser  in
+            print("✨")
+            self.currentUser = currentUser
+            self.tableView.reloadData()
+        }
+    }
+
+
+
+    private func loadPostsFromCoreData() {
+
+        self.coreDataCoordinator.getPosts(nameFolder: "AllPosts")
+
+        if (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?.first?.objects?.isEmpty)! {
+
+            for post in arrayModelPost {
+
+                self.coreDataCoordinator.appendPost(author: post.author, image: post.image, likes: String(post.likes), text: post.description, views: String(post.views), folderName: "AllPosts", nameForUrlFoto: nil) { _ in
+                }
+            }
+        }
+
+    }
+
+
     func addNewPost() {
         let controller = AddNewPostViewController(coreDataCoordinator: self.coreDataCoordinator, fileManagerService: self.fileManager)
         let nav = UINavigationController(rootViewController: controller)
@@ -156,7 +183,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
     func showSettingViewController() {
-        let settingViewController = SettingViewController(coreData: self.coreDataCoordinator)
+        let settingViewController = SettingViewController(coreData: self.coreDataCoordinator, delegate: self)
         let nav = UINavigationController(rootViewController: settingViewController)
         present(nav, animated: true)
     }
@@ -193,7 +220,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
                     self.present(alert, animated: true)
                 }
-
             }
         }
     }

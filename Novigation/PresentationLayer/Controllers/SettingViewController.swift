@@ -16,6 +16,7 @@ class SettingViewController: UIViewController {
 
     private var currentProfile: ProfileCoreData?
 
+    private var delegate: ProfileViewControllerDelegate
 
     private lazy var barButtonItemCancel: UIBarButtonItem = {
         var barButtonItemCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(barButtonItemCancelAction) )
@@ -66,6 +67,20 @@ class SettingViewController: UIViewController {
     }()
 
 
+
+    init(coreData: CoreDataCoordinatorProtocol, delegate: ProfileViewControllerDelegate) {
+        self.coreDataCoordinator = coreData
+        self.delegate = delegate
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -81,19 +96,6 @@ class SettingViewController: UIViewController {
         setupConstrains()
 
     }
-
-
-    init(coreData: CoreDataCoordinatorProtocol) {
-        super.init(nibName: nil, bundle: nil)
-
-        self.coreDataCoordinator = coreData
-    }
-
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
 
 
     func addSubview() {
@@ -182,7 +184,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0:
 
-            let vc = MainInformationViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator)
+            let vc = MainInformationViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator, delegate: self.delegate)
 
             vc.navigationItem.title = navigationBarTitle
             navigationController?.pushViewController(vc, animated: true)
