@@ -312,7 +312,9 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         request.predicate = NSPredicate(format: "relationFolder == %@", folder)
 
         do {
+
             let profiles = try self.backgroundContext.fetch(request)
+
 
             DispatchQueue.main.async {
                  return completionHandler(profiles)

@@ -36,11 +36,11 @@ protocol CoreDataCoordinatorProtocol {
 
     func appendProfile(values: [String: String])
 
-    func getProfiles(completionHandler: @escaping ([ProfileCoreData]?) -> Void )
-
     func getCurrentProfile(completionHandler: @escaping (ProfileCoreData?) -> Void)
 
     func deleteCurrentProfile(completionHandler: @escaping (_ success: String?) -> Void)
+
+    func getProfiles(completionHandler: @escaping ([ProfileCoreData]?) -> Void )
 }
 
 

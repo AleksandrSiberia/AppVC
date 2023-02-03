@@ -31,7 +31,6 @@ class TestUserService: UserServiceProtocol {
 
     func getUserByEmail(email: String, completionHandler: @escaping (User) -> Void ) {
 
-
         self.coreDataCoordinator?.getProfiles { profileCoreData in
 
             guard let profileCoreData = profileCoreData  else {
@@ -49,7 +48,6 @@ class TestUserService: UserServiceProtocol {
                 print("‼️ currentProfile == nil")
                 return
             }
-
 
             let avatar = UIImage(named: currentProfile.avatar ?? "")
 

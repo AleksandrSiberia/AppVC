@@ -115,18 +115,17 @@ class MainInformationViewController: UIViewController {
 
     @objc private func barButtonSaveAction() {
 
-        let values = ["email": currentProfile?.email ?? "",
-                      "name": textFieldName.text ?? "",
-                      "status": "Test",
-                      "avatar": "avatar",
-                      "surname": textFieldSurname.text ?? ""
-        ]
-        coreDataCoordinator?.deleteCurrentProfile { _ in
+        coreDataCoordinator?.getCurrentProfile { profile in
 
-            self.coreDataCoordinator?.appendProfile(values: values)
-            self.delegate.loadUserFromCoreData()
-            self.navigationController?.popViewController(animated: true)
+            if let name = self.textFieldName.text, let surname = self.textFieldSurname.text {
 
+                profile?.name = name
+                profile?.surname = surname
+
+                self.coreDataCoordinator?.savePersistentContainerContext()
+                self.delegate.loadUserFromCoreData()
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
 }
