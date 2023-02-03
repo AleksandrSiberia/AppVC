@@ -19,3 +19,6 @@
 
 "labelNameMainInformation" = "Name";
 "labelSurnameMainInformation" = "Surname";
+"labelGenderMainInformation" = "Gender";
+"labelManGender" = "Man";
+"labelWomanGender" = "Woman";

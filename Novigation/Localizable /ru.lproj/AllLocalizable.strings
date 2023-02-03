@@ -19,3 +19,6 @@
 
 "labelNameMainInformation" = "Имя";
 "labelSurnameMainInformation" = "Фамилия";
+"labelGenderMainInformation" = "Пол";
+"labelManGender" = "Мужской";
+"labelWomanGender" = "Женский";

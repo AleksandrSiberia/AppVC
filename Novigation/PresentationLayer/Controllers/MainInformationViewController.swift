@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 
 
+
 class MainInformationViewController: UIViewController {
 
 
@@ -17,6 +18,8 @@ class MainInformationViewController: UIViewController {
     private var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
     private var delegate: ProfileViewControllerDelegate
+
+
 
     private lazy var barButtonSave: UIBarButtonItem = {
 
@@ -32,6 +35,25 @@ class MainInformationViewController: UIViewController {
 
     private lazy var textFieldSurname = setupTextField(text: currentProfile?.surname)
 
+    private lazy var labelGender = setupLabel(text: "labelGenderMainInformation".allLocalizable)
+
+    private lazy var viewManGender = setupViewGender("man")
+
+    private var labelManGender: UILabel = {
+        var labelManGender = UILabel()
+        labelManGender.text = "labelManGender".allLocalizable
+        labelManGender.translatesAutoresizingMaskIntoConstraints = false
+        return labelManGender
+    }()
+
+    private lazy var viewWomanGender = setupViewGender("woman")
+
+    private var labelWomanGender: UILabel = {
+        var labelWomanGender = UILabel()
+        labelWomanGender.text = "labelWomanGender".allLocalizable
+        labelWomanGender.translatesAutoresizingMaskIntoConstraints = false
+        return labelWomanGender
+    }()
 
 
     init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, delegate: ProfileViewControllerDelegate) {
@@ -44,7 +66,6 @@ class MainInformationViewController: UIViewController {
     }
 
 
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -54,7 +75,7 @@ class MainInformationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [labelName, textFieldName, labelSurname, textFieldSurname].forEach { view.addSubview($0) }
+        [labelName, textFieldName, labelSurname, textFieldSurname, labelGender, viewManGender, labelManGender, viewWomanGender, labelWomanGender].forEach { view.addSubview($0) }
 
         navigationItem.rightBarButtonItem = barButtonSave
 
@@ -64,8 +85,27 @@ class MainInformationViewController: UIViewController {
     }
 
 
-    private func setupTextField(text: String?) -> UITextField {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
+        let touch = touches.first
+
+
+        if touch?.view == viewManGender {
+
+            viewManGender.backgroundColor = UIColor(named: "MyColorSet")
+
+            viewWomanGender.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
+        }
+
+        if touch?.view == viewWomanGender {
+
+            viewWomanGender.backgroundColor = UIColor(named: "MyColorSet")
+            viewManGender.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
+        }
+    }
+
+
+    private func setupTextField(text: String?) -> UITextField {
             let textField = UITextField()
             textField.text = text
             textField.translatesAutoresizingMaskIntoConstraints = false
@@ -81,6 +121,21 @@ class MainInformationViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         return label
+    }
+
+
+    private func setupViewGender(_ gender: String) -> UIView {
+        let viewGender = UIView()
+
+        if gender == currentProfile?.gender {
+            viewGender.backgroundColor = UIColor(named: "MyColorSet")
+        }
+
+        viewGender.layer.cornerRadius = 10
+        viewGender.translatesAutoresizingMaskIntoConstraints = false
+        viewGender.layer.borderColor = UIColor(named: "MyColorSet")?.cgColor
+        viewGender.layer.borderWidth = 2
+        return viewGender
     }
 
 
@@ -106,11 +161,29 @@ class MainInformationViewController: UIViewController {
             textFieldSurname.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
             textFieldSurname.heightAnchor.constraint(equalToConstant: 40),
 
+            labelGender.topAnchor.constraint(equalTo: textFieldSurname.bottomAnchor, constant: 20),
+            labelGender.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+
+            viewManGender.topAnchor.constraint(equalTo: labelGender.bottomAnchor, constant: 10),
+            viewManGender.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            viewManGender.widthAnchor.constraint(equalToConstant: 20),
+            viewManGender.heightAnchor.constraint(equalToConstant: 20),
+
+            labelManGender.centerYAnchor.constraint(equalTo: viewManGender.centerYAnchor),
+            labelManGender.leadingAnchor.constraint(equalTo: viewManGender.trailingAnchor, constant: 20),
+
+            viewWomanGender.topAnchor.constraint(equalTo: viewManGender.bottomAnchor, constant: 20),
+            viewWomanGender.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            viewWomanGender.widthAnchor.constraint(equalToConstant: 20),
+            viewWomanGender.heightAnchor.constraint(equalToConstant: 20),
+
+            labelWomanGender.centerYAnchor.constraint(equalTo: viewWomanGender.centerYAnchor),
+            labelWomanGender.leadingAnchor.constraint(equalTo: viewWomanGender.trailingAnchor, constant: 20),
+
+
         ])
 
     }
-
-
 
 
     @objc private func barButtonSaveAction() {
@@ -118,6 +191,14 @@ class MainInformationViewController: UIViewController {
         coreDataCoordinator?.getCurrentProfile { profile in
 
             if let name = self.textFieldName.text, let surname = self.textFieldSurname.text {
+
+                if self.viewManGender.backgroundColor == UIColor(named: "MyColorSet") {
+                    profile?.gender = "man"
+                }
+
+                if self.viewWomanGender.backgroundColor == UIColor(named: "MyColorSet") {
+                    profile?.gender = "woman"
+                }
 
                 profile?.name = name
                 profile?.surname = surname
@@ -129,3 +210,6 @@ class MainInformationViewController: UIViewController {
         }
     }
 }
+
+
+

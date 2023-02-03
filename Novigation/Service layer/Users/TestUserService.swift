@@ -21,7 +21,7 @@ class TestUserService: UserServiceProtocol {
 
     private func saveDefaultProfile(login: String) {
 
-        let values = ["email": login, "name": "Aleksandr", "status": "Test", "avatar": "avatar", "surname": "Khmyrov" ]
+        let values = ["email": login, "name": "Aleksandr", "status": "Test", "avatar": "avatar", "surname": "Khmyrov", "gender": "man" ]
 
         coreDataCoordinator?.appendProfile(values: values)
 
