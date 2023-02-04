@@ -21,12 +21,17 @@ class TestUserService: UserServiceProtocol {
 
     private func saveDefaultProfile(login: String) {
 
-        let values = ["email": login, "name": "Aleksandr", "status": "Test", "avatar": "avatar", "surname": "Khmyrov", "gender": "man", "birthday": "" ]
+        let values = ["email": login,
+                      "name": "Aleksandr",
+                      "status": "Test",
+                      "avatar": "avatar",
+                      "surname": "Khmyrov",
+                      "gender": "man",
+                      "birthday": "02.03.2012",
+                      "hometown": "Иркутск" ]
 
         coreDataCoordinator?.appendProfile(values: values)
-
     }
-
 
 
     func getUserByEmail(email: String, completionHandler: @escaping (User) -> Void ) {

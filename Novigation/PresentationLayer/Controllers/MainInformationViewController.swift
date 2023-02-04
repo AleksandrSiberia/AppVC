@@ -67,6 +67,11 @@ class MainInformationViewController: UIViewController {
     }()
 
 
+    private lazy var labelHometown = setupLabel(text: "labelHometown".allLocalizable)
+
+    private lazy var textFieldHometown = setupTextField(text: currentProfile?.hometown)
+
+
     init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, delegate: ProfileViewControllerDelegate) {
         self.currentProfile = profile
         self.coreDataCoordinator = coreDataCoordinator
@@ -85,7 +90,7 @@ class MainInformationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [labelName, textFieldName, labelSurname, textFieldSurname, labelGender, viewManGender, labelManGender, viewWomanGender, labelWomanGender, labelBirthday, datePicker].forEach { view.addSubview($0) }
+        [labelName, textFieldName, labelSurname, textFieldSurname, labelGender, viewManGender, labelManGender, viewWomanGender, labelWomanGender, labelBirthday, datePicker, labelHometown, textFieldHometown].forEach { view.addSubview($0) }
 
         navigationItem.rightBarButtonItem = barButtonSave
 
@@ -193,8 +198,16 @@ class MainInformationViewController: UIViewController {
             labelBirthday.topAnchor.constraint(equalTo: labelWomanGender.bottomAnchor, constant: 20),
             labelBirthday.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
 
-            datePicker.topAnchor.constraint(equalTo: labelBirthday.bottomAnchor, constant: 20),
-            datePicker.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 5),
+            datePicker.topAnchor.constraint(equalTo: labelBirthday.bottomAnchor, constant: 10),
+            datePicker.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+
+            labelHometown.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 20),
+            labelHometown.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+
+            textFieldHometown.topAnchor.constraint(equalTo: labelHometown.bottomAnchor, constant: 5),
+            textFieldHometown.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            textFieldHometown.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
+            textFieldHometown.heightAnchor.constraint(equalToConstant: 40),
         ])
     }
 
@@ -218,7 +231,7 @@ class MainInformationViewController: UIViewController {
 
         coreDataCoordinator?.getCurrentProfile { profile in
 
-            if let name = self.textFieldName.text, let surname = self.textFieldSurname.text {
+            if let name = self.textFieldName.text, let surname = self.textFieldSurname.text, let hometown = self.textFieldHometown.text {
 
                 if self.viewManGender.backgroundColor == UIColor(named: "MyColorSet") {
                     profile?.gender = "man"
@@ -231,6 +244,7 @@ class MainInformationViewController: UIViewController {
                 profile?.name = name
                 profile?.surname = surname
                 profile?.birthday = self.saveDate()
+                profile?.hometown = hometown
 
                 self.coreDataCoordinator?.savePersistentContainerContext()
                 self.delegate.loadUserFromCoreData()
