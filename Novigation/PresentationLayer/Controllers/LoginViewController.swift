@@ -19,13 +19,15 @@ class LoginViewController: UIViewController {
 
     var corseDataCoordinator: CoreDataCoordinatorProtocol?
 
-    lazy var userService = {
+    
+    lazy var userService: UserServiceProtocol = {
 #if DEBUG
         return TestUserService(coreDataCoordinator: corseDataCoordinator)
 #else
-        return TestUserService(coreDataCoordinator: corseDataCoordinator)
+        return CurrentUserService(coreDataCoordinator: corseDataCoordinator)
 #endif
     }()
+
 
     lazy var currentUserService = TestUserService(coreDataCoordinator: corseDataCoordinator)
 

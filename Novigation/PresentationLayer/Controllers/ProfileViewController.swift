@@ -28,11 +28,11 @@ protocol ProfileViewControllerOutput {
 final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable, ProfileViewControllerDelegate {
 
 
-    lazy var userService = {
+    lazy var userService: UserServiceProtocol = {
 #if DEBUG
         return TestUserService(coreDataCoordinator: coreDataCoordinator)
 #else
-        return TestUserService(coreDataCoordinator: coreDataCoordinator)
+        return CurrentUserService(coreDataCoordinator: coreDataCoordinator)
 #endif
     }()
 
@@ -95,7 +95,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 #else
         tableView.backgroundColor =  UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 #endif
-
         return tableView
     }()
 

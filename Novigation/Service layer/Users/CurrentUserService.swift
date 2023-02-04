@@ -10,21 +10,10 @@ import RealmSwift
 
 class CurrentUserService: UserServiceProtocol {
 
+    var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
-    func checkTheLogin(_ login: String, password: String, loginInspector: LoginViewControllerDelegate, loginViewController: LoginViewController, completion: @escaping (User?) -> Void ) {
-
-  
-        let currentUser: User = User("AleksandrSiberia",
-                                                userStatus: "Работаю",
-                                     userImage: UIImage(named: "avatar")!)
-
-        loginInspector.checkCredentials(withEmail: login, password: password) {string in
-            
-            guard string == "Открыть доступ" else {
-                completion(nil)
-                return
-            }
-            completion(currentUser)
-        }
+    init(coreDataCoordinator: CoreDataCoordinatorProtocol?) {
+        self.coreDataCoordinator = coreDataCoordinator
     }
+
 }
