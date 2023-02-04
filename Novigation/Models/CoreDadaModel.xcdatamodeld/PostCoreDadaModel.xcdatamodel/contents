@@ -16,6 +16,7 @@
     </entity>
     <entity name="ProfileCoreData" representedClassName="ProfileCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="avatar" optional="YES" attributeType="String"/>
+        <attribute name="birthday" optional="YES" attributeType="String"/>
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="gender" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>

@@ -52,6 +52,7 @@ class SettingViewController: UIViewController {
     }()
 
 
+
     private lazy var buttonExit: UIButton = {
         let buttonExit = UIButton()
         let screen = UIScreen.main.bounds.width

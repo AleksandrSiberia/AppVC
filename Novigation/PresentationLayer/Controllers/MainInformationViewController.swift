@@ -55,6 +55,17 @@ class MainInformationViewController: UIViewController {
         return labelWomanGender
     }()
 
+    private lazy var labelBirthday = setupLabel(text: "labelBirthday".allLocalizable)
+
+
+    private lazy var datePicker: UIDatePicker = {
+        var datePicker = UIDatePicker()
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.datePickerMode = .date
+        datePicker.date = loadDate() ?? Date()
+        return datePicker
+    }()
+
 
     init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, delegate: ProfileViewControllerDelegate) {
         self.currentProfile = profile
@@ -62,7 +73,6 @@ class MainInformationViewController: UIViewController {
         self.delegate = delegate
 
         super.init(nibName: nil, bundle: nil)
-
     }
 
 
@@ -75,7 +85,7 @@ class MainInformationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [labelName, textFieldName, labelSurname, textFieldSurname, labelGender, viewManGender, labelManGender, viewWomanGender, labelWomanGender].forEach { view.addSubview($0) }
+        [labelName, textFieldName, labelSurname, textFieldSurname, labelGender, viewManGender, labelManGender, viewWomanGender, labelWomanGender, labelBirthday, datePicker].forEach { view.addSubview($0) }
 
         navigationItem.rightBarButtonItem = barButtonSave
 
@@ -180,9 +190,27 @@ class MainInformationViewController: UIViewController {
             labelWomanGender.centerYAnchor.constraint(equalTo: viewWomanGender.centerYAnchor),
             labelWomanGender.leadingAnchor.constraint(equalTo: viewWomanGender.trailingAnchor, constant: 20),
 
+            labelBirthday.topAnchor.constraint(equalTo: labelWomanGender.bottomAnchor, constant: 20),
+            labelBirthday.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
 
+            datePicker.topAnchor.constraint(equalTo: labelBirthday.bottomAnchor, constant: 20),
+            datePicker.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 5),
         ])
+    }
 
+
+    private func saveDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        let dateString = dateFormatter.string(from: datePicker.date)
+        return dateString
+    }
+
+
+    private func loadDate() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        return dateFormatter.date(from: currentProfile?.birthday ?? "")
     }
 
 
@@ -202,6 +230,7 @@ class MainInformationViewController: UIViewController {
 
                 profile?.name = name
                 profile?.surname = surname
+                profile?.birthday = self.saveDate()
 
                 self.coreDataCoordinator?.savePersistentContainerContext()
                 self.delegate.loadUserFromCoreData()
