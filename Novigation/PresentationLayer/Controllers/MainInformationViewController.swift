@@ -222,28 +222,23 @@ class MainInformationViewController: UIViewController {
 
     @objc private func barButtonSaveAction() {
 
-        coreDataCoordinator?.getCurrentProfile { profile in
-
-            if let name = self.textFieldName.text, let surname = self.textFieldSurname.text, let hometown = self.textFieldHometown.text {
-
-                if self.viewManGender.backgroundColor == UIColor(named: "MyColorSet") {
-                    profile?.gender = "man"
-                }
-
-                if self.viewWomanGender.backgroundColor == UIColor(named: "MyColorSet") {
-                    profile?.gender = "woman"
-                }
-
-                profile?.name = name
-                profile?.surname = surname
-                profile?.birthday = self.saveDate()
-                profile?.hometown = hometown
-
-                self.coreDataCoordinator?.savePersistentContainerContext()
-                self.delegate.loadUserFromCoreData()
-                self.navigationController?.popViewController(animated: true)
-            }
+        if self.viewManGender.backgroundColor == UIColor(named: "MyColorSet") {
+            currentProfile?.gender = "man"
         }
+
+        if self.viewWomanGender.backgroundColor == UIColor(named: "MyColorSet") {
+            currentProfile?.gender = "woman"
+        }
+
+        currentProfile?.name = textFieldName.text
+        currentProfile?.surname = textFieldSurname.text
+        currentProfile?.birthday = self.saveDate()
+        currentProfile?.hometown = textFieldHometown.text
+
+        self.coreDataCoordinator?.savePersistentContainerContext()
+        self.delegate.loadUserFromCoreData()
+        self.navigationController?.popViewController(animated: true)
+
     }
 }
 
