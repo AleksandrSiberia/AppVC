@@ -183,6 +183,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
 
 
         switch indexPath.row {
+
         case 0:
 
             let vc = MainInformationViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator, delegate: self.delegate)
@@ -198,7 +199,10 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
 
             
         case 2:
-            print(navigationBarTitle)
+            let vc = CareerViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator, delegate: self.delegate)
+            vc.navigationItem.title = navigationBarTitle
+            navigationController?.pushViewController(vc, animated: true)
+
         case 3:
             print(navigationBarTitle)
         case 4:

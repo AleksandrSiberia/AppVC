@@ -1,5 +1,5 @@
 //
-//  EducationViewController.swift
+//  CareerViewController.swift
 //  Novigation
 //
 //  Created by Александр Хмыров on 06.02.2023.
@@ -7,8 +7,8 @@
 
 import UIKit
 
+class CareerViewController: UIViewController {
 
-class EducationViewController: UIViewController {
 
     private var currentProfile: ProfileCoreData?
     private var coreDataCoordinator: CoreDataCoordinatorProtocol?
@@ -21,10 +21,10 @@ class EducationViewController: UIViewController {
         return tapBarButton
     }()
 
-    private lazy var labelEducations = CustomViews.setupLabel(text: "labelEducations".allLocalizable )
+    private lazy var labelCareer = CustomViews.setupLabel(text: "labelCareer".allLocalizable )
 
 
-    private lazy var textViewEducations: UITextView = CustomViews.setupTextView(text: currentProfile?.education)
+    private lazy var textViewCareer: UITextView = CustomViews.setupTextView(text: currentProfile?.career)
 
 
     init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, delegate: ProfileViewControllerDelegate) {
@@ -32,7 +32,7 @@ class EducationViewController: UIViewController {
         self.currentProfile = profile
         self.coreDataCoordinator = coreDataCoordinator
         self.delegate = delegate
-        
+
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -48,7 +48,7 @@ class EducationViewController: UIViewController {
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
-        [labelEducations, textViewEducations].forEach { view.addSubview($0) }
+        [labelCareer, textViewCareer].forEach { view.addSubview($0) }
 
         setupConstrains()
 
@@ -61,26 +61,23 @@ class EducationViewController: UIViewController {
 
         NSLayoutConstraint.activate([
 
-            labelEducations.topAnchor.constraint(equalTo: safeAria.topAnchor, constant: 20),
-            labelEducations.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            labelCareer.topAnchor.constraint(equalTo: safeAria.topAnchor, constant: 20),
+            labelCareer.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
 
-            textViewEducations.topAnchor.constraint(equalTo: labelEducations.bottomAnchor, constant: 10),
-            textViewEducations.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
-            textViewEducations.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
-            textViewEducations.heightAnchor.constraint(equalToConstant: 400),
+            textViewCareer.topAnchor.constraint(equalTo: labelCareer.bottomAnchor, constant: 10),
+            textViewCareer.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            textViewCareer.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
+            textViewCareer.heightAnchor.constraint(equalToConstant: 400),
         ])
     }
 
 
-
-
     @objc private func tapBarButtonSaveAction() {
 
-        currentProfile?.education = textViewEducations.text
-        
+        currentProfile?.career = textViewCareer.text
+
         coreDataCoordinator?.savePersistentContainerContext()
         delegate?.loadUserFromCoreData()
         navigationController?.popViewController(animated: true)
     }
 }
-

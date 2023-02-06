@@ -219,6 +219,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
             newProfile.birthday = values["birthday"]
             newProfile.hometown = values["hometown"]
             newProfile.education = values["education"]
+            newProfile.career = values["career"]
 
             savePersistentContainerContext()
         }

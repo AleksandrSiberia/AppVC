@@ -35,6 +35,8 @@ extension UserServiceProtocol {
                       "birthday": "02.03.2012",
                       "hometown": "Иркутск",
                       "education": "ИГУ Высшее юридическое",
+                      "career": "",
+
         ]
 
         coreDataCoordinator?.appendProfile(values: values)
