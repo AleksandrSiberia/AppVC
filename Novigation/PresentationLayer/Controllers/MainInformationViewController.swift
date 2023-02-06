@@ -27,15 +27,15 @@ class MainInformationViewController: UIViewController {
         return barButtonSave
     }()
 
-    private lazy var labelName = setupLabel(text: "labelNameMainInformation".allLocalizable)
+    private lazy var labelName = CustomViews.setupLabel(text: "labelNameMainInformation".allLocalizable)
 
     private lazy var textFieldName = setupTextField(text: currentProfile?.name)
 
-    private lazy var labelSurname = setupLabel(text: "labelSurnameMainInformation".allLocalizable)
+    private lazy var labelSurname = CustomViews.setupLabel(text: "labelSurnameMainInformation".allLocalizable)
 
     private lazy var textFieldSurname = setupTextField(text: currentProfile?.surname)
 
-    private lazy var labelGender = setupLabel(text: "labelGenderMainInformation".allLocalizable)
+    private lazy var labelGender = CustomViews.setupLabel(text: "labelGenderMainInformation".allLocalizable)
 
     private lazy var viewManGender = setupViewGender("man")
 
@@ -55,7 +55,7 @@ class MainInformationViewController: UIViewController {
         return labelWomanGender
     }()
 
-    private lazy var labelBirthday = setupLabel(text: "labelBirthday".allLocalizable)
+    private lazy var labelBirthday = CustomViews.setupLabel(text: "labelBirthday".allLocalizable)
 
 
     private lazy var datePicker: UIDatePicker = {
@@ -67,7 +67,7 @@ class MainInformationViewController: UIViewController {
     }()
 
 
-    private lazy var labelHometown = setupLabel(text: "labelHometown".allLocalizable)
+    private lazy var labelHometown = CustomViews.setupLabel(text: "labelHometown".allLocalizable)
 
     private lazy var textFieldHometown = setupTextField(text: currentProfile?.hometown)
 
@@ -130,14 +130,7 @@ class MainInformationViewController: UIViewController {
     }
 
 
-    private func setupLabel(text: String) -> UILabel {
-        let label = UILabel()
-        label.text = text
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        return label
-    }
-
+  
 
     private func setupViewGender(_ gender: String) -> UIView {
         let viewGender = UIView()

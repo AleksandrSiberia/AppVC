@@ -186,12 +186,17 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
 
             let vc = MainInformationViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator, delegate: self.delegate)
-
             vc.navigationItem.title = navigationBarTitle
             navigationController?.pushViewController(vc, animated: true)
 
+
         case 1:
-            print(navigationBarTitle)
+
+            let vc = EducationViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator, delegate: self.delegate)
+            vc.navigationItem.title = navigationBarTitle
+            navigationController?.pushViewController(vc, animated: true)
+
+            
         case 2:
             print(navigationBarTitle)
         case 3:

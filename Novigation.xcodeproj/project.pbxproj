@@ -93,6 +93,8 @@
 		8B8870E529864A9B0066884E /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870E429864A9B0066884E /* StringExtension.swift */; };
 		8B8870E7298934250066884E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870E6298934250066884E /* SettingViewController.swift */; };
 		8B8870E9298A741B0066884E /* MainInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870E8298A741B0066884E /* MainInformationViewController.swift */; };
+		8B8870EB2990FBE90066884E /* EducationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870EA2990FBE90066884E /* EducationViewController.swift */; };
+		8B8870ED299102220066884E /* CustomViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870EC299102220066884E /* CustomViews.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */; };
@@ -241,6 +243,8 @@
 		8B8870E429864A9B0066884E /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		8B8870E6298934250066884E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		8B8870E8298A741B0066884E /* MainInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInformationViewController.swift; sourceTree = "<group>"; };
+		8B8870EA2990FBE90066884E /* EducationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EducationViewController.swift; sourceTree = "<group>"; };
+		8B8870EC299102220066884E /* CustomViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViews.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -595,6 +599,7 @@
 			children = (
 				8BED12DF28C8C01D006FF146 /* CustomButton.swift */,
 				8BED12E528CA1680006FF146 /* CheckWord.swift */,
+				8B8870EC299102220066884E /* CustomViews.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -615,6 +620,7 @@
 				8B8870DC2984FACE0066884E /* AddNewPostViewController.swift */,
 				8B8870E6298934250066884E /* SettingViewController.swift */,
 				8B8870E8298A741B0066884E /* MainInformationViewController.swift */,
+				8B8870EA2990FBE90066884E /* EducationViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -908,6 +914,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B695C5528BCEED9008F0414 /* TestUserService.swift in Sources */,
+				8B8870ED299102220066884E /* CustomViews.swift in Sources */,
 				8BED12CE28C5DBD5006FF146 /* LoginViewControllerDelegate.swift in Sources */,
 				8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */,
 				8B353271285DCE3A00704D08 /* PhotosTableViewCell.swift in Sources */,
@@ -980,6 +987,7 @@
 				8B4749D128F018EF007DE402 /* NetworkService.swift in Sources */,
 				8B138F2428D87F8700ACA1B9 /* FeedViewModel.swift in Sources */,
 				8B77B98C2951E0AC00A8D1A3 /* CoreDataCoordinatorProtocol.swift in Sources */,
+				8B8870EB2990FBE90066884E /* EducationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

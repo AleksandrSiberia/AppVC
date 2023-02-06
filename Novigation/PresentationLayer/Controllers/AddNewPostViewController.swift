@@ -57,13 +57,8 @@ class AddNewPostViewController: UIViewController {
 
 
 
-    private lazy var textView: UITextView = {
-        var textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .systemGray6
-        return textView
-    }()
-
+    private lazy var textView: UITextView = CustomViews.setupTextView(text: "")
+    
 
     private lazy var buttonAddPost: CustomButton = {
         var buttonAddPost = CustomButton(title: "buttonAddPost".allLocalizable) {

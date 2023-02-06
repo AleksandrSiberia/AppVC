@@ -33,7 +33,9 @@ extension UserServiceProtocol {
                       "surname": "Khmyrov",
                       "gender": "man",
                       "birthday": "02.03.2012",
-                      "hometown": "Иркутск" ]
+                      "hometown": "Иркутск",
+                      "education": "ИГУ Высшее юридическое",
+        ]
 
         coreDataCoordinator?.appendProfile(values: values)
     }

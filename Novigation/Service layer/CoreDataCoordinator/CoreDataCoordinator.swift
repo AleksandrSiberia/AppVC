@@ -187,8 +187,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
     func appendProfile(values: [String: String]) {
 
-
-
         if getFolderByName(nameFolder: "FolderProfile") != nil {
 
             append(values: values)
@@ -200,7 +198,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
             append(values: values)
         }
-
 
 
         func append(values: [String: String]) {
@@ -221,10 +218,41 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
             newProfile.gender = values["gender"]
             newProfile.birthday = values["birthday"]
             newProfile.hometown = values["hometown"]
+            newProfile.education = values["education"]
 
             savePersistentContainerContext()
         }
     }
+
+
+
+
+    func getProfiles(completionHandler: @escaping ([ProfileCoreData]?) -> Void ) {
+
+        guard let folder = getFolderByName(nameFolder: "FolderProfile") else {
+            print(" ‼️ getFolderByName(nameFolder: FolderProfile) == nil " )
+            return completionHandler(nil)
+        }
+
+        let request = ProfileCoreData.fetchRequest()
+
+        request.predicate = NSPredicate(format: "relationFolder == %@", folder)
+
+        do {
+
+            let profiles = try self.backgroundContext.fetch(request)
+
+
+            DispatchQueue.main.async {
+                 return completionHandler(profiles)
+            }
+        }
+        catch {
+            print("‼️", error.localizedDescription)
+            return completionHandler(nil)
+        }
+    }
+
 
 
     
@@ -252,9 +280,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
                 return  completionHandler(nil)
             }
-
-
-
         })
     }
 
@@ -303,34 +328,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    func getProfiles(completionHandler: @escaping ([ProfileCoreData]?) -> Void ) {
-
-        guard let folder = getFolderByName(nameFolder: "FolderProfile") else {
-            print(" ‼️ getFolderByName(nameFolder: FolderProfile) == nil " )
-            return completionHandler(nil)
-        }
-
-        let request = ProfileCoreData.fetchRequest()
-
-        request.predicate = NSPredicate(format: "relationFolder == %@", folder)
-
-        do {
-
-            let profiles = try self.backgroundContext.fetch(request)
-
-
-            DispatchQueue.main.async {
-                 return completionHandler(profiles)
-            }
-        }
-        catch {
-            print("‼️", error.localizedDescription)
-            return completionHandler(nil)
-        }
-    }
-
-
-
     func deleteFolder(folder: FoldersCoreData) {
 
         self.backgroundContext.delete(folder)
@@ -359,9 +356,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
             }
         }
     }
-
-
-
 }
 
 
