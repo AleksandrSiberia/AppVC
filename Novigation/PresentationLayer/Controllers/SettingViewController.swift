@@ -204,9 +204,14 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             navigationController?.pushViewController(vc, animated: true)
 
         case 3:
-            print(navigationBarTitle)
+            let vc = InterestViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator, delegate: self.delegate)
+            vc.navigationItem.title = navigationBarTitle
+            navigationController?.pushViewController(vc, animated: true)
+
         case 4:
+
             print(navigationBarTitle)
+
         default:
             print("‼️ this page does not exist")
         }

@@ -96,6 +96,7 @@
 		8B8870EB2990FBE90066884E /* EducationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870EA2990FBE90066884E /* EducationViewController.swift */; };
 		8B8870ED299102220066884E /* CustomViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870EC299102220066884E /* CustomViews.swift */; };
 		8B8870EF299124640066884E /* CareerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870EE299124640066884E /* CareerViewController.swift */; };
+		8B8870F129923D0A0066884E /* InterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870F029923D0A0066884E /* InterestViewController.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */; };
@@ -247,6 +248,7 @@
 		8B8870EA2990FBE90066884E /* EducationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EducationViewController.swift; sourceTree = "<group>"; };
 		8B8870EC299102220066884E /* CustomViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViews.swift; sourceTree = "<group>"; };
 		8B8870EE299124640066884E /* CareerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareerViewController.swift; sourceTree = "<group>"; };
+		8B8870F029923D0A0066884E /* InterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewController.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -624,6 +626,7 @@
 				8B8870E8298A741B0066884E /* MainInformationViewController.swift */,
 				8B8870EA2990FBE90066884E /* EducationViewController.swift */,
 				8B8870EE299124640066884E /* CareerViewController.swift */,
+				8B8870F029923D0A0066884E /* InterestViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -955,6 +958,7 @@
 				8B77B9B629570BE500A8D1A3 /* LocalAuthorizationService.swift in Sources */,
 				8B30E0052840E5BA006763B9 /* InfoViewController.swift in Sources */,
 				8B14FABD28BC90A7006DE94A /* User.swift in Sources */,
+				8B8870F129923D0A0066884E /* InterestViewController.swift in Sources */,
 				8B77B9822950772100A8D1A3 /* NetworkMonitor.swift in Sources */,
 				8B138F2E28D9E86000ACA1B9 /* LoginViewProtocol.swift in Sources */,
 				8BED12C828BF3802006FF146 /* CheckService.swift in Sources */,

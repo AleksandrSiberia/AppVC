@@ -36,6 +36,7 @@ extension UserServiceProtocol {
                       "hometown": "Иркутск",
                       "education": "ИГУ Высшее юридическое",
                       "career": "",
+                      "interest": "Фитнесс, путешествия"
 
         ]
 

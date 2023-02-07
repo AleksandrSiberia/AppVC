@@ -22,6 +22,7 @@
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="gender" optional="YES" attributeType="String"/>
         <attribute name="hometown" optional="YES" attributeType="String"/>
+        <attribute name="interest" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="status" optional="YES" attributeType="String"/>
         <attribute name="surname" optional="YES" attributeType="String"/>
