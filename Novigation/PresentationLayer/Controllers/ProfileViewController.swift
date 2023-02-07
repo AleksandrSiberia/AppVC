@@ -68,10 +68,11 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         return tapGestureRecogniser
     }()
 
-    private var number = {
 
+    private var number = {
         return 3
     }()
+
 
     var currentUser: User?
 
@@ -100,13 +101,12 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.addSubview(self.tableView)
-        self.view.addGestureRecognizer(self.tapGestureRecogniser)
-        self.setupConstraints()
+        view.addSubview(tableView)
+        view.addGestureRecognizer(tapGestureRecogniser)
+        setupConstraints()
     }
 
 
@@ -117,9 +117,9 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         loadUserFromCoreData()
         loadPostsFromCoreData()
 
-        self.navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.isHidden = true
 
-        self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.delegate = self
+        coreDataCoordinator.fetchedResultsControllerPostCoreData?.delegate = self
 
         
         if self.delegate != nil {
@@ -141,7 +141,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
 
-
     func loadUserFromCoreData() {
 
         guard let emailUser = KeychainSwift().get("userOnline") else {
@@ -150,7 +149,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         }
 
         userService.getUserByEmail(email: emailUser) { currentUser  in
-            print("✨")
             self.currentUser = currentUser
             self.tableView.reloadData()
         }
@@ -175,14 +173,14 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
     func addNewPost() {
-        let controller = AddNewPostViewController(coreDataCoordinator: self.coreDataCoordinator, fileManagerService: self.fileManager)
+        let controller = AddNewPostViewController(coreDataCoordinator: coreDataCoordinator, fileManagerService: fileManager)
         let nav = UINavigationController(rootViewController: controller)
-        self.present(nav, animated: true)
+        present(nav, animated: true)
     }
 
 
     func showSettingViewController() {
-        let settingViewController = SettingViewController(coreData: self.coreDataCoordinator, delegate: self)
+        let settingViewController = SettingViewController(coreData: coreDataCoordinator, delegate: self)
         let nav = UINavigationController(rootViewController: settingViewController)
         present(nav, animated: true)
     }
@@ -190,10 +188,10 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
@@ -203,9 +201,9 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     @objc private func actionTapGestureRecogniser(recogniser: UITapGestureRecognizer) {
 
         if recogniser.state == .ended {
-            let tapLocation = recogniser.location(in: self.tableView)
-            if let tapIndexPathTableView = self.tableView.indexPathForRow(at: tapLocation) {
-                if let tappedCell = self.tableView.cellForRow(at: tapIndexPathTableView) as? PostCell {
+            let tapLocation = recogniser.location(in: tableView)
+            if let tapIndexPathTableView = tableView.indexPathForRow(at: tapLocation) {
+                if let tappedCell = tableView.cellForRow(at: tapIndexPathTableView) as? PostCell {
 
                     var error = tappedCell.savePost()
 
@@ -217,7 +215,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
                     let action = UIAlertAction(title: "Ok", style: .cancel)
                     alert.addAction(action)
 
-                    self.present(alert, animated: true)
+                    present(alert, animated: true)
                 }
             }
         }

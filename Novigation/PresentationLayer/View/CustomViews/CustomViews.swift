@@ -25,6 +25,7 @@ class CustomViews {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .systemGray6
         textView.text = text
+        textView.font = UIFont.systemFont(ofSize: 14)
         return textView
     }
 }

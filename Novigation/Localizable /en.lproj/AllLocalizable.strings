@@ -3,6 +3,8 @@
 
 
 "buttonAddPost" = "Add Post";
+"labelAddImage" = "Add Foto";
+"textViewAddNewPost" = "What is new?";
 
 "AddNewPostViewControllerTitle" = "Add new post";
 "buttonAddPostAlertSuccess" = "Post added";
@@ -27,3 +29,4 @@
 
 "labelEducations" = "Educations";
 "labelCareer" = "Career";
+

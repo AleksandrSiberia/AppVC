@@ -19,6 +19,24 @@ class AddNewPostViewController: UIViewController {
     private var keyboardHided: Bool = true
 
 
+
+    private lazy var labelAddImage: UILabel = {
+
+        var labelAddImage = UILabel()
+        labelAddImage.translatesAutoresizingMaskIntoConstraints = false
+
+        if imageViewPost.image == nil {
+            labelAddImage.isHidden = false
+        }
+        else {
+            labelAddImage.isHidden = true
+        }
+
+        labelAddImage.text = "labelAddImage".allLocalizable
+        return labelAddImage
+    }()
+
+
     private lazy var barButtonItemCancel: UIBarButtonItem = {
         var barButtonItemCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(barButtonItemCancelAction))
         return barButtonItemCancel
@@ -41,7 +59,8 @@ class AddNewPostViewController: UIViewController {
 
 
     private lazy var imageViewPost: UIImageView = {
-        var imageViewPost = UIImageView(image: UIImage(systemName: "plus"))
+        var imageViewPost = UIImageView()
+
         imageViewPost.translatesAutoresizingMaskIntoConstraints = false
         imageViewPost.backgroundColor = .systemGray6
         imageViewPost.sizeToFit()
@@ -57,14 +76,14 @@ class AddNewPostViewController: UIViewController {
 
 
 
-    private lazy var textView: UITextView = CustomViews.setupTextView(text: "")
+    private lazy var textViewAddNewPost: UITextView = CustomViews.setupTextView(text: "textViewAddNewPost".allLocalizable)
     
 
     private lazy var buttonAddPost: CustomButton = {
         var buttonAddPost = CustomButton(title: "buttonAddPost".allLocalizable) {
 
 
-            if let imagePost = self.imagePost, let text = self.textView.text, text != ""  {
+            if let imagePost = self.imagePost, let text = self.textViewAddNewPost.text, text != ""  {
 
                 self.fileManagerService?.saveImage(imageData: imagePost, completionHandler: { tuple in
 
@@ -78,7 +97,7 @@ class AddNewPostViewController: UIViewController {
 
                     self.coreDataCoordinator?.performFetchPostCoreData()
 
-                    self.alert(alertMassage: "buttonAddPostAlertSuccess".allLocalizable)
+                    self.alert(alertMassage: "buttonAddPostAlertSuccess".allLocalizable, handler: { self.dismiss(animated: true) })
 
                 })
             }
@@ -86,7 +105,7 @@ class AddNewPostViewController: UIViewController {
 
             else {
 
-                self.alert(alertMassage: "buttonAddPostAlertFailed".allLocalizable)
+                self.alert(alertMassage: "buttonAddPostAlertFailed".allLocalizable, handler: nil)
 
             }
         }
@@ -113,8 +132,10 @@ class AddNewPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+
         view.addSubview(scrollView)
-        [imageViewPost, textView, buttonAddPost].forEach { scrollView.addSubview($0) }
+        [imageViewPost, textViewAddNewPost, buttonAddPost, labelAddImage].forEach { scrollView.addSubview($0) }
+
 
         navigationItem.leftBarButtonItem = barButtonItemCancel
 
@@ -124,6 +145,9 @@ class AddNewPostViewController: UIViewController {
         self.view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white , darkTheme: .black )
         self.navigationItem.title = "AddNewPostViewControllerTitle".allLocalizable
 
+        textViewAddNewPost.delegate = self
+        textViewAddNewPost.textColor = .systemGray
+
         self.setupConstrains()
 
     }
@@ -131,6 +155,7 @@ class AddNewPostViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
@@ -163,13 +188,16 @@ class AddNewPostViewController: UIViewController {
             self.imageViewPost.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             self.imageViewPost.heightAnchor.constraint(equalTo: scrollView.widthAnchor),
 
-            self.textView.topAnchor.constraint(equalTo: self.imageViewPost.bottomAnchor, constant: 15),
-            self.textView.heightAnchor.constraint(equalToConstant: view.frame.width / 2 ),
-            self.textView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            self.textViewAddNewPost.topAnchor.constraint(equalTo: self.imageViewPost.bottomAnchor, constant: 15),
+            self.textViewAddNewPost.heightAnchor.constraint(equalToConstant: view.frame.width / 2 ),
+            self.textViewAddNewPost.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
 
-            self.buttonAddPost.topAnchor.constraint(equalTo: self.textView.bottomAnchor, constant: 15),
-            self.buttonAddPost.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
+            self.buttonAddPost.topAnchor.constraint(equalTo: self.textViewAddNewPost.bottomAnchor, constant: 15),
+            self.buttonAddPost.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             self.buttonAddPost.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+
+            labelAddImage.centerXAnchor.constraint(equalTo: imageViewPost.centerXAnchor),
+            labelAddImage.centerYAnchor.constraint(equalTo: imageViewPost.centerYAnchor),
         ])
     }
 
@@ -179,11 +207,16 @@ class AddNewPostViewController: UIViewController {
     }
 
 
-    private func alert(alertMassage: String?) {
+    private func alert(alertMassage: String?, handler: (() -> Void)? ) {
 
         let alert = UIAlertController(title: nil, message: alertMassage, preferredStyle: .actionSheet)
 
-        let action = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        let action = UIAlertAction(title: "Ok", style: .cancel) { _ in
+
+            if let handler {
+                handler()
+            }
+        }
 
         alert.addAction(action)
 
@@ -245,6 +278,7 @@ class AddNewPostViewController: UIViewController {
 
                 if frameImage.minX <= tapLocation.x, frameImage.maxX >= tapLocation.x, frameImage.minY <= tapLocation.y, frameImage.maxY >= tapLocation.y  {
 
+
                     present(imagePicker, animated: true)
                 }
             }
@@ -264,6 +298,8 @@ extension AddNewPostViewController: UIImagePickerControllerDelegate,  UINavigati
         self.imageViewPost.image = image
         self.imagePost = image
 
+        self.labelAddImage.isHidden = true
+
     }
 }
 
@@ -273,4 +309,15 @@ extension AddNewPostViewController: UIGestureRecognizerDelegate {
 }
 
 
+
+extension AddNewPostViewController: UITextViewDelegate {
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+
+        if textViewAddNewPost.textColor == .systemGray {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+}
 

@@ -3,6 +3,8 @@
 
 
 "buttonAddPost" = "Добавить пост";
+"labelAddImage" = "Добавить фото";
+"textViewAddNewPost" = "Что нового?";
 
 "AddNewPostViewControllerTitle" = "Добавить новый пост";
 "buttonAddPostAlertSuccess" = "Пост добавлен";
