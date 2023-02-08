@@ -16,9 +16,10 @@ class AddNewPostViewController: UIViewController {
 
     private var imagePost: UIImage?
 
-    private var keyboardHided: Bool = true
+    private var keyboardHeight: CGFloat?
 
 
+    private lazy var gestureRecognizerEndEditingInScrollView = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerEndEditingInScrollViewAction))
 
     private lazy var labelAddImage: UILabel = {
 
@@ -131,20 +132,18 @@ class AddNewPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
         view.addSubview(scrollView)
 
         [imageViewImageForNewPost, textViewAddNewPost, buttonAddPost, labelAddImage].forEach { scrollView.addSubview($0) }
 
-
         navigationItem.leftBarButtonItem = barButtonItemCancel
 
         imagePicker.delegate = self
-        
 
         imageViewImageForNewPost.addGestureRecognizer(gestureRecognizer)
         imageViewImageForNewPost.isUserInteractionEnabled = true
 
+        scrollView.addGestureRecognizer(gestureRecognizerEndEditingInScrollView)
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white , darkTheme: .black )
         navigationItem.title = "AddNewPostViewControllerTitle".allLocalizable
@@ -152,13 +151,9 @@ class AddNewPostViewController: UIViewController {
         textViewAddNewPost.delegate = self
         textViewAddNewPost.textColor = .systemGray
 
-
         setupConstrains()
 
         setupNotifications()
-
-
-
     }
 
 
@@ -213,6 +208,7 @@ class AddNewPostViewController: UIViewController {
     }
 
 
+
     private func alert(alertMassage: String?, handler: (() -> Void)? ) {
 
         let alert = UIAlertController(title: nil, message: alertMassage, preferredStyle: .actionSheet)
@@ -233,7 +229,20 @@ class AddNewPostViewController: UIViewController {
 
     @objc private func keyboardWillShow(notification: Notification) {
 
-        guard let keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey ] as? NSValue)?.cgRectValue.height, let screen = view.window?.screen.bounds.height else { return }
+        var keyboardHeight: CGFloat?
+
+
+        if let keyboardHeightUserDefaults = UserDefaults.standard.object(forKey: "keyboardHeight")  {
+            keyboardHeight = keyboardHeightUserDefaults as? CGFloat
+        }
+
+        else {
+            keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey ] as? NSValue)?.cgRectValue.height
+            UserDefaults.standard.set(keyboardHeight, forKey: "keyboardHeight")
+        }
+
+
+        guard  let screen = view.window?.screen.bounds.height, let keyboardHeight else { return }
 
         let heightView = view.frame.height
 
@@ -256,6 +265,12 @@ class AddNewPostViewController: UIViewController {
     @objc private func keyboardWillHide(notification: Notification) {
 
         scrollView.contentOffset.y = 0.0
+    }
+
+
+
+    @objc func gestureRecognizerEndEditingInScrollViewAction() {
+        view.endEditing(true)
     }
 
 

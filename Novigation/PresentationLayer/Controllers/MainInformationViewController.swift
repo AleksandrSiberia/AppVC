@@ -20,6 +20,9 @@ class MainInformationViewController: UIViewController {
     private var delegate: ProfileViewControllerDelegate
 
 
+    private lazy var gestureRecognizerEndEditingInScrollView = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerEndEditingInScrollViewAction))
+
+
 
     private var scrollView: UIScrollView = {
 
@@ -48,11 +51,8 @@ class MainInformationViewController: UIViewController {
 
     private lazy var viewManGender = setupViewGender("man")
 
-    private lazy var gestureRecognizerGenderMan: UITapGestureRecognizer = {
+    private lazy var gestureRecognizerGenderMan = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerGenderManAction))
 
-        var gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerGenderManAction))
-        return gestureRecognizer
-    }()
 
     private var labelManGender: UILabel = {
         var labelManGender = UILabel()
@@ -63,11 +63,8 @@ class MainInformationViewController: UIViewController {
 
     private lazy var viewWomanGender = setupViewGender("woman")
 
-    private lazy var gestureRecognizerGenderWoman: UITapGestureRecognizer = {
+    private lazy var gestureRecognizerGenderWoman = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerGenderWomanAction))
 
-        var gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerGenderWomanAction))
-        return gestureRecognizer
-    }()
 
     private var labelWomanGender: UILabel = {
         var labelWomanGender = UILabel()
@@ -89,6 +86,7 @@ class MainInformationViewController: UIViewController {
 
 
     private lazy var labelHometown = CustomViews.setupLabel(text: "labelHometown".allLocalizable)
+
 
     private lazy var textFieldHometown = setupTextField(text: currentProfile?.hometown)
 
@@ -121,6 +119,7 @@ class MainInformationViewController: UIViewController {
 
         viewManGender.addGestureRecognizer(gestureRecognizerGenderMan)
         viewWomanGender.addGestureRecognizer(gestureRecognizerGenderWoman)
+        scrollView.addGestureRecognizer(gestureRecognizerEndEditingInScrollView)
 
         setupConstraints()
         
@@ -141,6 +140,12 @@ class MainInformationViewController: UIViewController {
         viewWomanGender.backgroundColor = UIColor(named: "MyColorSet")
 
         viewManGender.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
+    }
+
+
+    @objc private func gestureRecognizerEndEditingInScrollViewAction() {
+
+        view.endEditing(true)
     }
 
 
