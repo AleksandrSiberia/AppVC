@@ -9,7 +9,11 @@ import Foundation
 import UIKit
 
 
-class CustomViews {
+final class CustomViews {
+
+    private init() {
+    }
+
 
     static func setupLabel(text: String) -> UILabel {
         let label = UILabel()
@@ -28,4 +32,15 @@ class CustomViews {
         textView.font = UIFont.systemFont(ofSize: 14)
         return textView
     }
+
+    static func setupTextField(text: String?, keyboardType: UIKeyboardType) -> UITextField {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.text = text
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 12
+        textField.keyboardType = keyboardType
+        return textField
+    }
 }
+

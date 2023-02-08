@@ -55,6 +55,13 @@ class InterestViewController: UIViewController {
     }
 
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+
+        self.view.endEditing(true)
+    }
+
+
     func setupConstrains() {
 
         let safeAria = view.safeAreaLayoutGuide
@@ -67,7 +74,7 @@ class InterestViewController: UIViewController {
             textViewInterest.topAnchor.constraint(equalTo: labelInterest.bottomAnchor, constant: 10),
             textViewInterest.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
             textViewInterest.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
-            textViewInterest.heightAnchor.constraint(equalToConstant: 400),
+            textViewInterest.heightAnchor.constraint(equalToConstant: 270),
         ])
     }
 

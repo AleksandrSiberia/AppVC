@@ -210,7 +210,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
 
         case 4:
 
-            print(navigationBarTitle)
+            let vc = ContactsViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator, delegate: self.delegate)
+            vc.navigationItem.title = navigationBarTitle
+            navigationController?.pushViewController(vc, animated: true)
 
         default:
             print("‼️ this page does not exist")

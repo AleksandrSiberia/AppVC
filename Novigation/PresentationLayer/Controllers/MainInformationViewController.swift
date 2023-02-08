@@ -21,11 +21,20 @@ class MainInformationViewController: UIViewController {
 
 
 
+    private var scrollView: UIScrollView = {
+
+        var scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+
+
     private lazy var barButtonSave: UIBarButtonItem = {
 
         var barButtonSave = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(barButtonSaveAction))
         return barButtonSave
     }()
+
 
     private lazy var labelName = CustomViews.setupLabel(text: "labelNameMainInformation".allLocalizable)
 
@@ -39,6 +48,12 @@ class MainInformationViewController: UIViewController {
 
     private lazy var viewManGender = setupViewGender("man")
 
+    private lazy var gestureRecognizerGenderMan: UITapGestureRecognizer = {
+
+        var gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerGenderManAction))
+        return gestureRecognizer
+    }()
+
     private var labelManGender: UILabel = {
         var labelManGender = UILabel()
         labelManGender.text = "labelManGender".allLocalizable
@@ -47,6 +62,12 @@ class MainInformationViewController: UIViewController {
     }()
 
     private lazy var viewWomanGender = setupViewGender("woman")
+
+    private lazy var gestureRecognizerGenderWoman: UITapGestureRecognizer = {
+
+        var gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerGenderWomanAction))
+        return gestureRecognizer
+    }()
 
     private var labelWomanGender: UILabel = {
         var labelWomanGender = UILabel()
@@ -90,34 +111,54 @@ class MainInformationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [labelName, textFieldName, labelSurname, textFieldSurname, labelGender, viewManGender, labelManGender, viewWomanGender, labelWomanGender, labelBirthday, datePicker, labelHometown, textFieldHometown].forEach { view.addSubview($0) }
+        view.addSubview(scrollView)
+
+        [labelName, textFieldName, labelSurname, textFieldSurname, labelGender, viewManGender, labelManGender, viewWomanGender, labelWomanGender, labelBirthday, datePicker, labelHometown, textFieldHometown].forEach { scrollView.addSubview($0) }
 
         navigationItem.rightBarButtonItem = barButtonSave
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
+        viewManGender.addGestureRecognizer(gestureRecognizerGenderMan)
+        viewWomanGender.addGestureRecognizer(gestureRecognizerGenderWoman)
+
         setupConstraints()
+        
+        setupNotifications()
     }
+
+
+    @objc private func gestureRecognizerGenderManAction() {
+
+        viewManGender.backgroundColor = UIColor(named: "MyColorSet")
+
+        viewWomanGender.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
+    }
+
+    
+    @objc private func gestureRecognizerGenderWomanAction() {
+
+        viewWomanGender.backgroundColor = UIColor(named: "MyColorSet")
+
+        viewManGender.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
+    }
+
+
 
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
 
-        let touch = touches.first
-
-
-        if touch?.view == viewManGender {
-
-            viewManGender.backgroundColor = UIColor(named: "MyColorSet")
-
-            viewWomanGender.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
-        }
-
-        if touch?.view == viewWomanGender {
-
-            viewWomanGender.backgroundColor = UIColor(named: "MyColorSet")
-            viewManGender.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
-        }
     }
+
+
+    private func setupNotifications() {
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowAction(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideAction), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
 
 
     private func setupTextField(text: String?) -> UITextField {
@@ -126,6 +167,7 @@ class MainInformationViewController: UIViewController {
             textField.translatesAutoresizingMaskIntoConstraints = false
             textField.backgroundColor = .systemGray6
             textField.layer.cornerRadius = 12
+        textField.keyboardType = .namePhonePad
             return textField
     }
 
@@ -138,6 +180,8 @@ class MainInformationViewController: UIViewController {
         if gender == currentProfile?.gender {
             viewGender.backgroundColor = UIColor(named: "MyColorSet")
         }
+
+        viewGender.isUserInteractionEnabled = true
 
         viewGender.layer.cornerRadius = 10
         viewGender.translatesAutoresizingMaskIntoConstraints = false
@@ -153,27 +197,33 @@ class MainInformationViewController: UIViewController {
 
         NSLayoutConstraint.activate([
 
-            labelName.topAnchor.constraint(equalTo: safeAria.topAnchor, constant: 10),
-            labelName.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            scrollView.topAnchor.constraint(equalTo: safeAria.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            scrollView.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
+            scrollView.bottomAnchor.constraint(equalTo: safeAria.bottomAnchor),
+
+            labelName.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
+            labelName.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
 
             textFieldName.topAnchor.constraint(equalTo: labelName.bottomAnchor, constant: 5),
-            textFieldName.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
-            textFieldName.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
+            textFieldName.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            textFieldName.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             textFieldName.heightAnchor.constraint(equalToConstant: 40),
+            textFieldName.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
 
             labelSurname.topAnchor.constraint(equalTo: textFieldName.bottomAnchor, constant: 20),
-            labelSurname.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            labelSurname.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
 
             textFieldSurname.topAnchor.constraint(equalTo: labelSurname.bottomAnchor, constant: 5),
-            textFieldSurname.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
-            textFieldSurname.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
+            textFieldSurname.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            textFieldSurname.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             textFieldSurname.heightAnchor.constraint(equalToConstant: 40),
 
             labelGender.topAnchor.constraint(equalTo: textFieldSurname.bottomAnchor, constant: 20),
-            labelGender.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            labelGender.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
 
             viewManGender.topAnchor.constraint(equalTo: labelGender.bottomAnchor, constant: 10),
-            viewManGender.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            viewManGender.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             viewManGender.widthAnchor.constraint(equalToConstant: 20),
             viewManGender.heightAnchor.constraint(equalToConstant: 20),
 
@@ -181,7 +231,7 @@ class MainInformationViewController: UIViewController {
             labelManGender.leadingAnchor.constraint(equalTo: viewManGender.trailingAnchor, constant: 20),
 
             viewWomanGender.topAnchor.constraint(equalTo: viewManGender.bottomAnchor, constant: 20),
-            viewWomanGender.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            viewWomanGender.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             viewWomanGender.widthAnchor.constraint(equalToConstant: 20),
             viewWomanGender.heightAnchor.constraint(equalToConstant: 20),
 
@@ -189,18 +239,19 @@ class MainInformationViewController: UIViewController {
             labelWomanGender.leadingAnchor.constraint(equalTo: viewWomanGender.trailingAnchor, constant: 20),
 
             labelBirthday.topAnchor.constraint(equalTo: labelWomanGender.bottomAnchor, constant: 20),
-            labelBirthday.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            labelBirthday.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
 
             datePicker.topAnchor.constraint(equalTo: labelBirthday.bottomAnchor, constant: 10),
-            datePicker.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            datePicker.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
 
             labelHometown.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 20),
-            labelHometown.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            labelHometown.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
 
             textFieldHometown.topAnchor.constraint(equalTo: labelHometown.bottomAnchor, constant: 5),
-            textFieldHometown.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
-            textFieldHometown.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
+            textFieldHometown.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            textFieldHometown.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             textFieldHometown.heightAnchor.constraint(equalToConstant: 40),
+            textFieldHometown.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }
 
@@ -218,6 +269,40 @@ class MainInformationViewController: UIViewController {
         dateFormatter.dateFormat = "dd.MM.yyyy"
         return dateFormatter.date(from: currentProfile?.birthday ?? "")
     }
+
+
+
+
+    @objc private func keyboardWillShowAction(_ notifications: Notification) {
+
+        guard let keyboardHeight = (notifications.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height, let screenHeight = view.window?.frame.height
+        else { print("‼️ UIResponder.keyboardFrameEndUserInfoKey && view.window?.frame.height == nil")
+            return }
+
+
+        let viewHeight = view.frame.height
+
+        let navigationBarHeight = screenHeight - viewHeight
+
+        let scrollViewMaxY = textFieldHometown.frame.maxY + navigationBarHeight
+
+        let keyboardMinY = viewHeight - keyboardHeight
+
+        if scrollViewMaxY > keyboardMinY {
+
+            let contentOffset = scrollViewMaxY - keyboardMinY
+
+            scrollView.contentOffset.y = contentOffset + 15
+        }
+    }
+
+
+
+    @objc private func keyboardWillHideAction() {
+
+        scrollView.contentOffset.y = 0.0
+    }
+
 
 
     @objc private func barButtonSaveAction() {

@@ -36,7 +36,8 @@ extension UserServiceProtocol {
                       "hometown": "Иркутск",
                       "education": "ИГУ Высшее юридическое",
                       "career": "",
-                      "interest": "Фитнесс, путешествия"
+                      "interest": "Фитнесс, путешествия",
+                      "mobilePhone": "8(999)000-00-00",
 
         ]
 

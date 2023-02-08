@@ -1,14 +1,13 @@
 //
-//  EducationViewController.swift
+//  ContactsViewController.swift
 //  Novigation
 //
-//  Created by Александр Хмыров on 06.02.2023.
+//  Created by Александр Хмыров on 07.02.2023.
 //
 
 import UIKit
 
-
-class EducationViewController: UIViewController {
+class ContactsViewController: UIViewController {
 
     private var currentProfile: ProfileCoreData?
     private var coreDataCoordinator: CoreDataCoordinatorProtocol?
@@ -21,10 +20,10 @@ class EducationViewController: UIViewController {
         return tapBarButton
     }()
 
-    private lazy var labelEducations = CustomViews.setupLabel(text: "labelEducations".allLocalizable )
+    private lazy var labelMobilePhone = CustomViews.setupLabel(text: "labelMobilePhone".allLocalizable )
 
 
-    private lazy var textViewEducations: UITextView = CustomViews.setupTextView(text: currentProfile?.education)
+    private lazy var textFieldMobilePhone = CustomViews.setupTextField(text: currentProfile?.mobilePhone, keyboardType: .numberPad)
 
 
     init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, delegate: ProfileViewControllerDelegate) {
@@ -32,7 +31,7 @@ class EducationViewController: UIViewController {
         self.currentProfile = profile
         self.coreDataCoordinator = coreDataCoordinator
         self.delegate = delegate
-        
+
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -48,10 +47,9 @@ class EducationViewController: UIViewController {
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
-        [labelEducations, textViewEducations].forEach { view.addSubview($0) }
+        [labelMobilePhone, textFieldMobilePhone].forEach { view.addSubview($0) }
 
         setupConstrains()
-
     }
 
 
@@ -62,32 +60,31 @@ class EducationViewController: UIViewController {
     }
 
 
+
     func setupConstrains() {
 
         let safeAria = view.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
 
-            labelEducations.topAnchor.constraint(equalTo: safeAria.topAnchor, constant: 20),
-            labelEducations.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            labelMobilePhone.topAnchor.constraint(equalTo: safeAria.topAnchor, constant: 20),
+            labelMobilePhone.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
 
-            textViewEducations.topAnchor.constraint(equalTo: labelEducations.bottomAnchor, constant: 10),
-            textViewEducations.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
-            textViewEducations.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
-            textViewEducations.heightAnchor.constraint(equalToConstant: 270),
+            textFieldMobilePhone.topAnchor.constraint(equalTo: labelMobilePhone.bottomAnchor, constant: 5),
+            textFieldMobilePhone.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+            textFieldMobilePhone.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
+            textFieldMobilePhone.heightAnchor.constraint(equalToConstant: 40),
+
         ])
     }
 
 
-
-
     @objc private func tapBarButtonSaveAction() {
 
-        currentProfile?.education = textViewEducations.text
-        
+        currentProfile?.mobilePhone = textFieldMobilePhone.text
         coreDataCoordinator?.savePersistentContainerContext()
         delegate?.loadUserFromCoreData()
         navigationController?.popViewController(animated: true)
     }
-}
 
+}

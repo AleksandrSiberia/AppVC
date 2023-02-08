@@ -55,6 +55,13 @@ class CareerViewController: UIViewController {
     }
 
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+
+        self.view.endEditing(true)
+    }
+
+
     func setupConstrains() {
 
         let safeAria = view.safeAreaLayoutGuide
@@ -67,7 +74,7 @@ class CareerViewController: UIViewController {
             textViewCareer.topAnchor.constraint(equalTo: labelCareer.bottomAnchor, constant: 10),
             textViewCareer.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
             textViewCareer.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
-            textViewCareer.heightAnchor.constraint(equalToConstant: 400),
+            textViewCareer.heightAnchor.constraint(equalToConstant: 270),
         ])
     }
 

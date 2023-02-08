@@ -97,6 +97,7 @@
 		8B8870ED299102220066884E /* CustomViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870EC299102220066884E /* CustomViews.swift */; };
 		8B8870EF299124640066884E /* CareerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870EE299124640066884E /* CareerViewController.swift */; };
 		8B8870F129923D0A0066884E /* InterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870F029923D0A0066884E /* InterestViewController.swift */; };
+		8B8870F5299245240066884E /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870F4299245240066884E /* ContactsViewController.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */; };
@@ -249,6 +250,7 @@
 		8B8870EC299102220066884E /* CustomViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViews.swift; sourceTree = "<group>"; };
 		8B8870EE299124640066884E /* CareerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareerViewController.swift; sourceTree = "<group>"; };
 		8B8870F029923D0A0066884E /* InterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewController.swift; sourceTree = "<group>"; };
+		8B8870F4299245240066884E /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -627,6 +629,7 @@
 				8B8870EA2990FBE90066884E /* EducationViewController.swift */,
 				8B8870EE299124640066884E /* CareerViewController.swift */,
 				8B8870F029923D0A0066884E /* InterestViewController.swift */,
+				8B8870F4299245240066884E /* ContactsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -972,6 +975,7 @@
 				8B30DF2B283A1CC6006763B9 /* SceneDelegate.swift in Sources */,
 				8B474A1A28FD37D7007DE402 /* CheckServiceProtocol.swift in Sources */,
 				8BED12E628CA1680006FF146 /* CheckWord.swift in Sources */,
+				8B8870F5299245240066884E /* ContactsViewController.swift in Sources */,
 				8BED12D028C5DC2E006FF146 /* LogicFactoryProtocol.swift in Sources */,
 				8BEB523428DF0C3100482193 /* CheckerPassword.swift in Sources */,
 				8B77B93329448CAC00A8D1A3 /* Theme.swift in Sources */,
