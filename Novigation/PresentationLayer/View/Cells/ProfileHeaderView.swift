@@ -12,6 +12,8 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
 
     private var delegate: ProfileViewControllerDelegate?
 
+    private var currentUser: ProfileCoreData?
+
     private lazy var startAvatarPosition: CGPoint = {
         var startAvatarPosition = CGPoint()
         return startAvatarPosition
@@ -48,27 +50,36 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         return titleLabel
     }()
 
-    private lazy var statusLabel: UILabel = {
-        var statusLabel: UILabel = UILabel()
-        statusLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        statusLabel.textColor = .gray
-        return statusLabel
+
+    private lazy var textFieldStatus: UITextField = {
+
+        var statusTextField = UITextField()
+        statusTextField.textColor = .systemGray
+        statusTextField.delegate = self
+        return statusTextField
+
     }()
 
-    private lazy var statusTextField: UITextField = {
-        var statusTextField: UITextField = UITextField()
-        statusTextField.translatesAutoresizingMaskIntoConstraints = false
-        statusTextField.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .systemGray4)
-        statusTextField.placeholder = NSLocalizedString("statusTextField", tableName: "ProfileViewControllerLocalizable", comment: "new status")
-        statusTextField.delegate = self
-        statusTextField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
-        statusTextField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        statusTextField.textColor = .black
-        statusTextField.layer.borderWidth = 1
-        statusTextField.layer.borderColor = UIColor.black.cgColor
-        statusTextField.layer.cornerRadius = 12
-        return statusTextField
+
+    private lazy var buttonDetailedInformations: UIButton = {
+
+        let action = UIAction() { _ in
+            self.delegate?.showDetailedInformationsViewController()
+        }
+
+        let buttonDetailedInformations = UIButton(frame: CGRect(), primaryAction: action)
+        buttonDetailedInformations.translatesAutoresizingMaskIntoConstraints = false
+        buttonDetailedInformations.setTitle("buttonDetailedInformations".allLocalizable, for: .normal)
+        buttonDetailedInformations.setTitleColor(.systemGray, for: .normal)
+
+        let image = UIImage(systemName: "exclamationmark.circle")?.withRenderingMode(.alwaysTemplate)
+
+        buttonDetailedInformations.setImage(image, for: .normal)
+        buttonDetailedInformations.tintColor = .systemGray
+        return buttonDetailedInformations
     }()
+
+
 
     private lazy var buttonEditingProfile: CustomButton = {
         var editingProfileButton = CustomButton(title: NSLocalizedString("EditingProfileButton", tableName: "ProfileViewControllerLocalizable", comment: ""))
@@ -84,7 +95,6 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         var action = UIAction { _ in
             self.delegate?.addNewPost()
         }
-
         var buttonAddPost = UIButton(frame: CGRect(), primaryAction: action)
         buttonAddPost.setBackgroundImage(UIImage(systemName: "plus.circle"), for: .normal)
         buttonAddPost.translatesAutoresizingMaskIntoConstraints = false
@@ -95,9 +105,9 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
 
 
 
-    private lazy var statusText: String = {
-        return ""
-    }()
+//    private lazy var statusText: String = {
+//        return ""
+//    }()
 
 
     private var viewForAnimation: UIView = {
@@ -135,15 +145,17 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.height / 2
+        avatarImageView.layer.cornerRadius = self.avatarImageView.frame.height / 2
             }
 
 
 
-    func setupHeader(_ currentUser: User, delegate: ProfileViewControllerDelegate) {
-        self.avatarImageView.image = currentUser.userImage
-        self.statusLabel.text = currentUser.userStatus
-        self.fullNameLabel.text = currentUser.userFullName
+    func setupHeader(_ currentUser: ProfileCoreData, delegate: ProfileViewControllerDelegate) {
+        self.currentUser = currentUser
+
+        self.avatarImageView.image = UIImage(named: currentUser.avatar ?? "")
+        self.textFieldStatus.text = currentUser.status
+        self.fullNameLabel.text = (currentUser.name ?? "") + " " + (currentUser.surname ?? "")
         self.delegate = delegate
     }
 
@@ -155,80 +167,74 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
 
 
 
-    func setFirtResponder() {
-        self.statusTextField.becomeFirstResponder()
-    }
-
-
     private func setupView() {
-        self.topStack.addArrangedSubview(self.fullNameLabel)
-        self.topStack.addArrangedSubview(self.statusLabel)
+        topStack.addArrangedSubview(fullNameLabel)
+        topStack.addArrangedSubview(textFieldStatus)
 
-        [topStack, buttonAddPost, statusTextField, buttonEditingProfile,viewForAnimation, buttonOffAnimation, avatarImageView].forEach({self.addSubview($0)})
+        [topStack, buttonAddPost, buttonDetailedInformations, buttonEditingProfile,viewForAnimation, buttonOffAnimation, avatarImageView].forEach({ addSubview($0) })
     }
 
 
     private func setupConstraints() {
 
-        self.contentView.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
+        contentView.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
         let profileViewController = ProfileViewController()
 
-        self.avatarImageView.snp.makeConstraints { make in
-            make.top.equalTo(self.snp.top).offset(16)
-            make.leading.equalTo(self.snp.leading).offset(16)
+        avatarImageView.snp.makeConstraints { make in
+            make.top.equalTo(snp.top).offset(16)
+            make.leading.equalTo(snp.leading).offset(16)
             make.width.height.equalTo(100)
         }
 
-        self.topStack.snp.makeConstraints { make in
-            make.top.equalTo(self.snp.top).offset(16)
-            make.leading.equalTo(self.avatarImageView.snp.trailing).offset(16)
-            make.trailing.equalTo(self.snp.trailing).offset(-16)
-            make.bottom.equalTo(self.avatarImageView.snp.bottom).offset(-18)
+        topStack.snp.makeConstraints { make in
+            make.top.equalTo(snp.top).offset(16)
+            make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
+            make.trailing.equalTo(snp.trailing).offset(-16)
+            make.bottom.equalTo(avatarImageView.snp.bottom).offset(-18)
         }
 
-        self.statusTextField.snp.makeConstraints { make -> Void in
-            make.top.equalTo(self.topStack.snp.bottom)
-            make.leading.equalTo(self.topStack.snp.leading)
-            make.trailing.equalTo(self.snp.trailing).offset(-16)
-            make.height.equalTo(40)
+        buttonDetailedInformations.snp.makeConstraints { make -> Void in
+            make.top.equalTo(topStack.snp.bottom)
+            make.leading.equalTo(fullNameLabel.snp.leading)
+            make.height.equalTo(20)
         }
 
-        self.buttonEditingProfile.snp.makeConstraints { make in
-            make.top.equalTo(self.statusTextField.snp.bottom).offset(18)
-            make.leading.equalTo(self.snp.leading).offset(16)
-            make.trailing.equalTo(self.snp.trailing).offset(-16)
+        buttonEditingProfile.snp.makeConstraints { make in
+            make.top.equalTo(buttonDetailedInformations.snp.bottom).offset(20)
+            make.leading.equalTo(snp.leading).offset(16)
+            make.trailing.equalTo(snp.trailing).offset(-16)
             make.height.equalTo(50)
         }
 
-        self.viewForAnimation.snp.makeConstraints { make in
+        viewForAnimation.snp.makeConstraints { make in
             make.width.equalTo(profileViewController.view.frame.width)
             make.height.equalTo(profileViewController.view.frame.height)
         }
 
-        self.buttonOffAnimation.snp.makeConstraints { make in
-            make.top.equalTo(self.viewForAnimation.snp.top).offset(14)
-            make.trailing.equalTo(self.viewForAnimation.snp.trailing).offset(-14)
+        buttonOffAnimation.snp.makeConstraints { make in
+            make.top.equalTo(viewForAnimation.snp.top).offset(14)
+            make.trailing.equalTo(viewForAnimation.snp.trailing).offset(-14)
             make.height.width.equalTo(40)
         }
 
-        self.buttonAddPost.snp.makeConstraints { make in
-            make.top.equalTo(self.buttonEditingProfile.snp.bottom).offset(14)
-            make.bottom.equalTo(self.snp.bottom).offset(-20)
-            make.centerX.equalTo(self.snp.centerX)
+        buttonAddPost.snp.makeConstraints { make in
+            make.top.equalTo(buttonEditingProfile.snp.bottom).offset(14)
+            make.bottom.equalTo(snp.bottom).offset(-20)
+            make.centerX.equalTo(snp.centerX)
             make.height.width.equalTo(35)
         }
     }
 
     private func basicAnimation() {
         print(avatarImageView.frame)
-        startAvatarPosition = self.avatarImageView.center
+        startAvatarPosition = avatarImageView.center
         let screenMain = UIScreen.main.bounds
         let scale = UIScreen.main.bounds.width / avatarImageView.frame.width
-        self.avatarImageView.layer.masksToBounds = false
-        self.avatarImageView.layer.borderWidth = 0
-        self.viewForAnimation.isHidden = false
-        self.buttonOffAnimation.isHidden = false
+        avatarImageView.layer.masksToBounds = false
+        avatarImageView.layer.borderWidth = 0
+        viewForAnimation.isHidden = false
+        buttonOffAnimation.isHidden = false
         print(scale)
 
         UIView.animate(withDuration: 0.5,
@@ -247,13 +253,6 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         basicAnimation()
     }
 
-
-    @objc private func statusTextChanged(_ TextField: UITextField) {
-        let statusTextField: UITextField = TextField
-        if let text = statusTextField.text  {
-            statusText = text
-        }
-    }
 
 
     @objc private func buttonOffAnimationTarget() {
@@ -279,6 +278,11 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
 }
 
 extension ProfileHeaderView: UITextFieldDelegate {
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+
+        currentUser?.status = textFieldStatus.text
+    }
 }
 
 

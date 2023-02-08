@@ -17,6 +17,7 @@ protocol ProfileViewControllerDelegate {
     func addNewPost()
     func showSettingViewController()
     func loadUserFromCoreData()
+    func showDetailedInformationsViewController()
 }
 
 protocol ProfileViewControllerOutput {
@@ -27,6 +28,9 @@ protocol ProfileViewControllerOutput {
 
 final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable, ProfileViewControllerDelegate {
 
+
+
+    internal var currentUser: ProfileCoreData?
 
     lazy var userService: UserServiceProtocol = {
 #if DEBUG
@@ -59,7 +63,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
     var output: ProfileViewControllerOutput?
 
-
+    private lazy var gestureRecognizerEndEditing = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerEndEditingAction))
 
     private lazy var tapGestureRecogniser: UITapGestureRecognizer = {
         var tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.actionTapGestureRecogniser(recogniser:)))
@@ -73,8 +77,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         return 3
     }()
 
-
-    var currentUser: User?
 
     private var posts: [ModelPost] = []
 
@@ -106,6 +108,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
         view.addSubview(tableView)
         view.addGestureRecognizer(tapGestureRecogniser)
+        tableView.addGestureRecognizer(gestureRecognizerEndEditing)
         setupConstraints()
     }
 
@@ -186,6 +189,11 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     }
 
 
+    func showDetailedInformationsViewController() {
+        present(DetailedInformationViewController(), animated: true)
+    }
+
+
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -195,7 +203,10 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         ])
     }
 
-    
+
+    @objc private func gestureRecognizerEndEditingAction() {
+        view.endEditing(true)
+    }
 
 
     @objc private func actionTapGestureRecogniser(recogniser: UITapGestureRecognizer) {

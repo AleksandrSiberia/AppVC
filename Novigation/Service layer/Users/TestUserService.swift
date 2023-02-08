@@ -12,6 +12,10 @@ import CoreData
 
 class TestUserService: UserServiceProtocol {
 
+
+
+
+
     var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
     init(coreDataCoordinator: CoreDataCoordinatorProtocol?) {

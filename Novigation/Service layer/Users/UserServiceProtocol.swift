@@ -14,11 +14,10 @@ protocol UserServiceProtocol {
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol? { get set }
 
-    func getUserByEmail(email: String, completionHandler: @escaping (User) -> Void )
+    func getUserByEmail(email: String, completionHandler: @escaping (ProfileCoreData) -> Void )
 
-    func checkTheLogin(_ login: String, password: String, loginInspector: LoginViewControllerDelegate, loginViewController: LoginViewController, completion: @escaping (User?) -> Void )
+    func checkTheLogin(_ login: String, password: String, loginInspector: LoginViewControllerDelegate, loginViewController: LoginViewController, completion: @escaping (ProfileCoreData?) -> Void )
 }
-
 
 
 
@@ -37,7 +36,7 @@ extension UserServiceProtocol {
                       "education": "ИГУ Высшее юридическое",
                       "career": "",
                       "interest": "Фитнесс, путешествия",
-                      "mobilePhone": "8(999)000-00-00",
+                      "mobilePhone": "8(999)111-11-11",
 
         ]
 
@@ -45,7 +44,7 @@ extension UserServiceProtocol {
     }
 
 
-    func getUserByEmail(email: String, completionHandler: @escaping (User) -> Void ) {
+    func getUserByEmail(email: String, completionHandler: @escaping (ProfileCoreData) -> Void ) {
 
         self.coreDataCoordinator?.getProfiles { profileCoreData in
 
@@ -65,21 +64,21 @@ extension UserServiceProtocol {
                 return
             }
 
-            let avatar = UIImage(named: currentProfile.avatar ?? "")
+//            let avatar = UIImage(named: currentProfile.avatar ?? "")
+//
+//            let fullName = (currentProfile.name ?? "") + " " + (currentProfile.surname ?? "")
+//
+//            let currentUser: User = User(fullName,
+//                                         userStatus: currentProfile.status ?? "",
+//                                         userImage: avatar!)
 
-            let fullName = (currentProfile.name ?? "") + " " + (currentProfile.surname ?? "")
-
-            let currentUser: User = User(fullName,
-                                         userStatus: currentProfile.status ?? "",
-                                         userImage: avatar!)
-
-            completionHandler(currentUser)
+            completionHandler(currentProfile)
         }
     }
 
 
 
-    func checkTheLogin(_ login: String, password: String, loginInspector: LoginViewControllerDelegate, loginViewController: LoginViewController, completion: @escaping (User?) -> Void ) {
+    func checkTheLogin(_ login: String, password: String, loginInspector: LoginViewControllerDelegate, loginViewController: LoginViewController, completion: @escaping (ProfileCoreData?) -> Void ) {
 
         loginInspector.checkCredentials(withEmail: login, password: password) {string in
 

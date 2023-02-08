@@ -98,6 +98,7 @@
 		8B8870EF299124640066884E /* CareerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870EE299124640066884E /* CareerViewController.swift */; };
 		8B8870F129923D0A0066884E /* InterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870F029923D0A0066884E /* InterestViewController.swift */; };
 		8B8870F5299245240066884E /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870F4299245240066884E /* ContactsViewController.swift */; };
+		8B8870F72993BE870066884E /* DetailedInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870F62993BE870066884E /* DetailedInformationViewController.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */; };
@@ -251,6 +252,7 @@
 		8B8870EE299124640066884E /* CareerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareerViewController.swift; sourceTree = "<group>"; };
 		8B8870F029923D0A0066884E /* InterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewController.swift; sourceTree = "<group>"; };
 		8B8870F4299245240066884E /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
+		8B8870F62993BE870066884E /* DetailedInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedInformationViewController.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -630,6 +632,7 @@
 				8B8870EE299124640066884E /* CareerViewController.swift */,
 				8B8870F029923D0A0066884E /* InterestViewController.swift */,
 				8B8870F4299245240066884E /* ContactsViewController.swift */,
+				8B8870F62993BE870066884E /* DetailedInformationViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -986,6 +989,7 @@
 				8B138F2628D87FDB00ACA1B9 /* FeedViewDelegate.swift in Sources */,
 				8B8870D6295DACC20066884E /* LocalNotificationsService.swift in Sources */,
 				8B8870E529864A9B0066884E /* StringExtension.swift in Sources */,
+				8B8870F72993BE870066884E /* DetailedInformationViewController.swift in Sources */,
 				8B8870E7298934250066884E /* SettingViewController.swift in Sources */,
 				8B35326D2859F47200704D08 /* PostCell.swift in Sources */,
 				8B975F5028D1FE8100CC47D9 /* ProfileCoordinator.swift in Sources */,

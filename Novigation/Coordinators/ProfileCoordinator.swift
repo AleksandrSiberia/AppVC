@@ -23,7 +23,7 @@ class ProfileCoordinator: AppCoordinatorProtocol {
     }
 
 
-    func start(user: User) -> Bool {
+    func start(user: ProfileCoreData) -> Bool {
 
         self.profileViewController.currentUser = user
         self.profileViewController.coreDataCoordinator = self.coreDataCoordinator
