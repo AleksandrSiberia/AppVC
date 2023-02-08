@@ -289,13 +289,13 @@ class MainInformationViewController: UIViewController {
 
         let navigationBarHeight = screenHeight - viewHeight
 
-        let scrollViewMaxY = textFieldHometown.frame.maxY + navigationBarHeight
+        let scrollViewElementsMaxY = textFieldHometown.frame.maxY + navigationBarHeight
 
         let keyboardMinY = viewHeight - keyboardHeight
 
-        if scrollViewMaxY > keyboardMinY {
+        if scrollViewElementsMaxY > keyboardMinY {
 
-            let contentOffset = scrollViewMaxY - keyboardMinY
+            let contentOffset = scrollViewElementsMaxY - keyboardMinY
 
             scrollView.contentOffset.y = contentOffset + 15
         }
