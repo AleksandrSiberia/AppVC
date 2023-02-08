@@ -27,7 +27,7 @@ extension UserServiceProtocol {
 
         let values = ["email": login,
                       "name": "Aleksandr",
-                      "status": "Test",
+                      "status": "учусь...",
                       "avatar": "avatar",
                       "surname": "Khmyrov",
                       "gender": "man",

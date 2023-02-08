@@ -33,14 +33,14 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
     }()
 
 
-    private lazy var topStack: UIStackView = {
-        var topStack: UIStackView = UIStackView()
-        topStack.axis = .vertical
-        topStack.spacing = 4
-        topStack.distribution = .fillEqually
-        topStack.translatesAutoresizingMaskIntoConstraints = false
-        return topStack
-    }()
+//    private lazy var fullNameLabel: UIStackView = {
+//        var topStack: UIStackView = UIStackView()
+//        topStack.axis = .vertical
+//        topStack.spacing = 4
+//        topStack.distribution = .fillEqually
+//        topStack.translatesAutoresizingMaskIntoConstraints = false
+//        return topStack
+//    }()
 
 
     private lazy var fullNameLabel: UILabel = {
@@ -105,11 +105,6 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
 
 
 
-//    private lazy var statusText: String = {
-//        return ""
-//    }()
-
-
     private var viewForAnimation: UIView = {
         var viewForAnimation = UIView()
         viewForAnimation.translatesAutoresizingMaskIntoConstraints = false
@@ -168,10 +163,10 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
 
 
     private func setupView() {
-        topStack.addArrangedSubview(fullNameLabel)
-        topStack.addArrangedSubview(textFieldStatus)
 
-        [topStack, buttonAddPost, buttonDetailedInformations, buttonEditingProfile,viewForAnimation, buttonOffAnimation, avatarImageView].forEach({ addSubview($0) })
+
+
+        [fullNameLabel, textFieldStatus, buttonAddPost, buttonDetailedInformations, buttonEditingProfile,viewForAnimation, buttonOffAnimation, avatarImageView].forEach({ addSubview($0) })
     }
 
 
@@ -187,21 +182,26 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
             make.width.height.equalTo(100)
         }
 
-        topStack.snp.makeConstraints { make in
-            make.top.equalTo(snp.top).offset(16)
+
+        fullNameLabel.snp.makeConstraints { make in
+            make.top.equalTo(avatarImageView.snp_topMargin)
             make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
-            make.trailing.equalTo(snp.trailing).offset(-16)
-            make.bottom.equalTo(avatarImageView.snp.bottom).offset(-18)
         }
 
+        textFieldStatus.snp.makeConstraints { make in
+            make.top.equalTo(fullNameLabel.snp_bottomMargin).offset(15)
+            make.leading.equalTo(fullNameLabel.snp.leading).offset(5)
+        }
+
+
         buttonDetailedInformations.snp.makeConstraints { make -> Void in
-            make.top.equalTo(topStack.snp.bottom)
+            make.bottom.equalTo(avatarImageView.snp.bottom)
             make.leading.equalTo(fullNameLabel.snp.leading)
             make.height.equalTo(20)
         }
 
         buttonEditingProfile.snp.makeConstraints { make in
-            make.top.equalTo(buttonDetailedInformations.snp.bottom).offset(20)
+            make.top.equalTo(avatarImageView.snp.bottom).offset(15)
             make.leading.equalTo(snp.leading).offset(16)
             make.trailing.equalTo(snp.trailing).offset(-16)
             make.height.equalTo(50)
