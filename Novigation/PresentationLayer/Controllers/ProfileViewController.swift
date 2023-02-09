@@ -29,8 +29,7 @@ protocol ProfileViewControllerOutput {
 final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable, ProfileViewControllerDelegate {
 
 
-
-    internal var currentUser: ProfileCoreData?
+    internal var currentProfile: ProfileCoreData?
 
     lazy var userService: UserServiceProtocol = {
 #if DEBUG
@@ -106,6 +105,8 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
+
         view.addSubview(tableView)
         view.addGestureRecognizer(tapGestureRecogniser)
         tableView.addGestureRecognizer(gestureRecognizerEndEditing)
@@ -152,7 +153,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         }
 
         userService.getUserByEmail(email: emailUser) { currentUser  in
-            self.currentUser = currentUser
+            self.currentProfile = currentUser
             self.tableView.reloadData()
         }
     }
@@ -190,16 +191,23 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
     func showDetailedInformationsViewController() {
-        present(DetailedInformationViewController(), animated: true)
+
+        let detailedInformationViewController = DetailedInformationViewController(currentProfile: currentProfile, coreData: coreDataCoordinator)
+
+        let navDetailedInformationViewController = UINavigationController(rootViewController: detailedInformationViewController)
+        present(navDetailedInformationViewController, animated: true)
     }
 
 
     private func setupConstraints() {
+
+        let safeAria = view.safeAreaLayoutGuide
+
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: safeAria.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeAria.bottomAnchor)
         ])
     }
 
@@ -305,8 +313,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
         if section == 0 {
             guard let profileHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "ProfileHeaderView") as? ProfileHeaderView else { return nil }
 
-            if currentUser != nil {
-                profileHeaderView.setupHeader(currentUser!, delegate: self)
+            if currentProfile != nil {
+                profileHeaderView.setupHeader(currentProfile!, delegate: self)
             }
             return profileHeaderView
         }

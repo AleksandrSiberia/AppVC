@@ -286,19 +286,18 @@ class LoginViewController: UIViewController {
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
-        self.view.addSubview(scrollView)
+        view.addSubview(scrollView)
 
+        scrollView.addSubview(imageVkView)
+        scrollView.addSubview(stackView)
+        stackView.addArrangedSubview(textFieldLogin)
+        stackView.addArrangedSubview(textFieldPassword)
+        stackView.addArrangedSubview(buttonCheckPassword)
+        stackView.addArrangedSubview(buttonLogin)
+        stackView.addArrangedSubview(buttonSignUp)
+        scrollView.addSubview(buttonBiometric)
 
-        self.scrollView.addSubview(imageVkView)
-        self.scrollView.addSubview(stackView)
-        self.stackView.addArrangedSubview(textFieldLogin)
-        self.stackView.addArrangedSubview(textFieldPassword)
-        self.stackView.addArrangedSubview(buttonCheckPassword)
-        self.stackView.addArrangedSubview(buttonLogin)
-        self.stackView.addArrangedSubview(buttonSignUp)
-        self.scrollView.addSubview(buttonBiometric)
-
-        self.textFieldPassword.addSubview(activityIndicator)
+        textFieldPassword.addSubview(activityIndicator)
 
         setupConstrains()
 
@@ -309,38 +308,38 @@ class LoginViewController: UIViewController {
 
     func setupConstrains() {
 
+        let safeAria = view.safeAreaLayoutGuide
+
         NSLayoutConstraint.activate(
             [
 
-                self.stackView.topAnchor.constraint(equalTo: self.imageVkView.bottomAnchor, constant: 70),
-                self.stackView.heightAnchor.constraint(equalToConstant: 230),
+                stackView.topAnchor.constraint(equalTo: imageVkView.bottomAnchor, constant: 70),
+                stackView.heightAnchor.constraint(equalToConstant: 230),
 
-                self.buttonLogin.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
-                self.buttonLogin.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+                buttonLogin.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 16),
+                buttonLogin.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -16),
 
-                self.imageVkView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant:  90),
-                self.imageVkView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
-                self.imageVkView.widthAnchor.constraint(equalToConstant: 100),
-                self.imageVkView.heightAnchor.constraint(equalToConstant: 100),
+                imageVkView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant:  90),
+                imageVkView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
+                imageVkView.widthAnchor.constraint(equalToConstant: 100),
+                imageVkView.heightAnchor.constraint(equalToConstant: 100),
 
-                self.textFieldLogin.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
-                self.textFieldLogin.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
+                textFieldLogin.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -16),
+                textFieldLogin.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 16),
 
-                self.activityIndicator.centerXAnchor.constraint(equalTo: self.textFieldPassword.centerXAnchor),
-                self.activityIndicator.centerYAnchor.constraint(equalTo: self.textFieldPassword.centerYAnchor),
+                activityIndicator.centerXAnchor.constraint(equalTo: textFieldPassword.centerXAnchor),
+                activityIndicator.centerYAnchor.constraint(equalTo: textFieldPassword.centerYAnchor),
 
+                scrollView.topAnchor.constraint(equalTo: safeAria.topAnchor),
+                scrollView.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor),
+                scrollView.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor),
+                scrollView.bottomAnchor.constraint(equalTo: safeAria.bottomAnchor),
 
-                self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-                self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-                self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-                self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-
-
-                self.buttonBiometric.topAnchor.constraint(equalTo: self.buttonSignUp.bottomAnchor, constant: 15),
-                self.buttonBiometric.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
-                self.buttonBiometric.widthAnchor.constraint(equalToConstant: 40),
-                self.buttonBiometric.heightAnchor.constraint(equalToConstant: 40),
-                self.buttonBiometric.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor),
+                buttonBiometric.topAnchor.constraint(equalTo: self.buttonSignUp.bottomAnchor, constant: 15),
+                buttonBiometric.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
+                buttonBiometric.widthAnchor.constraint(equalToConstant: 40),
+                buttonBiometric.heightAnchor.constraint(equalToConstant: 40),
+                buttonBiometric.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor),
             ])
 
     }
@@ -527,10 +526,10 @@ extension LoginViewController: CheckPasswordOutput {
     }
 
     func activityIndicatorOff() {
-        self.activityIndicator.stopAnimating()
-        self.buttonCheckPassword.isHidden = true
-        self.textFieldPassword.isSecureTextEntry = false
-        self.textFieldPassword.text = self.outputCheckPassword?.thisIsPassword
+        activityIndicator.stopAnimating()
+        buttonCheckPassword.isHidden = true
+        textFieldPassword.isSecureTextEntry = false
+        textFieldPassword.text = self.outputCheckPassword?.thisIsPassword
     }
 }
 

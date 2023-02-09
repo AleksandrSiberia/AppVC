@@ -42,5 +42,18 @@ final class CustomViews {
         textField.keyboardType = keyboardType
         return textField
     }
+
+
+    static func setupImageView(systemName: String) -> UIImageView {
+
+        let image = UIImage(systemName: systemName )?.withRenderingMode(.alwaysTemplate)
+
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = .systemGray
+
+        return imageView
+    }
+
 }
 

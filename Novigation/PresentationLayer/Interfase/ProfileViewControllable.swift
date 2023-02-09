@@ -10,6 +10,6 @@ import Foundation
 
 protocol ProfileViewControllable {
 
-    var currentUser: ProfileCoreData? { get set }
+    var currentProfile: ProfileCoreData? { get set }
     var coreDataCoordinator: CoreDataCoordinatorProtocol! { get set }
 }

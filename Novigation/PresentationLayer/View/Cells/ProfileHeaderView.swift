@@ -33,15 +33,6 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
     }()
 
 
-//    private lazy var fullNameLabel: UIStackView = {
-//        var topStack: UIStackView = UIStackView()
-//        topStack.axis = .vertical
-//        topStack.spacing = 4
-//        topStack.distribution = .fillEqually
-//        topStack.translatesAutoresizingMaskIntoConstraints = false
-//        return topStack
-//    }()
-
 
     private lazy var fullNameLabel: UILabel = {
         var titleLabel: UILabel = UILabel()
@@ -88,6 +79,7 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         }
         return editingProfileButton
     }()
+
 
 
     private lazy var buttonAddPost: UIButton = {
@@ -201,7 +193,7 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
         }
 
         buttonEditingProfile.snp.makeConstraints { make in
-            make.top.equalTo(avatarImageView.snp.bottom).offset(15)
+            make.top.equalTo(avatarImageView.snp.bottom).offset(22)
             make.leading.equalTo(snp.leading).offset(16)
             make.trailing.equalTo(snp.trailing).offset(-16)
             make.height.equalTo(50)

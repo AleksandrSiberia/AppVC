@@ -64,14 +64,9 @@ class SavedPostsViewController: UIViewController {
         self.navigationItem.rightBarButtonItems = [self.barButtonItemCancelSearch, self.barButtonItemSearch ]
         self.view.addSubview(self.tableView)
 
-        NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-    }
+        setupConstrains()
 
+    }
 
 
     override func viewWillAppear(_ animated: Bool) {
@@ -81,6 +76,18 @@ class SavedPostsViewController: UIViewController {
 
     }
 
+
+    func setupConstrains() {
+
+        let safeAria = view.safeAreaLayoutGuide
+
+        NSLayoutConstraint.activate([
+            self.tableView.topAnchor.constraint(equalTo: safeAria.topAnchor),
+            self.tableView.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor),
+            self.tableView.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: safeAria.bottomAnchor)
+        ])
+    }
 
 
     @objc private func actionBarButtonItemSearch() {
