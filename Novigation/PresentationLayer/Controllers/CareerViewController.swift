@@ -24,7 +24,7 @@ class CareerViewController: UIViewController {
     private lazy var labelCareer = UILabel.setupLabelBold(text: "labelCareer".allLocalizable )
 
 
-    private lazy var textViewCareer: UITextView = CustomViews.setupTextView(text: currentProfile?.career)
+    private lazy var textViewCareer = UITextView.setupTextView(text: currentProfile?.career)
 
 
     init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, delegate: ProfileViewControllerDelegate) {

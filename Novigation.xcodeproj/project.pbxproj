@@ -94,11 +94,14 @@
 		8B8870E7298934250066884E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870E6298934250066884E /* SettingViewController.swift */; };
 		8B8870E9298A741B0066884E /* MainInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870E8298A741B0066884E /* MainInformationViewController.swift */; };
 		8B8870EB2990FBE90066884E /* EducationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870EA2990FBE90066884E /* EducationViewController.swift */; };
-		8B8870ED299102220066884E /* CustomViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870EC299102220066884E /* CustomViews.swift */; };
 		8B8870EF299124640066884E /* CareerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870EE299124640066884E /* CareerViewController.swift */; };
 		8B8870F129923D0A0066884E /* InterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870F029923D0A0066884E /* InterestViewController.swift */; };
 		8B8870F5299245240066884E /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870F4299245240066884E /* ContactsViewController.swift */; };
 		8B8870F72993BE870066884E /* DetailedInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870F62993BE870066884E /* DetailedInformationViewController.swift */; };
+		8B8870F9299640EF0066884E /* ExtensionUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870F8299640EF0066884E /* ExtensionUILabel.swift */; };
+		8B8870FB2996415B0066884E /* ExtensionUIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870FA2996415B0066884E /* ExtensionUIImageView.swift */; };
+		8B8870FD2996428C0066884E /* ExtensionUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870FC2996428C0066884E /* ExtensionUITextView.swift */; };
+		8B8870FF299643730066884E /* ExtensionUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870FE299643730066884E /* ExtensionUITextField.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */; };
@@ -248,11 +251,14 @@
 		8B8870E6298934250066884E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		8B8870E8298A741B0066884E /* MainInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInformationViewController.swift; sourceTree = "<group>"; };
 		8B8870EA2990FBE90066884E /* EducationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EducationViewController.swift; sourceTree = "<group>"; };
-		8B8870EC299102220066884E /* CustomViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViews.swift; sourceTree = "<group>"; };
 		8B8870EE299124640066884E /* CareerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareerViewController.swift; sourceTree = "<group>"; };
 		8B8870F029923D0A0066884E /* InterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewController.swift; sourceTree = "<group>"; };
 		8B8870F4299245240066884E /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		8B8870F62993BE870066884E /* DetailedInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedInformationViewController.swift; sourceTree = "<group>"; };
+		8B8870F8299640EF0066884E /* ExtensionUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUILabel.swift; sourceTree = "<group>"; };
+		8B8870FA2996415B0066884E /* ExtensionUIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImageView.swift; sourceTree = "<group>"; };
+		8B8870FC2996428C0066884E /* ExtensionUITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITextView.swift; sourceTree = "<group>"; };
+		8B8870FE299643730066884E /* ExtensionUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITextField.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -607,7 +613,10 @@
 			children = (
 				8BED12DF28C8C01D006FF146 /* CustomButton.swift */,
 				8BED12E528CA1680006FF146 /* CheckWord.swift */,
-				8B8870EC299102220066884E /* CustomViews.swift */,
+				8B8870F8299640EF0066884E /* ExtensionUILabel.swift */,
+				8B8870FA2996415B0066884E /* ExtensionUIImageView.swift */,
+				8B8870FC2996428C0066884E /* ExtensionUITextView.swift */,
+				8B8870FE299643730066884E /* ExtensionUITextField.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -926,7 +935,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B695C5528BCEED9008F0414 /* TestUserService.swift in Sources */,
-				8B8870ED299102220066884E /* CustomViews.swift in Sources */,
 				8BED12CE28C5DBD5006FF146 /* LoginViewControllerDelegate.swift in Sources */,
 				8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */,
 				8B353271285DCE3A00704D08 /* PhotosTableViewCell.swift in Sources */,
@@ -935,8 +943,10 @@
 				8B975F4C28D1F02800CC47D9 /* LoginAssembly.swift in Sources */,
 				8B4749C428ED5FBD007DE402 /* VideoViewController.swift in Sources */,
 				8B8870E9298A741B0066884E /* MainInformationViewController.swift in Sources */,
+				8B8870FB2996415B0066884E /* ExtensionUIImageView.swift in Sources */,
 				8B138F3028D9E8C600ACA1B9 /* LoginViewModel.swift in Sources */,
 				8BED12E028C8C01D006FF146 /* CustomButton.swift in Sources */,
+				8B8870F9299640EF0066884E /* ExtensionUILabel.swift in Sources */,
 				8B77B9A029530E4E00A8D1A3 /* ProfileViewControllable.swift in Sources */,
 				8B138F2828D8890A00ACA1B9 /* FeedModel.swift in Sources */,
 				8B30DF29283A1CC6006763B9 /* AppDelegate.swift in Sources */,
@@ -952,6 +962,7 @@
 				8BEB523228DC356500482193 /* PhotosAssembly.swift in Sources */,
 				8B30E0312849EE7F006763B9 /* ProfileHeaderView.swift in Sources */,
 				8B975F4E28D1FE4400CC47D9 /* FeedCoordinator.swift in Sources */,
+				8B8870FD2996428C0066884E /* ExtensionUITextView.swift in Sources */,
 				8BF7CEB4294096C8001FD64C /* LoginViewController.swift in Sources */,
 				8B2D2CA3291429B80090498C /* SavedPostsViewController.swift in Sources */,
 				8B474A782910F19E007DE402 /* CoreDadaModel.xcdatamodeld in Sources */,
@@ -963,6 +974,7 @@
 				8B8870DD2984FACE0066884E /* AddNewPostViewController.swift in Sources */,
 				8B77B9B629570BE500A8D1A3 /* LocalAuthorizationService.swift in Sources */,
 				8B30E0052840E5BA006763B9 /* InfoViewController.swift in Sources */,
+				8B8870FF299643730066884E /* ExtensionUITextField.swift in Sources */,
 				8B14FABD28BC90A7006DE94A /* User.swift in Sources */,
 				8B8870F129923D0A0066884E /* InterestViewController.swift in Sources */,
 				8B77B9822950772100A8D1A3 /* NetworkMonitor.swift in Sources */,

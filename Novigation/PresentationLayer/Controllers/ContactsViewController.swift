@@ -23,7 +23,7 @@ class ContactsViewController: UIViewController {
     private lazy var labelMobilePhone = UILabel.setupLabelBold(text: "labelMobilePhone".allLocalizable )
 
 
-    private lazy var textFieldMobilePhone = CustomViews.setupTextField(text: currentProfile?.mobilePhone, keyboardType: .numberPad)
+    private lazy var textFieldMobilePhone = UITextField.setupTextField(text: currentProfile?.mobilePhone, keyboardType: .numberPad)
 
 
     init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, delegate: ProfileViewControllerDelegate) {

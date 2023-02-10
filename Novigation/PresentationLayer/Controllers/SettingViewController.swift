@@ -168,7 +168,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         var content = cell.defaultContentConfiguration()
 
         content.text = namesCells[indexPath.row]
-        content.image = UIImage(systemName: "chevron.right")
+        content.image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
+
+        cell.tintColor = .systemGray
 
         cell.contentConfiguration = content
 

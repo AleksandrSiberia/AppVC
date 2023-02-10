@@ -24,7 +24,7 @@ class EducationViewController: UIViewController {
     private lazy var labelEducations = UILabel.setupLabelBold(text: "labelEducations".allLocalizable )
 
 
-    private lazy var textViewEducations: UITextView = CustomViews.setupTextView(text: currentProfile?.education)
+    private lazy var textViewEducations = UITextView.setupTextView(text: currentProfile?.education)
 
 
     init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, delegate: ProfileViewControllerDelegate) {

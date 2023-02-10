@@ -23,7 +23,6 @@ class DetailedInformationViewController: UIViewController {
     }()
 
 
-
     private var imageViewCareer = UIImageView.setupImageView(systemName: "message")
     private lazy var labelCareer = UILabel.setupLabelRegular(text: currentProfile?.career ?? "")
 
@@ -62,7 +61,7 @@ class DetailedInformationViewController: UIViewController {
         navigationItem.title = "buttonDetailedInformations".allLocalizable
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
-        
+
     }
 
 

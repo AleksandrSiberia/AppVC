@@ -24,7 +24,7 @@ class InterestViewController: UIViewController {
     private lazy var labelInterest = UILabel.setupLabelBold(text: "labelInterest".allLocalizable )
 
 
-    private lazy var textViewInterest: UITextView = CustomViews.setupTextView(text: currentProfile?.interest )
+    private lazy var textViewInterest = UITextView.setupTextView(text: currentProfile?.interest )
 
 
     init(profile: ProfileCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, delegate: ProfileViewControllerDelegate) {

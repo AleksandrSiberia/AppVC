@@ -79,7 +79,7 @@ class AddNewPostViewController: UIViewController {
 
 
 
-    private lazy var textViewAddNewPost: UITextView = CustomViews.setupTextView(text: "textViewAddNewPost".allLocalizable)
+    private lazy var textViewAddNewPost = UITextView.setupTextView(text: "textViewAddNewPost".allLocalizable)
     
 
     private lazy var buttonAddPost: CustomButton = {
