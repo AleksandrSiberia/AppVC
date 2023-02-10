@@ -9,19 +9,50 @@ import Foundation
 import UIKit
 
 
+extension UILabel {
+
+    static func setupLabelRegular(text: String) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.numberOfLines = 0
+        return label
+    }
+
+
+    static func setupLabelBold(text: String) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        return label
+    }
+}
+
+
+extension UIImageView {
+
+    static func setupImageView(systemName: String) -> UIImageView {
+
+        let image = UIImage(systemName: systemName )?.withRenderingMode(.alwaysTemplate)
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+
+        imageView.tintColor = .systemGray
+
+        return imageView
+    }
+
+}
+
+
 final class CustomViews {
 
     private init() {
     }
 
-
-    static func setupLabel(text: String) -> UILabel {
-        let label = UILabel()
-        label.text = text
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        return label
-    }
 
 
     static func setupTextView(text: String?) -> UITextView  {
@@ -43,17 +74,6 @@ final class CustomViews {
         return textField
     }
 
-
-    static func setupImageView(systemName: String) -> UIImageView {
-
-        let image = UIImage(systemName: systemName )?.withRenderingMode(.alwaysTemplate)
-
-        let imageView = UIImageView(image: image)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.tintColor = .systemGray
-
-        return imageView
-    }
 
 }
 

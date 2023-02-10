@@ -21,7 +21,7 @@ class EducationViewController: UIViewController {
         return tapBarButton
     }()
 
-    private lazy var labelEducations = CustomViews.setupLabel(text: "labelEducations".allLocalizable )
+    private lazy var labelEducations = UILabel.setupLabelBold(text: "labelEducations".allLocalizable )
 
 
     private lazy var textViewEducations: UITextView = CustomViews.setupTextView(text: currentProfile?.education)

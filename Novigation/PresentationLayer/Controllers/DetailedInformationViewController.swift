@@ -16,7 +16,7 @@ class DetailedInformationViewController: UIViewController {
     private lazy var barButtonItemCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(barButtonItemCancelAction))
 
 
-    private var scrollView = {
+    private var scrollView: UIScrollView = {
         var scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -24,15 +24,21 @@ class DetailedInformationViewController: UIViewController {
 
 
 
-    private lazy var imageViewCareer = CustomViews.setupImageView(systemName: "message")
+    private var imageViewCareer = UIImageView.setupImageView(systemName: "message")
+    private lazy var labelCareer = UILabel.setupLabelRegular(text: currentProfile?.career ?? "")
 
-    private lazy var imageViewCity = CustomViews.setupImageView(systemName: "house")
+    private var imageViewCity = UIImageView.setupImageView(systemName: "house")
+    private lazy var labelCity = UILabel.setupLabelRegular(text: currentProfile?.hometown ?? "")
 
-    private lazy var imageViewEducations = CustomViews.setupImageView(systemName: "graduationcap.fill")
+    private var imageViewEducations = UIImageView.setupImageView(systemName: "graduationcap.fill")
+    private lazy var labelEducations = UILabel.setupLabelRegular(text: currentProfile?.education ?? "")
 
-    private lazy var imageViewContacts = CustomViews.setupImageView(systemName: "phone")
+    private var imageViewContacts = UIImageView.setupImageView(systemName: "phone")
+    private lazy var labelContacts = UILabel.setupLabelRegular(text: currentProfile?.mobilePhone ?? "")
 
-    private lazy var imageViewInterest = CustomViews.setupImageView(systemName: "basketball")
+    private var imageViewInterest = UIImageView.setupImageView(systemName: "basketball")
+    private lazy var labelInterest = UILabel.setupLabelRegular(text: currentProfile?.interest ?? "")
+
 
 
     init(currentProfile: ProfileCoreData?, coreData: CoreDataCoordinatorProtocol?) {
@@ -51,13 +57,12 @@ class DetailedInformationViewController: UIViewController {
 
         setupView()
 
-        navigationItem.rightBarButtonItem = barButtonItemCancel
+        navigationItem.leftBarButtonItem = barButtonItemCancel
 
         navigationItem.title = "buttonDetailedInformations".allLocalizable
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
-
-
+        
     }
 
 
@@ -66,46 +71,69 @@ class DetailedInformationViewController: UIViewController {
 
         view.addSubview(scrollView)
 
-        let arrayImageView = [imageViewCareer, imageViewCity, imageViewEducations, imageViewContacts, imageViewInterest]
+        let arrayImageView = [imageViewCareer,
+                              imageViewCity,
+                              imageViewEducations,
+                              imageViewContacts,
+                              imageViewInterest
+        ]
 
-        arrayImageView.forEach {
-            scrollView.addSubview($0)
-        }
+        let arrayLabel = [labelCareer,
+                          labelCity,
+                          labelEducations,
+                          labelContacts,
+                          labelInterest]
 
-        setupConstraints(arrayImageView: arrayImageView)
+        arrayImageView.forEach { scrollView.addSubview($0) }
+        arrayLabel.forEach { scrollView.addSubview($0)   }
+
+        setupConstraints(arrayImageView: arrayImageView, arrayLabel: arrayLabel)
     }
 
 
 
-    private func setupConstraints(arrayImageView: [UIImageView]) {
+    private func setupConstraints(arrayImageView: [UIImageView], arrayLabel: [UILabel]) {
 
         let safeAria = view.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: safeAria.topAnchor, constant: 15),
-            scrollView.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
-            scrollView.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
-            scrollView.bottomAnchor.constraint(equalTo: safeAria.bottomAnchor, constant: -15),
+            scrollView.topAnchor.constraint(equalTo: safeAria.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeAria.bottomAnchor),
         ])
+
+        guard arrayImageView.count == arrayLabel.count else {
+            print("‼️ arrayImageView.count != arrayLabel.count")
+            return
+        }
 
         for (index, imageView) in arrayImageView .enumerated() {
 
             NSLayoutConstraint.activate([
                 imageView.widthAnchor.constraint(equalToConstant: 30),
                 imageView.heightAnchor.constraint(equalToConstant: 30),
+                imageView.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 15),
+                imageView.centerYAnchor.constraint(equalTo: arrayLabel[index].centerYAnchor),
             ])
+        }
+
+        for (index, label) in arrayLabel .enumerated() {
 
             if index == 0 {
                 NSLayoutConstraint.activate([
-                    imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-                    imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor)
+
+                    label.topAnchor.constraint(equalTo: safeAria.topAnchor, constant: 15),
+                    label.leadingAnchor.constraint(equalTo: arrayImageView[0].trailingAnchor, constant: 10),
+                    label.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15),
                 ])
             }
 
             else {
                 NSLayoutConstraint.activate([
-                    imageView.topAnchor.constraint(equalTo: arrayImageView[index - 1].bottomAnchor, constant: 20.0),
-                    imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+                    label.topAnchor.constraint(equalTo: arrayLabel[index - 1].bottomAnchor, constant: 25),
+                    label.leadingAnchor.constraint(equalTo: arrayImageView[index].trailingAnchor, constant: 10),
+                    label.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor, constant: -15)
                 ])
             }
         }

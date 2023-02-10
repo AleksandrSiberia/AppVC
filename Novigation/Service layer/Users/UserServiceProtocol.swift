@@ -31,10 +31,10 @@ extension UserServiceProtocol {
                       "avatar": "avatar",
                       "surname": "Khmyrov",
                       "gender": "man",
-                      "birthday": "02.03.2012",
+                      "birthday": "02.03.2022",
                       "hometown": "Иркутск",
-                      "education": "ИГУ Высшее юридическое",
-                      "career": "",
+                      "education": "ИГУ Высшее юридическое, нутрицсолог, фитнесс инструктор",
+                      "career": "Автор уникальной системы тренировок и книги BOOKFINESS",
                       "interest": "Фитнесс, путешествия",
                       "mobilePhone": "8(999)111-11-11",
 

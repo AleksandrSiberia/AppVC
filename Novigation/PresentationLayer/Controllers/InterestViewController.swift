@@ -21,7 +21,7 @@ class InterestViewController: UIViewController {
         return tapBarButton
     }()
 
-    private lazy var labelInterest = CustomViews.setupLabel(text: "labelInterest".allLocalizable )
+    private lazy var labelInterest = UILabel.setupLabelBold(text: "labelInterest".allLocalizable )
 
 
     private lazy var textViewInterest: UITextView = CustomViews.setupTextView(text: currentProfile?.interest )

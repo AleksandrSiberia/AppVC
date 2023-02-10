@@ -20,7 +20,7 @@ class ContactsViewController: UIViewController {
         return tapBarButton
     }()
 
-    private lazy var labelMobilePhone = CustomViews.setupLabel(text: "labelMobilePhone".allLocalizable )
+    private lazy var labelMobilePhone = UILabel.setupLabelBold(text: "labelMobilePhone".allLocalizable )
 
 
     private lazy var textFieldMobilePhone = CustomViews.setupTextField(text: currentProfile?.mobilePhone, keyboardType: .numberPad)

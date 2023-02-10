@@ -21,7 +21,7 @@ class CareerViewController: UIViewController {
         return tapBarButton
     }()
 
-    private lazy var labelCareer = CustomViews.setupLabel(text: "labelCareer".allLocalizable )
+    private lazy var labelCareer = UILabel.setupLabelBold(text: "labelCareer".allLocalizable )
 
 
     private lazy var textViewCareer: UITextView = CustomViews.setupTextView(text: currentProfile?.career)

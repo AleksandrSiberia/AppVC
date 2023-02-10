@@ -39,15 +39,15 @@ class MainInformationViewController: UIViewController {
     }()
 
 
-    private lazy var labelName = CustomViews.setupLabel(text: "labelNameMainInformation".allLocalizable)
+    private lazy var labelName = UILabel.setupLabelBold(text: "labelNameMainInformation".allLocalizable)
 
     private lazy var textFieldName = setupTextField(text: currentProfile?.name)
 
-    private lazy var labelSurname = CustomViews.setupLabel(text: "labelSurnameMainInformation".allLocalizable)
+    private lazy var labelSurname = UILabel.setupLabelBold(text: "labelSurnameMainInformation".allLocalizable)
 
     private lazy var textFieldSurname = setupTextField(text: currentProfile?.surname)
 
-    private lazy var labelGender = CustomViews.setupLabel(text: "labelGenderMainInformation".allLocalizable)
+    private lazy var labelGender = UILabel.setupLabelBold(text: "labelGenderMainInformation".allLocalizable)
 
     private lazy var viewManGender = setupViewGender("man")
 
@@ -73,7 +73,7 @@ class MainInformationViewController: UIViewController {
         return labelWomanGender
     }()
 
-    private lazy var labelBirthday = CustomViews.setupLabel(text: "labelBirthday".allLocalizable)
+    private lazy var labelBirthday = UILabel.setupLabelBold(text: "labelBirthday".allLocalizable)
 
 
     private lazy var datePicker: UIDatePicker = {
@@ -85,7 +85,7 @@ class MainInformationViewController: UIViewController {
     }()
 
 
-    private lazy var labelHometown = CustomViews.setupLabel(text: "labelHometown".allLocalizable)
+    private lazy var labelHometown = UILabel.setupLabelBold(text: "labelHometown".allLocalizable)
 
 
     private lazy var textFieldHometown = setupTextField(text: currentProfile?.hometown)
