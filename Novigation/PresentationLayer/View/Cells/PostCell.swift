@@ -85,11 +85,7 @@ class PostCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-
-
         setupView()
-
-     //   self.addGestureRecognizer(self.tapGestureRecogniser)
 
     }
 
@@ -117,8 +113,18 @@ class PostCell: UITableViewCell {
     func savePost() -> String? {
 
         var errorSave: String?
+
+        let values: [String: String]  =  ["author": (authorLabel.text ?? ""),
+                                          "image": (nameImage ?? ""),
+                                          "text": (descriptionLabel.text ?? ""),
+                                          "likes": (likesLabel.text ?? ""),
+                                          "views": (viewsLabel.text ?? ""),
+                                          "nameForUrlFoto": (urlFoto ?? "") ]
+
         
-        self.coreDataCoordinator.appendPost(author: self.authorLabel.text, image: self.nameImage, likes: self.likesLabel.text, text: self.descriptionLabel.text, views: self.viewsLabel.text, folderName: "SavedPosts", nameForUrlFoto: self.urlFoto) { error in
+//        self.coreDataCoordinator.appendPost(author: self.authorLabel.text, image: self.nameImage, likes: self.likesLabel.text, text: self.descriptionLabel.text, views: self.viewsLabel.text, folderName: "SavedPosts", nameForUrlFoto: self.urlFoto)
+
+        coreDataCoordinator.appendPost(values: values, folderName: "SavedPosts") { error in
             errorSave = error
         }
         return errorSave
@@ -126,13 +132,12 @@ class PostCell: UITableViewCell {
 
 
 
-
     private func setupView() {
-        self.addSubview(authorLabel)
-        self.addSubview(postImageView)
-        self.addSubview(descriptionLabel)
-        self.addSubview(likesLabel)
-        self.addSubview(viewsLabel)
+        addSubview(authorLabel)
+        addSubview(postImageView)
+        addSubview(descriptionLabel)
+        addSubview(likesLabel)
+        addSubview(viewsLabel)
 
         NSLayoutConstraint.activate( [
             self.authorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
@@ -178,13 +183,13 @@ class PostCell: UITableViewCell {
         var filteredImage: UIImage?
 
 
-        if let nameFoto {
+        if let nameFoto, nameFoto != "" {
 
             guard let urlDocument else { return }
 
             let fileURL = "file://" + urlDocument + "/" + nameFoto
 
-            print("🎄", fileURL)
+            print("🎄", fileURL, "🍒", nameFoto)
 
 
 

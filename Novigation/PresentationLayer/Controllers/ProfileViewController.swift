@@ -168,11 +168,19 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
             for post in arrayModelPost {
 
-                self.coreDataCoordinator.appendPost(author: post.author, image: post.image, likes: String(post.likes), text: post.description, views: String(post.views), folderName: "AllPosts", nameForUrlFoto: nil) { _ in
-                }
+                let values: [String: String]  =  ["author": post.author,
+                                                  "image": post.image,
+                                                  "text": post.description,
+                                                  "likes": String(post.likes),
+                                                  "views": String(post.views),
+                                                  "nameForUrlFoto": "" ]
+
+                self.coreDataCoordinator.appendPost(values: values, folderName: "AllPosts") { _ in }
+
+//                self.coreDataCoordinator.appendPost(author: post.author, image: post.image, likes: String(post.likes), text: post.description, views: String(post.views), folderName: "AllPosts", nameForUrlFoto: nil) { _ in
+//                }
             }
         }
-
     }
 
 
@@ -285,6 +293,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
                 if posts.count >= indexPath.row + 1 {
 
                     let post = posts[indexPath.row ]
+
+                    print("🌹", post.image)
 
                     cell.setup(author: post.author, image: post.image, likes: post.likes, text: post.text, views: post.views, nameFoto: post.urlFoto, coreDataCoordinator: self.coreDataCoordinator)
                     return cell
@@ -430,8 +440,16 @@ extension ProfileViewController: UITableViewDropDelegate {
 
                     let nameFoto =  tuple.2
 
+                    let values: [String: String]  =  ["author": "Drag&Drop",
+                                                      "image": "",
+                                                      "text": UUID().uuidString,
+                                                      "likes": "0",
+                                                      "views": "0",
+                                                      "nameForUrlFoto": nameFoto ]
 
-                    self.coreDataCoordinator.appendPost(author: "Drag&Drop", image: nil, likes: "0", text: UUID().uuidString, views: "0", folderName: "AllPosts", nameForUrlFoto: nameFoto) { _ in }
+                    self.coreDataCoordinator.appendPost(values: values, folderName: "AllPosts") { _ in }
+
+//                    self.coreDataCoordinator.appendPost(author: "Drag&Drop", image: nil, likes: "0", text: UUID().uuidString, views: "0", folderName: "AllPosts", nameForUrlFoto: nameFoto) { _ in }
 
                     self.coreDataCoordinator.performFetchPostCoreData()
 

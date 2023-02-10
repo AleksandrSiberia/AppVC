@@ -155,25 +155,25 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    func appendPost(author: String?, image: String?, likes: String?, text: String?, views: String?, folderName: String, nameForUrlFoto: String?, completion: (String?) -> Void) {
-
+    func appendPost(values: [String: String], folderName: String, completion: (String?) -> Void) {
 
         for postInCoreData in (self.fetchedResultsControllerSavePostCoreData?.sections![0].objects) as! [PostCoreData] {
 
-            if postInCoreData.text == text {
+            if postInCoreData.text == values["text"] {
                 completion(NSLocalizedString("appendPost", tableName: "ProfileViewControllerLocalizable", comment: "This post has already been saved"))
                 return
             }
         }
 
 
+
         let post = PostCoreData(context: self.backgroundContext)
-        post.author = author
-        post.image = image
-        post.text = text
-        post.likes = likes
-        post.views = views
-        post.urlFoto = nameForUrlFoto
+        post.author = values["author"]
+        post.image = values["image"]
+        post.text = values["text"]
+        post.likes = values["likes"]
+        post.views = values["views"]
+        post.urlFoto = values["nameForUrlFoto"]
 
         let folder = self.getFolderByName(nameFolder: folderName)
 

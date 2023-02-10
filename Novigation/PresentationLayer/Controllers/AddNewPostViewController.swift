@@ -96,7 +96,17 @@ class AddNewPostViewController: UIViewController {
 
                     let imageURL = tuple.2
 
-                    self.coreDataCoordinator?.appendPost(author: "NewPost", image: nil, likes: "0", text: text, views: "0", folderName: "AllPosts", nameForUrlFoto: imageURL) {_ in}
+                    let values: [String: String]  =  ["author": "NewPost",
+                                                      "image": "",
+                                                      "text": text,
+                                                      "likes": "0",
+                                                      "views": "0",
+                                                      "nameForUrlFoto": imageURL ]
+
+//                    self.coreDataCoordinator?.appendPost(author: "NewPost", image: nil, likes: "0", text: text, views: "0", folderName: "AllPosts", nameForUrlFoto: imageURL)
+
+                    self.coreDataCoordinator?.appendPost(values: values, folderName: "AllPosts")
+                    {_ in}
 
                     self.coreDataCoordinator?.performFetchPostCoreData()
 
