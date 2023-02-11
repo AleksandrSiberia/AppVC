@@ -7,6 +7,7 @@
     </entity>
     <entity name="PostCoreData" representedClassName="PostCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="favourite" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="likes" optional="YES" attributeType="String"/>
         <attribute name="text" optional="YES" attributeType="String"/>

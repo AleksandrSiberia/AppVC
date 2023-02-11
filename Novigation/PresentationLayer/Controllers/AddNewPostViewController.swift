@@ -82,6 +82,7 @@ class AddNewPostViewController: UIViewController {
     private lazy var textViewAddNewPost = UITextView.setupTextView(text: "textViewAddNewPost".allLocalizable)
     
 
+    
     private lazy var buttonAddPost: CustomButton = {
         var buttonAddPost = CustomButton(title: "buttonAddPost".allLocalizable) {
 
@@ -103,7 +104,6 @@ class AddNewPostViewController: UIViewController {
                                                       "views": "0",
                                                       "nameForUrlFoto": imageURL ]
 
-//                    self.coreDataCoordinator?.appendPost(author: "NewPost", image: nil, likes: "0", text: text, views: "0", folderName: "AllPosts", nameForUrlFoto: imageURL)
 
                     self.coreDataCoordinator?.appendPost(values: values, folderName: "AllPosts")
                     {_ in}

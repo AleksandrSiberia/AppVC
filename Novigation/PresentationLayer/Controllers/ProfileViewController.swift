@@ -164,7 +164,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
         self.coreDataCoordinator.getPosts(nameFolder: "AllPosts")
 
-        if (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?.first?.objects?.isEmpty)! {
+        if let allPosts = coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?.first?.objects, allPosts.isEmpty {
 
             for post in arrayModelPost {
 
@@ -176,9 +176,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
                                                   "nameForUrlFoto": "" ]
 
                 self.coreDataCoordinator.appendPost(values: values, folderName: "AllPosts") { _ in }
-
-//                self.coreDataCoordinator.appendPost(author: post.author, image: post.image, likes: String(post.likes), text: post.description, views: String(post.views), folderName: "AllPosts", nameForUrlFoto: nil) { _ in
-//                }
             }
         }
     }
@@ -231,14 +228,16 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
             let tapLocation = recogniser.location(in: tableView)
             if let tapIndexPathTableView = tableView.indexPathForRow(at: tapLocation) {
                 if let tappedCell = tableView.cellForRow(at: tapIndexPathTableView) as? PostCell {
+                    
+                    var massage = tappedCell.savePost()
 
-                    var error = tappedCell.savePost()
+                    if massage == nil {
 
-                    if error == nil {
-                        error = NSLocalizedString("actionTapGestureRecogniser", tableName: "ProfileViewControllerLocalizable", comment: "post saved")
+                        massage = NSLocalizedString("actionTapGestureRecogniser", tableName: "ProfileViewControllerLocalizable", comment: "post saved")
                     }
 
-                    let alert = UIAlertController(title: error, message: nil, preferredStyle: .alert)
+
+                    let alert = UIAlertController(title: massage, message: nil, preferredStyle: .alert)
                     let action = UIAlertAction(title: "Ok", style: .cancel)
                     alert.addAction(action)
 
@@ -294,9 +293,9 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
                     let post = posts[indexPath.row ]
 
-                    print("🌹", post.image)
+                    cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator)
 
-                    cell.setup(author: post.author, image: post.image, likes: post.likes, text: post.text, views: post.views, nameFoto: post.urlFoto, coreDataCoordinator: self.coreDataCoordinator)
+
                     return cell
                 }
                 else {

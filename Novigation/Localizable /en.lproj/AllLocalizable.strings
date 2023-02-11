@@ -9,6 +9,7 @@
 "AddNewPostViewControllerTitle" = "Add new post";
 "buttonAddPostAlertSuccess" = "Post added";
 "buttonAddPostAlertFailed" = "Add a photo with text";
+"этот пост уже сохранён" = "this post has already been saved";
 
 "nameUser" = "Name";
 

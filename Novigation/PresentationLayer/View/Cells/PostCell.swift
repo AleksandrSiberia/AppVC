@@ -11,9 +11,11 @@ import iOSIntPackage
 class PostCell: UITableViewCell {
 
 
+    private var currentPost: PostCoreData?
+
     private var nameImage: String?
 
-    private var urlFoto: String?
+    private var nameForUrlFoto: String?
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
@@ -85,10 +87,15 @@ class PostCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        setupView()
+        addSubview(authorLabel)
+        addSubview(postImageView)
+        addSubview(descriptionLabel)
+        addSubview(likesLabel)
+        addSubview(viewsLabel)
+
+        setupConstrains()
 
     }
-
 
 
 
@@ -97,47 +104,33 @@ class PostCell: UITableViewCell {
     }
 
 
-
-
     override func layoutSubviews() {
         super.layoutSubviews()
         NSLayoutConstraint.activate([
-//            self.likesLabel.widthAnchor.constraint(equalToConstant: (self.frame.width / 2) - 16),
-//            self.viewsLabel.widthAnchor.constraint(equalToConstant: (self.frame.width / 2) - 16)
+
         ])
     }
 
 
-
-
     func savePost() -> String? {
 
-        var errorSave: String?
+//        var errorSave: String?
 
-        let values: [String: String]  =  ["author": (authorLabel.text ?? ""),
-                                          "image": (nameImage ?? ""),
-                                          "text": (descriptionLabel.text ?? ""),
-                                          "likes": (likesLabel.text ?? ""),
-                                          "views": (viewsLabel.text ?? ""),
-                                          "nameForUrlFoto": (urlFoto ?? "") ]
+        if currentPost?.favourite != "save" {
 
-        
-//        self.coreDataCoordinator.appendPost(author: self.authorLabel.text, image: self.nameImage, likes: self.likesLabel.text, text: self.descriptionLabel.text, views: self.viewsLabel.text, folderName: "SavedPosts", nameForUrlFoto: self.urlFoto)
-
-        coreDataCoordinator.appendPost(values: values, folderName: "SavedPosts") { error in
-            errorSave = error
+            currentPost?.favourite = "save"
+            coreDataCoordinator.savePersistentContainerContext()
+            return nil
         }
-        return errorSave
+
+        else {
+            return "этот пост уже сохранён" .allLocalizable
+        }
     }
 
 
 
-    private func setupView() {
-        addSubview(authorLabel)
-        addSubview(postImageView)
-        addSubview(descriptionLabel)
-        addSubview(likesLabel)
-        addSubview(viewsLabel)
+    private func setupConstrains() {
 
         NSLayoutConstraint.activate( [
             self.authorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
@@ -166,30 +159,36 @@ class PostCell: UITableViewCell {
 
 
     
-    func setup(author: String?, image: String?, likes: String?, text: String?, views: String?, nameFoto: String?, coreDataCoordinator: CoreDataCoordinatorProtocol) {
+    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol) {
+
+        guard let post else {
+            print("‼️ PostCoreData? == nil")
+            return
+        }
+
+        currentPost = post
 
         let urlDocument = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
 
+
         self.coreDataCoordinator = coreDataCoordinator
 
-        self.authorLabel.text = author
+        authorLabel.text = post.author
 
-        self.nameImage = image
+        nameImage = post.image
 
-        self.urlFoto = nameFoto
+        nameForUrlFoto = post.urlFoto
 
         let filter = ImageProcessor()
 
         var filteredImage: UIImage?
 
 
-        if let nameFoto, nameFoto != "" {
+        if let nameForUrlFoto, nameForUrlFoto != "" {
 
             guard let urlDocument else { return }
 
-            let fileURL = "file://" + urlDocument + "/" + nameFoto
-
-            print("🎄", fileURL, "🍒", nameFoto)
+            let fileURL = "file://" + urlDocument + "/" + nameForUrlFoto
 
 
 
@@ -223,7 +222,7 @@ class PostCell: UITableViewCell {
 
         else {
 
-            guard let image = UIImage(named: image ?? "") else {
+            guard let image = UIImage(named: post.image ?? "") else {
                 print("‼️ image = UIImage(named: image ?? ) == nil")
                 return
             }
@@ -235,19 +234,19 @@ class PostCell: UITableViewCell {
 
         
         let localized = NSLocalizedString("LocalizedLike", tableName: "LocalizableDict", comment: "")
-        let likeValue = Int(likes ?? "") ?? 0
+        let likeValue = Int(post.likes ?? "") ?? 0
         let formatLocalized = String(format: localized, likeValue)
 
-        self.postImageView.image = filteredImage
-        self.descriptionLabel.text = text
+        postImageView.image = filteredImage
+        descriptionLabel.text = post.text
         
-        self.likesLabel.text = formatLocalized
+        likesLabel.text = formatLocalized
 
         let localizedViews = NSLocalizedString("LocalizedView", tableName: "LocalizableDict", comment: "")
-        let viewsValue = Int(views ?? "") ?? 0
+        let viewsValue = Int(post.views ?? "") ?? 0
         let formatLocalizedViews = String(format: localizedViews, viewsValue)
 
-        self.viewsLabel.text = formatLocalizedViews
+        viewsLabel.text = formatLocalizedViews
             }
 }
 

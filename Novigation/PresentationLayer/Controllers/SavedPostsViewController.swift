@@ -106,7 +106,7 @@ class SavedPostsViewController: UIViewController {
 
             if self.textFieldSearchAuthor?.text != "" {
 
-                self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.fetchRequest.predicate = NSPredicate(format: "author contains[c] %@", self.textFieldSearchAuthor!.text!)
+                self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.fetchRequest.predicate = NSPredicate(format: "author contains[c] %@", self.textFieldSearchAuthor?.text ?? "")
 
                 self.coreDataCoordinator.performFetchPostCoreData()
 
@@ -126,9 +126,8 @@ class SavedPostsViewController: UIViewController {
 
     @objc private func actionBarButtonItemCancelSearch() {
 
-        let folder = self.coreDataCoordinator.getFolderByName(nameFolder: "SavedPosts")
 
-        self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.fetchRequest.predicate = NSPredicate(format: "relationFolder contains %@", folder!)
+        self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.fetchRequest.predicate = NSPredicate(format: "favourite = %@", "save")
 
         self.coreDataCoordinator.performFetchPostCoreData()
 
@@ -145,6 +144,7 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
+        print("🌵", self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.sections?[0].numberOfObjects ?? 0)
         return self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.sections?[0].numberOfObjects ?? 0
     }
 
@@ -160,11 +160,10 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
         }
         cell.selectionStyle = .none
 
-
         let postCoreData = self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.object(at: indexPath)
 
+        cell.setupCell(post: postCoreData, coreDataCoordinator: coreDataCoordinator)
 
-        cell.setup(author: postCoreData?.author, image: postCoreData?.image, likes: postCoreData?.likes, text: postCoreData?.text, views: postCoreData?.views, nameFoto: postCoreData?.urlFoto, coreDataCoordinator: self.coreDataCoordinator)
         return cell
         
     }
@@ -183,12 +182,16 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
         let action = UIContextualAction(style: .destructive, title: NSLocalizedString("tableViewAction", tableName: "SavedPostsViewControllerLocalizable", comment: "Удалить из сохраненного") ) { [weak self] (uiContextualAction, uiView, completionHandler) in
 
 
-
-            let post = self!.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.object(at: indexPath)
+            let post = self?.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.object(at: indexPath)
 
             if let post {
-                self!.coreDataCoordinator.deletePost(post: post)
-                
+
+                post.favourite = nil
+
+                self?.coreDataCoordinator.savePersistentContainerContext()
+
+                self?.tableView.reloadData()
+
                 completionHandler(true)
             }
         }
