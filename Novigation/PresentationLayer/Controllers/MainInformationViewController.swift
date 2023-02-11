@@ -19,6 +19,8 @@ class MainInformationViewController: UIViewController {
 
     private var delegate: ProfileViewControllerDelegate
 
+    private lazy var userPosts = coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?.first?.objects as? [PostCoreData]
+
 
     private lazy var gestureRecognizerEndEditingInScrollView = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerEndEditingInScrollViewAction))
 
@@ -318,6 +320,13 @@ class MainInformationViewController: UIViewController {
 
         if self.viewWomanGender.backgroundColor == UIColor(named: "MyColorSet") {
             currentProfile?.gender = "woman"
+        }
+
+        if let userPosts {
+            for post in userPosts {
+                post.author = textFieldName.text
+                post.surname = textFieldSurname.text
+            }
         }
 
         currentProfile?.name = textFieldName.text

@@ -49,10 +49,18 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         request.sortDescriptors = [NSSortDescriptor(key: "author", ascending: true)]
 
+        guard let folder = getFolderByName(nameFolder: KeychainSwift().get("userOnline")) else {
+            print("getFolderByName(nameFolder: KeychainSwift().get(userOnline) == nil" )
+            return nil
+        }
+
+        request.predicate = NSPredicate(format: "relationFolder == %@", folder)
+
         let fetchResultController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.backgroundContext, sectionNameKeyPath: nil, cacheName: nil)
 
         return fetchResultController
     }()
+
 
 
 
@@ -61,6 +69,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         let request = PostCoreData.fetchRequest()
 
         request.sortDescriptors = [ NSSortDescriptor(key: "author", ascending: true) ]
+
 
         request.predicate = NSPredicate(format: "favourite == %@", "save")
 
@@ -74,13 +83,13 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
     init() {
 
         guard let userFolder = KeychainSwift().get("userOnline") else {
-           print("‼️ KeychainSwift().get(userOnline) == nil")
+            print("‼️ KeychainSwift().get(userOnline) == nil")
             return
         }
 
-        if self.getFolderByName(nameFolder: userFolder) == nil {
-                    self.appendFolder(name: userFolder)
-               }
+        if getFolderByName(nameFolder: userFolder) == nil {
+            appendFolder(name: userFolder)
+        }
     }
 
 
