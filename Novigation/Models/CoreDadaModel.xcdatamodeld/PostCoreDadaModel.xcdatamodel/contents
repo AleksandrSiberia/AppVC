@@ -10,6 +10,7 @@
         <attribute name="favourite" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="likes" optional="YES" attributeType="String"/>
+        <attribute name="surname" optional="YES" attributeType="String"/>
         <attribute name="text" optional="YES" attributeType="String"/>
         <attribute name="urlFoto" optional="YES" attributeType="String"/>
         <attribute name="views" optional="YES" attributeType="String"/>

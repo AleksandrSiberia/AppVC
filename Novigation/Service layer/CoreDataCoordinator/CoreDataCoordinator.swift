@@ -71,17 +71,26 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-
     init() {
 
-        if self.getFolderByName(nameFolder: "AllPosts") == nil {
-                    self.appendFolder(name: "AllPosts")
-                }
+        guard let userFolder = KeychainSwift().get("userOnline") else {
+           print("‼️ KeychainSwift().get(userOnline) == nil")
+            return
+        }
+
+        if self.getFolderByName(nameFolder: userFolder) == nil {
+                    self.appendFolder(name: userFolder)
+               }
     }
 
 
 
-    func getPosts(nameFolder: String) {
+    func getPosts(nameFolder: String?) {
+
+        guard let nameFolder else {
+            print("‼️ nameFolder KeyChain == nil")
+            return
+        }
 
         guard let folder = getFolderByName(nameFolder: nameFolder) else {
             print(" ‼️ getFolderByName(nameFolder: \(nameFolder) == nil " )
@@ -136,7 +145,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    func appendFolder(name: String) {
+    func appendFolder(name: String?) {
 
         let folder = FoldersCoreData(context: self.backgroundContext
         )
@@ -147,7 +156,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    func appendPost(values: [String: String], folderName: String, completion: (String?) -> Void) {
+    func appendPost(values: [String: String], folderName: String?, completion: (String?) -> Void) {
 
         for postInCoreData in (self.fetchedResultsControllerSavePostCoreData?.sections![0].objects) as! [PostCoreData] {
 
@@ -160,15 +169,23 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         let post = PostCoreData(context: self.backgroundContext)
         post.author = values["author"]
+        post.surname = values["surname"]
         post.image = values["image"]
         post.text = values["text"]
         post.likes = values["likes"]
         post.views = values["views"]
         post.urlFoto = values["nameForUrlFoto"]
 
-        let folder = self.getFolderByName(nameFolder: folderName)
+        guard let folderName else {
+            print("‼️ folderName == nil")
+            return }
 
-        post.addToRelationFolder(folder!)
+        guard let folder = self.getFolderByName(nameFolder: folderName) else {
+            print("‼️ getFolderByName(nameFolder: folderName) == nil")
+            return
+        }
+
+        post.addToRelationFolder(folder)
 
         self.savePersistentContainerContext()
         self.performFetchPostCoreData()
@@ -278,7 +295,12 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
     }
 
 
-    func getFolderByName(nameFolder: String) -> FoldersCoreData? {
+    func getFolderByName(nameFolder: String?) -> FoldersCoreData? {
+
+        guard let nameFolder else {
+            print("‼️ nameFolder == nil ")
+            return nil
+        }
 
         let request = FoldersCoreData.fetchRequest()
 

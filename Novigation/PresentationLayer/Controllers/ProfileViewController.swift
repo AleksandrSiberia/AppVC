@@ -119,7 +119,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         super.viewWillAppear(animated)
 
         loadUserFromCoreData()
-        loadPostsFromCoreData()
+        loadDefaultPostsFromCoreData()
 
         navigationController?.navigationBar.isHidden = true
 
@@ -160,22 +160,25 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
 
-    private func loadPostsFromCoreData() {
+    private func loadDefaultPostsFromCoreData() {
 
-        self.coreDataCoordinator.getPosts(nameFolder: "AllPosts")
+        self.coreDataCoordinator.getPosts(nameFolder: KeychainSwift().get("userOnline") )
 
         if let allPosts = coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?.first?.objects, allPosts.isEmpty {
 
             for post in arrayModelPost {
 
-                let values: [String: String]  =  ["author": post.author,
+
+                let values: [String: String]  =  ["author":  currentProfile?.name ?? "User",
+                                                  "surname": currentProfile?.surname ?? "Test",
                                                   "image": post.image,
                                                   "text": post.description,
                                                   "likes": String(post.likes),
                                                   "views": String(post.views),
                                                   "nameForUrlFoto": "" ]
 
-                self.coreDataCoordinator.appendPost(values: values, folderName: "AllPosts") { _ in }
+
+                self.coreDataCoordinator.appendPost(values: values, folderName: KeychainSwift().get("userOnline")) { _ in }
             }
         }
     }

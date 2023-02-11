@@ -16,17 +16,17 @@ protocol CoreDataCoordinatorProtocol {
 
     var fetchedResultsControllerSavePostCoreData: NSFetchedResultsController<PostCoreData>? { get set }
 
-    func getPosts(nameFolder: String)
+    func getPosts(nameFolder: String?)
 
     func performFetchPostCoreData()
 
     func savePersistentContainerContext()
 
-    func appendFolder(name: String)
+    func appendFolder(name: String?)
 
-    func appendPost(values: [String: String], folderName: String, completion: (String?) -> Void)
+    func appendPost(values: [String: String], folderName: String?, completion: (String?) -> Void)
 
-    func getFolderByName(nameFolder: String) -> FoldersCoreData?
+    func getFolderByName(nameFolder: String?) -> FoldersCoreData?
 
     func getAllFolders() -> [FoldersCoreData]?
 

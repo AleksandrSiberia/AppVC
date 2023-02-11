@@ -114,8 +114,6 @@ class PostCell: UITableViewCell {
 
     func savePost() -> String? {
 
-//        var errorSave: String?
-
         if currentPost?.favourite != "save" {
 
             currentPost?.favourite = "save"
@@ -133,26 +131,25 @@ class PostCell: UITableViewCell {
     private func setupConstrains() {
 
         NSLayoutConstraint.activate( [
-            self.authorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-            self.authorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
-            self.authorLabel.bottomAnchor.constraint(equalTo: self.postImageView.topAnchor, constant: -12),
+            authorLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            authorLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            authorLabel.bottomAnchor.constraint(equalTo: postImageView.topAnchor, constant: -12),
+
+            postImageView.widthAnchor.constraint(equalTo: widthAnchor),
+            postImageView.heightAnchor.constraint(equalTo: widthAnchor),
+            postImageView.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -16),
 
 
-            self.postImageView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            self.postImageView.heightAnchor.constraint(equalTo: self.widthAnchor),
-            self.postImageView.bottomAnchor.constraint(equalTo: self.descriptionLabel.topAnchor, constant: -16),
+            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            descriptionLabel.bottomAnchor.constraint(equalTo: likesLabel.topAnchor, constant: -16),
+            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
 
+            likesLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            likesLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
 
-            self.descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            self.descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            self.descriptionLabel.bottomAnchor.constraint(equalTo: self.likesLabel.topAnchor, constant: -16),
-            self.descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-
-            self.likesLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            self.likesLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
-
-            self.viewsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            self.viewsLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
+            viewsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            viewsLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
         ])
     }
 
@@ -173,7 +170,7 @@ class PostCell: UITableViewCell {
 
         self.coreDataCoordinator = coreDataCoordinator
 
-        authorLabel.text = post.author
+        authorLabel.text = (post.author ?? "") + " " + (post.surname ?? "")
 
         nameImage = post.image
 
@@ -206,13 +203,10 @@ class PostCell: UITableViewCell {
                     return
                 }
 
-                print("🏓", image, url)
 
                 filter.processImage(sourceImage: image, filter: ColorFilter.noir) { outputImage in
                     filteredImage = outputImage
                 }
-
-
             }
             catch {
                 print(error.localizedDescription)
