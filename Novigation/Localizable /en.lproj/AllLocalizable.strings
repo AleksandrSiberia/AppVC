@@ -10,6 +10,7 @@
 "buttonAddPostAlertSuccess" = "Post added";
 "buttonAddPostAlertFailed" = "Add a photo with text";
 "этот пост уже сохранён" = "this post has already been saved";
+"Сохранить в избранное" = "Save to Favorites";
 
 "nameUser" = "Name";
 

@@ -102,6 +102,7 @@
 		8B8870FB2996415B0066884E /* ExtensionUIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870FA2996415B0066884E /* ExtensionUIImageView.swift */; };
 		8B8870FD2996428C0066884E /* ExtensionUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870FC2996428C0066884E /* ExtensionUITextView.swift */; };
 		8B8870FF299643730066884E /* ExtensionUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870FE299643730066884E /* ExtensionUITextField.swift */; };
+		8B8871012998D2C10066884E /* ViewEditPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8871002998D2C10066884E /* ViewEditPost.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */; };
@@ -259,6 +260,7 @@
 		8B8870FA2996415B0066884E /* ExtensionUIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImageView.swift; sourceTree = "<group>"; };
 		8B8870FC2996428C0066884E /* ExtensionUITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITextView.swift; sourceTree = "<group>"; };
 		8B8870FE299643730066884E /* ExtensionUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITextField.swift; sourceTree = "<group>"; };
+		8B8871002998D2C10066884E /* ViewEditPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewEditPost.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -617,6 +619,7 @@
 				8B8870FA2996415B0066884E /* ExtensionUIImageView.swift */,
 				8B8870FC2996428C0066884E /* ExtensionUITextView.swift */,
 				8B8870FE299643730066884E /* ExtensionUITextField.swift */,
+				8B8871002998D2C10066884E /* ViewEditPost.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -965,6 +968,7 @@
 				8B8870FD2996428C0066884E /* ExtensionUITextView.swift in Sources */,
 				8BF7CEB4294096C8001FD64C /* LoginViewController.swift in Sources */,
 				8B2D2CA3291429B80090498C /* SavedPostsViewController.swift in Sources */,
+				8B8871012998D2C10066884E /* ViewEditPost.swift in Sources */,
 				8B474A782910F19E007DE402 /* CoreDadaModel.xcdatamodeld in Sources */,
 				8B4749D928F82A9F007DE402 /* InfoTableViewCell.swift in Sources */,
 				8B975F4328D1B58600CC47D9 /* FeedViewControllerDelegate.swift in Sources */,

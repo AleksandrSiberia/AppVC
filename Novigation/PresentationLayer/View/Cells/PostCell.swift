@@ -19,17 +19,54 @@ class PostCell: UITableViewCell {
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
+
+
+    private var viewEditPost: ViewEditPost = {
+
+        var viewEditPost = ViewEditPost()
+        viewEditPost.isHidden = true
+        viewEditPost.translatesAutoresizingMaskIntoConstraints = false
+        viewEditPost.layer.cornerRadius = 15
+        viewEditPost.clipsToBounds = true
+
+        return viewEditPost
+    }()
+
+
     private lazy var authorLabel: UILabel = {
         var authorLabel = UILabel()
 
         authorLabel.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .systemGray6)
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
-        authorLabel.numberOfLines = 2
+        authorLabel.numberOfLines = 0
         authorLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         authorLabel.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
         return authorLabel
     }()
 
+
+    private lazy var buttonEditPost: UIButton = {
+
+        let action = UIAction() { _ in
+            if self.viewEditPost.isHidden == true {
+                self.viewEditPost.isHidden = false
+            }
+            else {
+                self.viewEditPost.isHidden = true
+            }
+        }
+
+        let buttonEditPost = UIButton(frame: CGRect(), primaryAction: action)
+
+        let imageConfigurations = UIImage.SymbolConfiguration(scale: .large)
+        let image = UIImage(systemName: "ellipsis", withConfiguration: imageConfigurations)
+        buttonEditPost.setImage(image, for: .normal)
+        buttonEditPost.tintColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
+
+        buttonEditPost.contentMode = .scaleAspectFit
+        buttonEditPost.translatesAutoresizingMaskIntoConstraints = false
+        return buttonEditPost
+    }()
 
 
 
@@ -87,12 +124,8 @@ class PostCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        addSubview(authorLabel)
-        addSubview(postImageView)
-        addSubview(descriptionLabel)
-        addSubview(likesLabel)
-        addSubview(viewsLabel)
 
+        setupViews()
         setupConstrains()
 
     }
@@ -104,10 +137,46 @@ class PostCell: UITableViewCell {
     }
 
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        NSLayoutConstraint.activate([
 
+    func setupViews() {
+
+        [authorLabel, buttonEditPost, postImageView, descriptionLabel, likesLabel, viewsLabel, viewEditPost].forEach {
+            contentView.addSubview($0)
+        }
+    }
+
+
+    private func setupConstrains() {
+
+
+        NSLayoutConstraint.activate( [
+
+            viewEditPost.topAnchor.constraint(equalTo: buttonEditPost.bottomAnchor),
+            viewEditPost.trailingAnchor.constraint(equalTo: buttonEditPost.leadingAnchor),
+            viewEditPost.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 70),
+            viewEditPost.heightAnchor.constraint(equalToConstant: 300),
+
+            authorLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            authorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            authorLabel.bottomAnchor.constraint(equalTo: postImageView.topAnchor, constant: -12),
+
+            buttonEditPost.centerYAnchor.constraint(equalTo: authorLabel.centerYAnchor),
+            buttonEditPost.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22),
+
+            postImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            postImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor),
+            postImageView.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -16),
+
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            descriptionLabel.bottomAnchor.constraint(equalTo: likesLabel.topAnchor, constant: -16),
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+
+            likesLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            likesLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+
+            viewsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            viewsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
         ])
     }
 
@@ -115,44 +184,14 @@ class PostCell: UITableViewCell {
     func savePost() -> String? {
 
         if currentPost?.favourite != "save" {
-
             currentPost?.favourite = "save"
             coreDataCoordinator.savePersistentContainerContext()
             return nil
         }
-
         else {
             return "этот пост уже сохранён" .allLocalizable
         }
     }
-
-
-
-    private func setupConstrains() {
-
-        NSLayoutConstraint.activate( [
-            authorLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            authorLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            authorLabel.bottomAnchor.constraint(equalTo: postImageView.topAnchor, constant: -12),
-
-            postImageView.widthAnchor.constraint(equalTo: widthAnchor),
-            postImageView.heightAnchor.constraint(equalTo: widthAnchor),
-            postImageView.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -16),
-
-
-            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            descriptionLabel.bottomAnchor.constraint(equalTo: likesLabel.topAnchor, constant: -16),
-            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-
-            likesLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            likesLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
-
-            viewsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            viewsLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
-        ])
-    }
-
 
 
     
