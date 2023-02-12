@@ -108,7 +108,7 @@ class AddNewPostViewController: UIViewController {
                     self.coreDataCoordinator?.appendPost(values: values, folderName: "AllPosts")
                     {_ in}
 
-                    self.coreDataCoordinator?.performFetchPostCoreData()
+                    self.coreDataCoordinator?.performFetchAllPostCoreData()
 
                     self.alert(alertMassage: "buttonAddPostAlertSuccess".allLocalizable, handler: { self.dismiss(animated: true) })
                 })

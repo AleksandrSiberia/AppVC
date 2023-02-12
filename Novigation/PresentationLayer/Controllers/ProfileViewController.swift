@@ -62,7 +62,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
     var output: ProfileViewControllerOutput?
 
-    private lazy var gestureRecognizerEndEditing = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerEndEditingAction))
 
     private lazy var tapGestureRecogniser: UITapGestureRecognizer = {
         var tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.actionTapGestureRecogniser(recogniser:)))
@@ -109,7 +108,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
         view.addSubview(tableView)
         view.addGestureRecognizer(tapGestureRecogniser)
-        tableView.addGestureRecognizer(gestureRecognizerEndEditing)
         setupConstraints()
     }
 
@@ -219,10 +217,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         ])
     }
 
-
-    @objc private func gestureRecognizerEndEditingAction() {
-        view.endEditing(true)
-    }
 
 
     @objc private func actionTapGestureRecogniser(recogniser: UITapGestureRecognizer) {
@@ -451,9 +445,8 @@ extension ProfileViewController: UITableViewDropDelegate {
 
                     self.coreDataCoordinator.appendPost(values: values, folderName: "AllPosts") { _ in }
 
-//                    self.coreDataCoordinator.appendPost(author: "Drag&Drop", image: nil, likes: "0", text: UUID().uuidString, views: "0", folderName: "AllPosts", nameForUrlFoto: nameFoto) { _ in }
 
-                    self.coreDataCoordinator.performFetchPostCoreData()
+                    self.coreDataCoordinator.performFetchAllPostCoreData()
 
                 }
             }

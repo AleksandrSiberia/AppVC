@@ -72,7 +72,7 @@ class SavedPostsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.coreDataCoordinator.performFetchPostCoreData()
+        self.coreDataCoordinator.performFetchSavePostCoreData()
 
     }
 
@@ -108,7 +108,7 @@ class SavedPostsViewController: UIViewController {
 
                 self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.fetchRequest.predicate = NSPredicate(format: "author contains[c] %@", self.textFieldSearchAuthor?.text ?? "")
 
-                self.coreDataCoordinator.performFetchPostCoreData()
+                self.coreDataCoordinator.performFetchSavePostCoreData()
 
                 self.tableView.reloadData()
             }
@@ -129,7 +129,7 @@ class SavedPostsViewController: UIViewController {
 
         self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.fetchRequest.predicate = NSPredicate(format: "favourite = %@", "save")
 
-        self.coreDataCoordinator.performFetchPostCoreData()
+        self.coreDataCoordinator.performFetchSavePostCoreData()
 
         self.tableView.reloadData()
     }

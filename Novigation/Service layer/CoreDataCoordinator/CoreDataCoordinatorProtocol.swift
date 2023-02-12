@@ -18,7 +18,9 @@ protocol CoreDataCoordinatorProtocol {
 
     func getPosts(nameFolder: String?)
 
-    func performFetchPostCoreData()
+    func performFetchAllPostCoreData()
+
+    func performFetchSavePostCoreData()
 
     func savePersistentContainerContext()
 

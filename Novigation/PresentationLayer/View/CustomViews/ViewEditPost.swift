@@ -11,8 +11,24 @@ import UIKit
 
 class ViewEditPost: UIView {
 
-    private var arrayNamesCell = ["Сохранить в избранное".allLocalizable]
-    private var arrayImageCell = [""]
+    var currentPost: PostCoreData? {
+
+        willSet {
+            tableView.reloadData()
+            print("🪀 willSet")
+        }
+    }
+
+    var coreDataCoordinator: CoreDataCoordinatorProtocol?
+
+
+    private var arrayNamesCell = ["Сохранить в избранное".allLocalizable,
+                                  "Редактировать текст".allLocalizable,
+    ]
+    private var arrayImageCell = ["bookmark",
+                                  "pencil.line",
+
+    ]
 
     private lazy var tableView: UITableView = {
 
@@ -26,17 +42,20 @@ class ViewEditPost: UIView {
         return tableView
     }()
 
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         addSubview(tableView)
-
         setupConstrains()
+
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    
 
 
     func setupConstrains() {
@@ -51,7 +70,7 @@ class ViewEditPost: UIView {
 }
 
 
-extension ViewEditPost: UITableViewDataSource, UITableViewDelegate {
+extension ViewEditPost: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
@@ -64,19 +83,86 @@ extension ViewEditPost: UITableViewDataSource, UITableViewDelegate {
 
         var contentConfiguration = cell.defaultContentConfiguration()
 
-        contentConfiguration.text = arrayNamesCell[indexPath.row]
+        contentConfiguration.text = {
 
-        let image = UIImage(systemName: arrayImageCell[indexPath.row])?.withRenderingMode(.alwaysTemplate)
+            if indexPath.row == 0 {
+                if currentPost?.favourite == "save" {
+
+                    return "Убрать из сохраненного".allLocalizable
+                }
+                else {
+                    return arrayNamesCell[indexPath.row]
+                }
+        }
+            else {
+
+                return arrayNamesCell[indexPath.row]
+            }
+        }()
+
+        let image: UIImage? = {
+
+            if indexPath.row == 0 {
+                if currentPost?.favourite == "save" {
+
+                    return UIImage(systemName:"bookmark.slash")
+                }
+                else {
+                    return UIImage(systemName: arrayImageCell[indexPath.row])
+                }
+            }
+            else {
+                return UIImage(systemName: arrayImageCell[indexPath.row])
+            }
+        }()
+
+        image?.withRenderingMode(.alwaysTemplate)
+
         contentConfiguration.image = image
 
         cell.contentConfiguration = contentConfiguration
-        cell.tintColor = .black
+        cell.tintColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
 
         cell.backgroundColor = UIColor.createColorForTheme(lightTheme: .systemGray6, darkTheme: .gray)
 
-
         return cell
     }
+}
 
 
+
+extension ViewEditPost: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+
+
+        switch indexPath.row {
+
+        case 0:
+            if currentPost?.favourite == "save" {
+                currentPost?.favourite = nil
+                coreDataCoordinator?.savePersistentContainerContext()
+                tableView.reloadData()
+                self.isHidden = true
+
+                let alert = UIAlertController(title: nil, message: "Пост убран из избранного".allLocalizable, preferredStyle: .actionSheet)
+            }
+            else {
+                currentPost?.favourite = "save"
+                coreDataCoordinator?.savePersistentContainerContext()
+                tableView.reloadData()
+                self.isHidden = true
+            }
+
+            print("0")
+
+        case 1:
+            print("1")
+
+
+        default:
+            tableView.reloadData()
+        }
+    }
 }

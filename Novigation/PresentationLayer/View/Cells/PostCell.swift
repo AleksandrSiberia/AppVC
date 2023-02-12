@@ -11,7 +11,7 @@ import iOSIntPackage
 class PostCell: UITableViewCell {
 
 
-    private var currentPost: PostCoreData?
+    private var currentPost: PostCoreData? 
 
     private var nameImage: String?
 
@@ -21,7 +21,7 @@ class PostCell: UITableViewCell {
 
 
 
-    private var viewEditPost: ViewEditPost = {
+    private lazy var viewEditPost: ViewEditPost = {
 
         var viewEditPost = ViewEditPost()
         viewEditPost.isHidden = true
@@ -124,7 +124,6 @@ class PostCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-
         setupViews()
         setupConstrains()
 
@@ -184,6 +183,7 @@ class PostCell: UITableViewCell {
     func savePost() -> String? {
 
         if currentPost?.favourite != "save" {
+            
             currentPost?.favourite = "save"
             coreDataCoordinator.savePersistentContainerContext()
             return nil
@@ -202,7 +202,11 @@ class PostCell: UITableViewCell {
             return
         }
 
+
         currentPost = post
+
+        viewEditPost.currentPost = post
+        viewEditPost.coreDataCoordinator = coreDataCoordinator
 
         let urlDocument = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
 

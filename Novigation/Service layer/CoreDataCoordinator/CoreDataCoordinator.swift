@@ -107,12 +107,12 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         self.fetchedResultsControllerPostCoreData?.fetchRequest.predicate = NSPredicate(format: "relationFolder contains %@", folder)
 
-        self.performFetchPostCoreData()
+        self.performFetchAllPostCoreData()
     }
 
 
 
-    func performFetchPostCoreData() {
+    func performFetchAllPostCoreData() {
 
         do {
             try self.fetchedResultsControllerPostCoreData?.performFetch()
@@ -121,7 +121,11 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         catch {
             print("‼️", error.localizedDescription)
         }
+    }
 
+
+
+    func performFetchSavePostCoreData() {
 
         do {
             try self.fetchedResultsControllerSavePostCoreData?.performFetch()
@@ -130,9 +134,8 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         catch {
             print("‼️", error.localizedDescription)
         }
+
     }
-
-
 
 
     func savePersistentContainerContext() {
@@ -175,7 +178,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
             }
         }
 
-
         let post = PostCoreData(context: self.backgroundContext)
         post.author = values["author"]
         post.surname = values["surname"]
@@ -197,7 +199,8 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         post.addToRelationFolder(folder)
 
         self.savePersistentContainerContext()
-        self.performFetchPostCoreData()
+
+        self.performFetchAllPostCoreData()
     }
 
 
@@ -365,7 +368,8 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         self.backgroundContext.delete(post)
         self.savePersistentContainerContext()
-        self.performFetchPostCoreData()
+        
+        self.performFetchAllPostCoreData()
     }
 
 
