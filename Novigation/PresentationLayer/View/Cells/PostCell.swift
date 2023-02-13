@@ -19,8 +19,16 @@ class PostCell: UITableViewCell {
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
-   
+    
+    private var delegate: ProfileViewControllerDelegate? {
 
+        willSet {
+            delegate?.completion = { self.viewEditPost.isHidden = true }
+        }
+    }
+
+   
+   
     private lazy var viewEditPost: ViewEditPost = {
 
         var viewEditPost = ViewEditPost()
@@ -206,6 +214,7 @@ class PostCell: UITableViewCell {
         self.viewEditPost.delegateAlternative = savedPostsVC
 
         self.currentPost = post
+        self.delegate = profileVC
 
         self.viewEditPost.currentPost = post
         self.viewEditPost.coreDataCoordinator = coreDataCoordinator

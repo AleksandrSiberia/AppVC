@@ -69,8 +69,6 @@ class EditPostTextViewController: UIViewController {
     
     @objc func barButtonCancelAction() {
 
-        print("🎊", delegateAlternative)
-
         delegate?.dismissController()
         delegateAlternative?.dismissController()
     }

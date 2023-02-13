@@ -18,6 +18,7 @@ class ViewEditPost: UIView {
     var currentPost: PostCoreData? {
         willSet {
             tableView.reloadData()
+            "🚗 willSet"
         }
     }
 
@@ -145,6 +146,7 @@ extension ViewEditPost: UITableViewDelegate {
             if currentPost?.favourite == "save" {
                 currentPost?.favourite = nil
                 coreDataCoordinator?.savePersistentContainerContext()
+
                 self.isHidden = true
 
                 delegate?.showMassage(text: "Пост убран из избранного".allLocalizable)

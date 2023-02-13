@@ -14,6 +14,8 @@ import KeychainSwift
 
 
 protocol ProfileViewControllerDelegate {
+    var didScroll: Bool { get set }
+    var completion: (() -> Void)? { get set }
     func addNewPost()
     func showSettingViewController()
     func loadUserFromCoreData()
@@ -31,6 +33,14 @@ protocol ProfileViewControllerOutput {
 
 final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable, ProfileViewControllerDelegate {
 
+
+    lazy var didScroll: Bool = false {
+
+        willSet {
+            completion?()
+        }
+    }
+    var completion: (() -> Void)?
 
 
     var currentProfile: ProfileCoreData? {
@@ -152,7 +162,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         self.output?.timerStop()
         Auth.auth().removeStateDidChangeListener(handle!)
     }
-
 
 
     func loadUserFromCoreData() {
@@ -297,8 +306,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
     }
 
 
-
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "PhotosTableViewCell", for: indexPath) as? PhotosTableViewCell else { let cell = self.tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
@@ -359,6 +366,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
     }
 
 
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         if indexPath.section == 0 && indexPath.row == 0 {
@@ -366,8 +374,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
             self.navigationController?.pushViewController(PhotosAssembly.showPhotosViewController(), animated: true)
         }
     }
-}
 
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        didScroll = true
+    }
+}
 
 
 
