@@ -9,10 +9,18 @@ import UIKit
 import CoreData
 
 
-class SavedPostsViewController: UIViewController {
+protocol SavedPostsViewControllerDelegate {
+
+    func showEditPostTextViewController(currentPost: PostCoreData?)
+    func dismissController()
+}
 
 
-    
+
+class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelegate {
+
+
+
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
     private var nameAuthor: String = ""
@@ -90,6 +98,21 @@ class SavedPostsViewController: UIViewController {
     }
 
 
+    func showEditPostTextViewController(currentPost: PostCoreData?) {
+
+        let controller = EditPostTextViewController(currentPost: currentPost, delegate: nil, delegateAlternative: self, coreData: coreDataCoordinator)
+        let navController = UINavigationController(rootViewController: controller)
+
+        present(navController, animated: true)
+    }
+
+    func dismissController() {
+
+        dismiss(animated: true)
+    }
+
+
+
     @objc private func actionBarButtonItemSearch() {
 
 
@@ -162,18 +185,11 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
         let postCoreData = self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.object(at: indexPath)
 
-        cell.setupCell(post: postCoreData, coreDataCoordinator: coreDataCoordinator)
+        cell.setupCell(post: postCoreData, coreDataCoordinator: coreDataCoordinator, profileVC: nil, savedPostsVC: self)
 
         return cell
         
     }
-
-
-
-    //    func numberOfSections(in tableView: UITableView) -> Int {
-    //        self.coreDataCoordinator.fetchResultController.sections?.count ?? 0
-    //    }
-
 
 
 

@@ -14,7 +14,7 @@ class SettingViewController: UIViewController {
 
     private var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
-    private var currentProfile: ProfileCoreData?
+    private var currentProfile: ProfileCoreData? 
 
     private var delegate: ProfileViewControllerDelegate
 
@@ -69,7 +69,7 @@ class SettingViewController: UIViewController {
 
 
 
-    init(coreData: CoreDataCoordinatorProtocol, delegate: ProfileViewControllerDelegate) {
+    init(coreData: CoreDataCoordinatorProtocol?, delegate: ProfileViewControllerDelegate) {
         self.coreDataCoordinator = coreData
         self.delegate = delegate
 

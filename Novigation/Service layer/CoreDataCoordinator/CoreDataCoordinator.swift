@@ -170,13 +170,17 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
     func appendPost(values: [String: String], folderName: String?, completion: (String?) -> Void) {
 
-        for postInCoreData in (self.fetchedResultsControllerSavePostCoreData?.sections![0].objects) as! [PostCoreData] {
-
-            if postInCoreData.text == values["text"] {
-                completion(NSLocalizedString("appendPost", tableName: "ProfileViewControllerLocalizable", comment: "This post has already been saved"))
-                return
-            }
-        }
+//        guard let posts = fetchedResultsControllerSavePostCoreData?.sections?.first?.objects as? [PostCoreData]   else {
+//            print("‼️ fetchedResultsControllerSavePostCoreData?.sections?[0] == nil || empty" )
+//            return
+//        }
+//        for postInCoreData in posts {
+//
+//            if postInCoreData.text == values["text"] {
+//                completion(NSLocalizedString("appendPost", tableName: "ProfileViewControllerLocalizable", comment: "This post has already been saved"))
+//                return
+//            }
+//        }
 
         let post = PostCoreData(context: self.backgroundContext)
         post.author = values["author"]

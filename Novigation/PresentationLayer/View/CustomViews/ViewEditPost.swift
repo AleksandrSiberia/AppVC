@@ -11,11 +11,13 @@ import UIKit
 
 class ViewEditPost: UIView {
 
-    var currentPost: PostCoreData? {
+    var delegate: ProfileViewControllerDelegate?
 
+    var delegateAlternative: SavedPostsViewControllerDelegate?
+
+    var currentPost: PostCoreData? {
         willSet {
             tableView.reloadData()
-            print("🪀 willSet")
         }
     }
 
@@ -143,22 +145,25 @@ extension ViewEditPost: UITableViewDelegate {
             if currentPost?.favourite == "save" {
                 currentPost?.favourite = nil
                 coreDataCoordinator?.savePersistentContainerContext()
-                tableView.reloadData()
                 self.isHidden = true
 
-                let alert = UIAlertController(title: nil, message: "Пост убран из избранного".allLocalizable, preferredStyle: .actionSheet)
+                delegate?.showMassage(text: "Пост убран из избранного".allLocalizable)
+
             }
             else {
                 currentPost?.favourite = "save"
                 coreDataCoordinator?.savePersistentContainerContext()
-                tableView.reloadData()
                 self.isHidden = true
+
+                delegate?.showMassage(text: "Пост добавлен в избранное".allLocalizable)
             }
 
-            print("0")
-
+            
         case 1:
-            print("1")
+
+            self.isHidden = true
+            delegate?.showEditPostTextViewController(currentPost: currentPost)
+            delegateAlternative?.showEditPostTextViewController(currentPost: currentPost)
 
 
         default:

@@ -17,9 +17,9 @@ class PostCell: UITableViewCell {
 
     private var nameForUrlFoto: String?
 
-    var coreDataCoordinator: CoreDataCoordinatorProtocol!
+    var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
-
+   
 
     private lazy var viewEditPost: ViewEditPost = {
 
@@ -185,7 +185,7 @@ class PostCell: UITableViewCell {
         if currentPost?.favourite != "save" {
             
             currentPost?.favourite = "save"
-            coreDataCoordinator.savePersistentContainerContext()
+            coreDataCoordinator?.savePersistentContainerContext()
             return nil
         }
         else {
@@ -195,18 +195,20 @@ class PostCell: UITableViewCell {
 
 
     
-    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol) {
+    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, profileVC: ProfileViewControllerDelegate?, savedPostsVC: SavedPostsViewControllerDelegate? ) {
 
         guard let post else {
             print("‼️ PostCoreData? == nil")
             return
         }
 
+        self.viewEditPost.delegate = profileVC
+        self.viewEditPost.delegateAlternative = savedPostsVC
 
-        currentPost = post
+        self.currentPost = post
 
-        viewEditPost.currentPost = post
-        viewEditPost.coreDataCoordinator = coreDataCoordinator
+        self.viewEditPost.currentPost = post
+        self.viewEditPost.coreDataCoordinator = coreDataCoordinator
 
         let urlDocument = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
 

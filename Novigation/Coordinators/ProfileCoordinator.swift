@@ -9,27 +9,29 @@ import UIKit
 
 class ProfileCoordinator: AppCoordinatorProtocol {
     
-    var coreDataCoordinator: CoreDataCoordinatorProtocol!
+    var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
     private weak var transitionHandler: UINavigationController?
     var childs: [AppCoordinatorProtocol] = []
 
-    var profileViewController: ProfileViewControllable!
+    var profileViewController: ProfileViewControllable?
 
-    init(transitionHandler: UINavigationController, coreDataCoordinator: CoreDataCoordinatorProtocol, profileViewController: ProfileViewControllable!) {
+    init(transitionHandler: UINavigationController?, coreDataCoordinator: CoreDataCoordinatorProtocol, profileViewController: ProfileViewControllable?) {
         self.transitionHandler = transitionHandler
         self.coreDataCoordinator = coreDataCoordinator
         self.profileViewController = profileViewController
+
     }
 
 
     func start(user: ProfileCoreData) -> Bool {
 
-        self.profileViewController.currentProfile = user
-        self.profileViewController.coreDataCoordinator = self.coreDataCoordinator
+        profileViewController?.currentProfile = user
+        profileViewController?.coreDataCoordinator = coreDataCoordinator
 
 
-        self.transitionHandler?.pushViewController(profileViewController as! UIViewController, animated: true)
+
+        transitionHandler?.pushViewController(profileViewController as! UIViewController, animated: true)
 
         return true
 

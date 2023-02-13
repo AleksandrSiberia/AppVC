@@ -15,6 +15,11 @@
 "Редактировать текст" = "Edit Text";
 "Убрать из сохраненного" = "Remove from Favorites";
 
+"Пост убран из избранного" = "Post removed from Favorites";
+"Пост добавлен в избранное" = "Post added to Favorites";
+
+"что-то пошло не так" = "something went wrong";
+
 "nameUser" = "Name";
 
 //SettingViewController

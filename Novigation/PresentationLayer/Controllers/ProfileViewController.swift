@@ -18,6 +18,9 @@ protocol ProfileViewControllerDelegate {
     func showSettingViewController()
     func loadUserFromCoreData()
     func showDetailedInformationsViewController()
+    func showMassage(text: String)
+    func showEditPostTextViewController(currentPost: PostCoreData?)
+    func dismissController()
 }
 
 protocol ProfileViewControllerOutput {
@@ -29,7 +32,15 @@ protocol ProfileViewControllerOutput {
 final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable, ProfileViewControllerDelegate {
 
 
-    internal var currentProfile: ProfileCoreData?
+
+    var currentProfile: ProfileCoreData? {
+
+        willSet {
+            tableView.reloadData()
+            print("🙂 willSet")
+        }
+    }
+
 
     lazy var userService: UserServiceProtocol = {
 #if DEBUG
@@ -40,7 +51,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     }()
 
     
-    var coreDataCoordinator: CoreDataCoordinatorProtocol!
+    var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
     var fileManager: FileManagerServiceable?
 
@@ -104,10 +115,14 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        loadUserFromCoreData()
+        loadDefaultPostsFromCoreData()
+
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
         view.addSubview(tableView)
         view.addGestureRecognizer(tapGestureRecogniser)
+
         setupConstraints()
     }
 
@@ -116,14 +131,11 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        loadUserFromCoreData()
-        loadDefaultPostsFromCoreData()
 
         navigationController?.navigationBar.isHidden = true
 
-        coreDataCoordinator.fetchedResultsControllerPostCoreData?.delegate = self
+        coreDataCoordinator?.fetchedResultsControllerPostCoreData?.delegate = self
 
-        
         if self.delegate != nil {
             self.delegate.showPost()
         }
@@ -160,9 +172,10 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
     private func loadDefaultPostsFromCoreData() {
 
-        self.coreDataCoordinator.getPosts(nameFolder: KeychainSwift().get("userOnline") )
 
-        if let allPosts = coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?.first?.objects, allPosts.isEmpty {
+        self.coreDataCoordinator?.getPosts(nameFolder: KeychainSwift().get("userOnline") )
+
+        if let allPosts = coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?.first?.objects, allPosts.isEmpty {
 
             for post in arrayModelPost {
 
@@ -176,10 +189,24 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
                                                   "nameForUrlFoto": "" ]
 
 
-                self.coreDataCoordinator.appendPost(values: values, folderName: KeychainSwift().get("userOnline")) { _ in }
+                self.coreDataCoordinator?.appendPost(values: values, folderName: KeychainSwift().get("userOnline")) { _ in }
             }
         }
     }
+
+
+    func showMassage(text: String) {
+
+        let alert = UIAlertController(title: nil, message: text, preferredStyle: .actionSheet)
+
+        present(alert, animated: true)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.dismiss(animated: true)
+        }
+    }
+
+
 
 
     func addNewPost() {
@@ -197,11 +224,21 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
     func showDetailedInformationsViewController() {
-
         let detailedInformationViewController = DetailedInformationViewController(currentProfile: currentProfile, coreData: coreDataCoordinator)
 
         let navDetailedInformationViewController = UINavigationController(rootViewController: detailedInformationViewController)
         present(navDetailedInformationViewController, animated: true)
+    }
+
+    func showEditPostTextViewController(currentPost: PostCoreData?)  {
+        let controller = EditPostTextViewController(currentPost: currentPost, delegate: self, delegateAlternative: nil, coreData: coreDataCoordinator)
+        let navController = UINavigationController(rootViewController: controller)
+
+        present(navController, animated: true)
+    }
+
+    func dismissController() {
+        dismiss(animated: true)
     }
 
 
@@ -233,12 +270,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
                         massage = NSLocalizedString("actionTapGestureRecogniser", tableName: "ProfileViewControllerLocalizable", comment: "post saved")
                     }
 
-
-                    let alert = UIAlertController(title: massage, message: nil, preferredStyle: .alert)
-                    let action = UIAlertAction(title: "Ok", style: .cancel)
-                    alert.addAction(action)
-
-                    present(alert, animated: true)
+                    showMassage(text: massage ?? "что-то пошло не так".allLocalizable)
                 }
             }
         }
@@ -257,7 +289,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
             return 1
         }
         if section == 1 {
-            return self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?[0].numberOfObjects ?? 0
+            return self.coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?[0].numberOfObjects ?? 0
         }
         else {
             return 0
@@ -284,14 +316,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
             cell.selectionStyle = .none
 
-            if let posts = self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?.first?.objects as? [PostCoreData] {
+            if let posts = self.coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?.first?.objects as? [PostCoreData] {
 
                 if posts.count >= indexPath.row + 1 {
 
                     let post = posts[indexPath.row ]
 
-                    cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator)
-
+                    cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, profileVC: self, savedPostsVC: nil)
 
                     return cell
                 }
@@ -387,13 +418,13 @@ extension ProfileViewController: UITableViewDragDelegate {
 
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
 
-        let text = (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?[0].objects?[indexPath.row] as? PostCoreData)?.text
+        let text = (coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?[0].objects?[indexPath.row] as? PostCoreData)?.text
 
         // можно передать NSString
         let textData = NSItemProvider(item: text?.data(using: .utf8) as? NSData,
                                       typeIdentifier: UTType.plainText.identifier)
 
-        let image = UIImage(named: (self.coreDataCoordinator.fetchedResultsControllerPostCoreData?.sections?[0].objects?[indexPath.row] as? PostCoreData)?.image ?? "" )
+        let image = UIImage(named: (coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?[0].objects?[indexPath.row] as? PostCoreData)?.image ?? "" )
 
         // можно передавать UIImage
         let imageData = image?.pngData() as? NSData
@@ -443,10 +474,10 @@ extension ProfileViewController: UITableViewDropDelegate {
                                                       "views": "0",
                                                       "nameForUrlFoto": nameFoto ]
 
-                    self.coreDataCoordinator.appendPost(values: values, folderName: "AllPosts") { _ in }
+                    self.coreDataCoordinator?.appendPost(values: values, folderName: "AllPosts") { _ in }
 
 
-                    self.coreDataCoordinator.performFetchAllPostCoreData()
+                    self.coreDataCoordinator?.performFetchAllPostCoreData()
 
                 }
             }
