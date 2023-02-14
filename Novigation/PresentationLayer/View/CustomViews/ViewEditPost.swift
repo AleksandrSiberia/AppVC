@@ -18,7 +18,7 @@ class ViewEditPost: UIView {
     var currentPost: PostCoreData? {
         willSet {
             tableView.reloadData()
-            "🚗 willSet"
+            print("🚗 willSet")
         }
     }
 
@@ -33,6 +33,38 @@ class ViewEditPost: UIView {
 
     ]
 
+    private lazy var buttonCancel: UIButton = {
+
+        let action = UIAction() { _ in
+
+            self.buttonCancel.setImage(UIImage(systemName: "xmark.circle.fill", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate), for: .normal)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.isHidden = true
+
+                self.buttonCancel.setImage(UIImage(systemName: "xmark.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate), for: .normal)
+
+            }
+
+        }
+
+        var buttonCancel = UIButton(primaryAction: action)
+        buttonCancel.translatesAutoresizingMaskIntoConstraints = false
+
+        let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
+
+        let image = UIImage(systemName: "xmark.circle", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
+
+        buttonCancel.setImage(image, for: .normal)
+
+   //     buttonCancel.tintColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
+
+        return buttonCancel
+    }()
+
+
+
+
     private lazy var tableView: UITableView = {
 
         var tableView = UITableView()
@@ -40,6 +72,7 @@ class ViewEditPost: UIView {
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = UIColor.createColorForTheme(lightTheme: .systemGray6, darkTheme: .gray)
+        
 
         tableView.register( UITableViewCell.self, forCellReuseIdentifier: "Default")
         return tableView
@@ -49,6 +82,10 @@ class ViewEditPost: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        self.layer.cornerRadius = 15
+        tableView.layer.cornerRadius = 15
+
+        addSubview(buttonCancel)
         addSubview(tableView)
         setupConstrains()
 
@@ -58,13 +95,15 @@ class ViewEditPost: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    
-
 
     func setupConstrains() {
 
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: topAnchor),
+
+            buttonCancel.topAnchor.constraint(equalTo: topAnchor),
+            buttonCancel.centerXAnchor.constraint(equalTo: centerXAnchor),
+
+            tableView.topAnchor.constraint(equalTo: buttonCancel.bottomAnchor, constant: 10),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -127,6 +166,8 @@ extension ViewEditPost: UITableViewDataSource {
         cell.tintColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
 
         cell.backgroundColor = UIColor.createColorForTheme(lightTheme: .systemGray6, darkTheme: .gray)
+
+        cell.selectionStyle = .none
 
         return cell
     }

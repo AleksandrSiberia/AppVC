@@ -26,7 +26,6 @@ class PostCell: UITableViewCell {
         var viewEditPost = ViewEditPost()
         viewEditPost.isHidden = true
         viewEditPost.translatesAutoresizingMaskIntoConstraints = false
-        viewEditPost.layer.cornerRadius = 15
         viewEditPost.clipsToBounds = true
 
         return viewEditPost
@@ -48,6 +47,15 @@ class PostCell: UITableViewCell {
     private lazy var buttonEditPost: UIButton = {
 
         let action = UIAction() { _ in
+
+            let imageConfigurations = UIImage.SymbolConfiguration(scale: .large)
+            self.buttonEditPost.setImage(UIImage(systemName: "ellipsis.rectangle.fill", withConfiguration: imageConfigurations), for: .normal)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let imageConfigurations = UIImage.SymbolConfiguration(scale: .large)
+                self.buttonEditPost.setImage(UIImage(systemName: "ellipsis", withConfiguration: imageConfigurations), for: .normal)
+            }
+
             if self.viewEditPost.isHidden == true {
                 self.viewEditPost.isHidden = false
             }
@@ -151,7 +159,7 @@ class PostCell: UITableViewCell {
         NSLayoutConstraint.activate( [
 
             viewEditPost.topAnchor.constraint(equalTo: buttonEditPost.bottomAnchor),
-            viewEditPost.trailingAnchor.constraint(equalTo: buttonEditPost.leadingAnchor),
+            viewEditPost.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
             viewEditPost.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 70),
             viewEditPost.heightAnchor.constraint(equalToConstant: 300),
 
