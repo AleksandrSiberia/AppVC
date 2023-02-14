@@ -19,16 +19,8 @@ class PostCell: UITableViewCell {
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
-    
-    private var delegate: ProfileViewControllerDelegate? {
+    private var delegate: ProfileViewControllerDelegate?
 
-        willSet {
-            delegate?.completion = { self.viewEditPost.isHidden = true }
-        }
-    }
-
-   
-   
     private lazy var viewEditPost: ViewEditPost = {
 
         var viewEditPost = ViewEditPost()
@@ -188,6 +180,11 @@ class PostCell: UITableViewCell {
     }
 
 
+    func viewEditPostIsHidden() {
+        viewEditPost.isHidden = true
+    }
+
+
     func savePost() -> String? {
 
         if currentPost?.favourite != "save" {
@@ -203,12 +200,13 @@ class PostCell: UITableViewCell {
 
 
     
-    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, profileVC: ProfileViewControllerDelegate?, savedPostsVC: SavedPostsViewControllerDelegate? ) {
+    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, profileVC: ProfileViewControllerDelegate?, savedPostsVC: SavedPostsViewControllerDelegate?) {
 
         guard let post else {
             print("‼️ PostCoreData? == nil")
             return
         }
+
 
         self.viewEditPost.delegate = profileVC
         self.viewEditPost.delegateAlternative = savedPostsVC

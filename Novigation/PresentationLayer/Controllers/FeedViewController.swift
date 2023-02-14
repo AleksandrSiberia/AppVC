@@ -15,8 +15,6 @@ class FeedViewController: UIViewController {
 
 
    
-
-
     var delegate: FeedViewDelegate! {
 
         didSet {

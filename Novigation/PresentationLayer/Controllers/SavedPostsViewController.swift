@@ -19,7 +19,7 @@ protocol SavedPostsViewControllerDelegate {
 
 class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelegate {
 
-
+    private var arrayCells: [PostCell] = []
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
@@ -181,14 +181,39 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
         else { let cell = self.tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
             return cell
         }
+
         cell.selectionStyle = .none
+
+        if arrayCells.count - 1 >= indexPath.row {
+
+            arrayCells.remove(at: indexPath.row)
+            arrayCells.insert(cell, at: indexPath.row)
+        }
+        else {
+
+            if arrayCells.count - 1 >= indexPath.row {
+                arrayCells.insert(cell, at: indexPath.row)
+            }
+            else {
+                arrayCells.insert(cell, at: arrayCells.endIndex)
+            }
+        }
+
 
         let postCoreData = self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.object(at: indexPath)
 
         cell.setupCell(post: postCoreData, coreDataCoordinator: coreDataCoordinator, profileVC: nil, savedPostsVC: self)
 
+
         return cell
         
+    }
+
+
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        arrayCells.forEach { $0.viewEditPostIsHidden() }
     }
 
 

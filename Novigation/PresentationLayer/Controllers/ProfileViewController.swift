@@ -14,8 +14,7 @@ import KeychainSwift
 
 
 protocol ProfileViewControllerDelegate {
-    var didScroll: Bool { get set }
-    var completion: (() -> Void)? { get set }
+
     func addNewPost()
     func showSettingViewController()
     func loadUserFromCoreData()
@@ -33,14 +32,7 @@ protocol ProfileViewControllerOutput {
 
 final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable, ProfileViewControllerDelegate {
 
-
-    lazy var didScroll: Bool = false {
-
-        willSet {
-            completion?()
-        }
-    }
-    var completion: (() -> Void)?
+    private var arrayCells: [PostCell] = []
 
 
     var currentProfile: ProfileCoreData? {
@@ -331,6 +323,20 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
                     cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, profileVC: self, savedPostsVC: nil)
 
+                    if arrayCells.count - 1 >= indexPath.row {
+                        arrayCells.remove(at: indexPath.row)
+                        arrayCells.insert(cell, at: indexPath.row)
+                    }
+
+                    else {
+                        if arrayCells.count - 1 >= indexPath.row {
+                            arrayCells.insert(cell, at: indexPath.row)
+                        }
+                        else {
+                            arrayCells.insert(cell, at: arrayCells.endIndex)
+                        }
+                    }
+
                     return cell
                 }
                 else {
@@ -378,7 +384,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
-        didScroll = true
+        arrayCells.forEach { $0.viewEditPostIsHidden() }
+
     }
 }
 
