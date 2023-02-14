@@ -128,6 +128,52 @@ class PostCell: UITableViewCell {
 
 
 
+    private lazy var buttonFavorite: UIButton = {
+
+        let action = UIAction() { _ in
+
+            if self.currentPost?.favourite == "save" {
+
+                self.currentPost?.favourite = nil
+
+                self.coreDataCoordinator?.savePersistentContainerContext()
+
+
+                let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
+
+                let image = UIImage(systemName: "bookmark", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
+
+                self.buttonFavorite.setImage(image, for: .normal)
+
+                self.buttonFavorite.tintColor = .gray
+
+            }
+
+            else {
+
+                self.currentPost?.favourite = "save"
+
+                self.coreDataCoordinator?.savePersistentContainerContext()
+
+                
+                let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
+
+                let image = UIImage(systemName: "bookmark.slash", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
+
+                self.buttonFavorite.tintColor = UIColor(named: "orange")
+
+                self.buttonFavorite.setImage(image, for: .normal)
+            }
+        }
+
+        var buttonFavorite = UIButton(primaryAction: action)
+
+        buttonFavorite.translatesAutoresizingMaskIntoConstraints = false
+
+        return buttonFavorite
+    }()
+
+
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -147,7 +193,7 @@ class PostCell: UITableViewCell {
 
     func setupViews() {
 
-        [authorLabel, buttonEditPost, postImageView, descriptionLabel, likesLabel, viewsLabel, viewEditPost].forEach {
+        [authorLabel, buttonEditPost, postImageView, descriptionLabel, likesLabel, viewsLabel, viewEditPost, buttonFavorite].forEach {
             contentView.addSubview($0)
         }
     }
@@ -184,6 +230,9 @@ class PostCell: UITableViewCell {
 
             viewsLabel.leadingAnchor.constraint(equalTo: likesLabel.trailingAnchor, constant: 20),
             viewsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+
+            buttonFavorite.centerYAnchor.constraint(equalTo: viewsLabel.centerYAnchor),
+            buttonFavorite.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -26),
         ])
     }
 
@@ -213,6 +262,21 @@ class PostCell: UITableViewCell {
         guard let post else {
             print("‼️ PostCoreData? == nil")
             return
+        }
+
+        let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
+
+        if post.favourite == "save" {
+
+            let image = UIImage(systemName: "bookmark.slash", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
+            buttonFavorite.setImage(image, for: .normal)
+            buttonFavorite.tintColor = UIColor(named: "orange")
+        }
+
+        else {
+            let image = UIImage(systemName: "bookmark", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
+            buttonFavorite.setImage(image, for: .normal)
+            buttonFavorite.tintColor = .gray
         }
 
 
