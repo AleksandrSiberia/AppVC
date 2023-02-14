@@ -57,7 +57,7 @@ class ViewEditPost: UIView {
 
         buttonCancel.setImage(image, for: .normal)
 
-   //     buttonCancel.tintColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
+        buttonCancel.tintColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
 
         return buttonCancel
     }()
@@ -71,8 +71,6 @@ class ViewEditPost: UIView {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = UIColor.createColorForTheme(lightTheme: .systemGray6, darkTheme: .gray)
-        
 
         tableView.register( UITableViewCell.self, forCellReuseIdentifier: "Default")
         return tableView
@@ -82,8 +80,11 @@ class ViewEditPost: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.layer.cornerRadius = 15
-        tableView.layer.cornerRadius = 15
+        backgroundColor = UIColor.gray.withAlphaComponent(0.5)
+        layer.cornerRadius = 15
+
+        backgroundColor = UIColor.createColorForTheme(lightTheme: UIColor.systemGray6.withAlphaComponent(0.85), darkTheme: UIColor.gray.withAlphaComponent(0.85))
+        tableView.backgroundColor = UIColor.white.withAlphaComponent(0)
 
         addSubview(buttonCancel)
         addSubview(tableView)
@@ -100,10 +101,10 @@ class ViewEditPost: UIView {
 
         NSLayoutConstraint.activate([
 
-            buttonCancel.topAnchor.constraint(equalTo: topAnchor),
+            buttonCancel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             buttonCancel.centerXAnchor.constraint(equalTo: centerXAnchor),
 
-            tableView.topAnchor.constraint(equalTo: buttonCancel.bottomAnchor, constant: 10),
+            tableView.topAnchor.constraint(equalTo: buttonCancel.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -163,9 +164,11 @@ extension ViewEditPost: UITableViewDataSource {
         contentConfiguration.image = image
 
         cell.contentConfiguration = contentConfiguration
+
         cell.tintColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
 
-        cell.backgroundColor = UIColor.createColorForTheme(lightTheme: .systemGray6, darkTheme: .gray)
+        cell.backgroundColor = UIColor.white.withAlphaComponent(0)
+   //     UIColor.createColorForTheme(lightTheme: .systemGray6, darkTheme: .gray)
 
         cell.selectionStyle = .none
 
