@@ -181,6 +181,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 //        }
 
         let post = PostCoreData(context: self.backgroundContext)
+        
         post.author = values["author"] as? String
         post.surname = values["surname"] as? String
         post.image = values["image"] as? String
@@ -188,6 +189,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         post.likes = values["likes"] as? Int32 ?? 0
         post.views = values["views"] as? Int32 ?? 0
         post.urlFoto = values["nameForUrlFoto"] as? String
+        post.likeYou = values["likeYou"] as? Bool ?? false
 
         guard let folderName else {
             print("‼️ folderName == nil")

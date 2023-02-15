@@ -21,27 +21,28 @@ class PostCell: UITableViewCell {
 
     private var delegate: ProfileViewControllerDelegate?
 
-    private lazy var viewEditPost: ViewEditPost = {
 
+
+
+    private lazy var viewEditPost: ViewEditPost = {
         var viewEditPost = ViewEditPost()
         viewEditPost.isHidden = true
         viewEditPost.translatesAutoresizingMaskIntoConstraints = false
         viewEditPost.clipsToBounds = true
-
         return viewEditPost
     }()
 
 
-    private lazy var authorLabel: UILabel = {
-        var authorLabel = UILabel()
-
-        authorLabel.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .systemGray6)
-        authorLabel.translatesAutoresizingMaskIntoConstraints = false
-        authorLabel.numberOfLines = 0
-        authorLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        authorLabel.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
-        return authorLabel
+    private lazy var labelAuthor: UILabel = {
+        var         labelAuthor = UILabel()
+        labelAuthor.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .systemGray6)
+        labelAuthor.translatesAutoresizingMaskIntoConstraints = false
+        labelAuthor.numberOfLines = 0
+        labelAuthor.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        labelAuthor.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
+        return         labelAuthor
     }()
+
 
 
     private lazy var buttonEditPost: UIButton = {
@@ -78,53 +79,97 @@ class PostCell: UITableViewCell {
 
 
 
-    private lazy var postImageView: UIImageView = {
-        var postImageView = UIImageView()
-        postImageView.translatesAutoresizingMaskIntoConstraints = false
-        postImageView.backgroundColor = .black
-        postImageView.contentMode = .scaleAspectFit
-        postImageView.clipsToBounds = true
-        return postImageView
+    private lazy var imageViewPost: UIImageView = {
+        var imageViewPost = UIImageView()
+        imageViewPost.translatesAutoresizingMaskIntoConstraints = false
+        imageViewPost.backgroundColor = .black
+        imageViewPost.contentMode = .scaleAspectFit
+        imageViewPost.clipsToBounds = true
+        return imageViewPost
     }()
 
 
 
 
-    private lazy var descriptionLabel: UILabel = {
-        var descriptionLabel = UILabel()
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .systemGray6)
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.font = UIFont.systemFont(ofSize: 14)
-        descriptionLabel.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
-        return descriptionLabel
+    private lazy var labelText: UILabel = {
+        var labelText = UILabel()
+        labelText.translatesAutoresizingMaskIntoConstraints = false
+        labelText.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .systemGray6)
+        labelText.numberOfLines = 0
+        labelText.font = UIFont.systemFont(ofSize: 14)
+        labelText.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
+        return labelText
     }()
 
 
     
 
 
-    private lazy var likesLabel: UILabel = {
-        var likesLabel = UILabel()
-        likesLabel.translatesAutoresizingMaskIntoConstraints = false
-        likesLabel.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .systemGray6)
-        likesLabel.numberOfLines = 0
-        likesLabel.font = UIFont.systemFont(ofSize: 16)
-        likesLabel.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
-        return likesLabel
+    private lazy var labelLikes: UILabel = {
+        var labelLikes = UILabel()
+        labelLikes.translatesAutoresizingMaskIntoConstraints = false
+        labelLikes.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .systemGray6)
+        labelLikes.numberOfLines = 0
+        labelLikes.font = UIFont.systemFont(ofSize: 16)
+        labelLikes.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
+        return labelLikes
+    }()
+
+
+    private lazy var buttonLike: UIButton = {
+
+        let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
+
+        let action = UIAction() { _ in
+
+            if self.currentPost?.likeYou == true {
+
+                self.currentPost?.likeYou = false
+                
+                if (self.currentPost?.likes ?? 0) > 0 {
+                    self.currentPost?.likes -= 1
+                }
+
+                self.coreDataCoordinator?.savePersistentContainerContext()
+
+                let image = UIImage(systemName: "heart", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
+
+                self.buttonLike.tintColor = .gray
+                self.buttonLike.setImage(image, for: .normal)
+            }
+
+
+            else {
+
+                self.currentPost?.likeYou = true
+                self.currentPost?.likes += 1
+                self.coreDataCoordinator?.savePersistentContainerContext()
+
+                let image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
+
+                self.buttonLike.tintColor = UIColor(named: "orange")
+                self.buttonLike.setImage(image, for: .normal)
+            }
+        }
+
+
+        var buttonLike = UIButton(frame: CGRect(), primaryAction: action)
+
+        buttonLike.translatesAutoresizingMaskIntoConstraints = false
+
+        return buttonLike
     }()
 
 
 
-
-    private lazy var viewsLabel: UILabel = {
-        var viewsLabel = UILabel()
-        viewsLabel.translatesAutoresizingMaskIntoConstraints = false
-        viewsLabel.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .systemGray6)
-        viewsLabel.numberOfLines = 0
-        viewsLabel.font = UIFont.systemFont(ofSize: 16)
-        viewsLabel.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
-        return viewsLabel
+    private lazy var labelViews: UILabel = {
+        var labelViews = UILabel()
+        labelViews.translatesAutoresizingMaskIntoConstraints = false
+        labelViews.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .systemGray6)
+        labelViews.numberOfLines = 0
+        labelViews.font = UIFont.systemFont(ofSize: 16)
+        labelViews.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
+        return labelViews
     }()
 
 
@@ -139,7 +184,6 @@ class PostCell: UITableViewCell {
 
                 self.coreDataCoordinator?.savePersistentContainerContext()
 
-
                 let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
 
                 let image = UIImage(systemName: "bookmark", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
@@ -147,15 +191,14 @@ class PostCell: UITableViewCell {
                 self.buttonFavorite.setImage(image, for: .normal)
 
                 self.buttonFavorite.tintColor = .gray
-
             }
+
 
             else {
 
                 self.currentPost?.favourite = "save"
 
                 self.coreDataCoordinator?.savePersistentContainerContext()
-
 
                 let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
 
@@ -194,7 +237,7 @@ class PostCell: UITableViewCell {
 
     func setupViews() {
 
-        [authorLabel, buttonEditPost, postImageView, descriptionLabel, likesLabel, viewsLabel, viewEditPost, buttonFavorite].forEach {
+        [labelAuthor, buttonEditPost, imageViewPost, labelText, buttonLike, labelLikes, labelViews, viewEditPost, buttonFavorite].forEach {
             contentView.addSubview($0)
         }
     }
@@ -210,32 +253,39 @@ class PostCell: UITableViewCell {
             viewEditPost.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 70),
             viewEditPost.heightAnchor.constraint(equalToConstant: 300),
 
-            authorLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            authorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            authorLabel.bottomAnchor.constraint(equalTo: postImageView.topAnchor, constant: -12),
+            labelAuthor.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            labelAuthor.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            labelAuthor.bottomAnchor.constraint(equalTo: imageViewPost.topAnchor, constant: -12),
 
-            buttonEditPost.centerYAnchor.constraint(equalTo: authorLabel.centerYAnchor),
+            buttonEditPost.centerYAnchor.constraint(equalTo: labelAuthor.centerYAnchor),
             buttonEditPost.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22),
 
-            postImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            postImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor),
-            postImageView.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -16),
+            imageViewPost.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            imageViewPost.heightAnchor.constraint(equalTo: contentView.widthAnchor),
+            imageViewPost.bottomAnchor.constraint(equalTo: labelText.topAnchor, constant: -16),
 
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            descriptionLabel.bottomAnchor.constraint(equalTo: likesLabel.topAnchor, constant: -16),
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            labelText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            labelText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 
-            likesLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            likesLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
 
-            viewsLabel.leadingAnchor.constraint(equalTo: likesLabel.trailingAnchor, constant: 20),
-            viewsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            buttonLike.topAnchor.constraint(equalTo: labelText.bottomAnchor, constant: 20),
+            buttonLike.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            buttonLike.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
 
-            buttonFavorite.centerYAnchor.constraint(equalTo: viewsLabel.centerYAnchor),
+
+            labelLikes.leadingAnchor.constraint(equalTo: buttonLike.trailingAnchor, constant: 20),
+            labelLikes.centerYAnchor.constraint(equalTo: buttonLike.centerYAnchor),
+
+
+            labelViews.leadingAnchor.constraint(equalTo: labelLikes.trailingAnchor, constant: 20),
+            labelViews.centerYAnchor.constraint(equalTo: labelLikes.centerYAnchor),
+
+
+            buttonFavorite.centerYAnchor.constraint(equalTo: labelViews.centerYAnchor),
             buttonFavorite.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -26),
         ])
     }
+
 
 
     func viewEditPostIsHidden() {
@@ -257,8 +307,30 @@ class PostCell: UITableViewCell {
     }
 
 
+    private func setupImageForButtonLike(post: PostCoreData) {
 
-    private func setupButtonFavoriteImage(post: PostCoreData) {
+        let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
+
+        if post.likeYou == true {
+
+            let image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
+
+            self.buttonLike.tintColor = UIColor(named: "orange")
+            self.buttonLike.setImage(image, for: .normal)
+        }
+
+        else {
+
+            let image = UIImage(systemName: "heart", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
+
+            self.buttonLike.tintColor = .gray
+            self.buttonLike.setImage(image, for: .normal)
+
+        }
+    }
+
+
+    private func setupImageForButtonFavorite(post: PostCoreData) {
 
         let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
 
@@ -281,9 +353,9 @@ class PostCell: UITableViewCell {
 
         let urlDocument = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
 
-        nameImage = post.image
+        self.nameImage = post.image
+        self.nameForUrlFoto = post.urlFoto
 
-        nameForUrlFoto = post.urlFoto
 
         let filter = ImageProcessor()
 
@@ -330,7 +402,30 @@ class PostCell: UITableViewCell {
                 filteredImage = outputImage
             }
         }
-        postImageView.image = filteredImage
+        imageViewPost.image = filteredImage
+    }
+
+
+
+    private func setupLabelLikes(post: PostCoreData) {
+
+        let localized = NSLocalizedString("LocalizedLike", tableName: "LocalizableDict", comment: "")
+        let likeValue = post.likes
+        let formatLocalized = String(format: localized, likeValue)
+
+        labelLikes.text = formatLocalized
+    }
+
+
+
+
+    private func setupLabelViews(post: PostCoreData) {
+
+        let localizedViews = NSLocalizedString("LocalizedView", tableName: "LocalizableDict", comment: "")
+        let viewsValue = post.views
+        let formatLocalizedViews = String(format: localizedViews, viewsValue)
+        labelViews.text = formatLocalizedViews
+
     }
 
 
@@ -342,39 +437,23 @@ class PostCell: UITableViewCell {
             return
         }
 
-        setupButtonFavoriteImage(post: post)
-
-        setupImageForPost(post: post)
-
         self.viewEditPost.delegate = profileVC
         self.viewEditPost.delegateAlternative = savedPostsVC
-
         self.currentPost = post
         self.delegate = profileVC
-
         self.viewEditPost.currentPost = post
-
         self.viewEditPost.coreDataCoordinator = coreDataCoordinator
-
         self.coreDataCoordinator = coreDataCoordinator
 
-        authorLabel.text = (post.author ?? "") + " " + (post.surname ?? "")
+        setupImageForButtonFavorite(post: post)
+        setupImageForButtonLike(post: post)
+        setupImageForPost(post: post)
+        setupLabelLikes(post: post)
+        setupLabelViews(post: post)
 
 
-        let localized = NSLocalizedString("LocalizedLike", tableName: "LocalizableDict", comment: "")
-        let likeValue = post.likes
-        let formatLocalized = String(format: localized, likeValue)
-        
-        descriptionLabel.text = post.text
-        
-        likesLabel.text = formatLocalized
-
-        let localizedViews = NSLocalizedString("LocalizedView", tableName: "LocalizableDict", comment: "")
-        let viewsValue = post.views
-        let formatLocalizedViews = String(format: localizedViews, viewsValue)
-
-        viewsLabel.text = formatLocalizedViews
-
+        labelAuthor.text = (post.author ?? "") + " " + (post.surname ?? "")
+        labelText.text = post.text
     }
 }
 
