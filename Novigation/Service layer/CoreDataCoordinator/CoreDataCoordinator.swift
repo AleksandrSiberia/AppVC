@@ -15,8 +15,6 @@ import KeychainSwift
 final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
-
-
     private lazy var persistentContainer: NSPersistentContainer = {
 
 
@@ -168,7 +166,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    func appendPost(values: [String: String], folderName: String?, completion: (String?) -> Void) {
+    func appendPost(values: [String: Any], folderName: String?, completion: (String?) -> Void) {
 
 //        guard let posts = fetchedResultsControllerSavePostCoreData?.sections?.first?.objects as? [PostCoreData]   else {
 //            print("‼️ fetchedResultsControllerSavePostCoreData?.sections?[0] == nil || empty" )
@@ -183,13 +181,13 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 //        }
 
         let post = PostCoreData(context: self.backgroundContext)
-        post.author = values["author"]
-        post.surname = values["surname"]
-        post.image = values["image"]
-        post.text = values["text"]
-        post.likes = values["likes"]
-        post.views = values["views"]
-        post.urlFoto = values["nameForUrlFoto"]
+        post.author = values["author"] as? String
+        post.surname = values["surname"] as? String
+        post.image = values["image"] as? String
+        post.text = values["text"] as? String
+        post.likes = values["likes"] as? Int32 ?? 0
+        post.views = values["views"] as? Int32 ?? 0
+        post.urlFoto = values["nameForUrlFoto"] as? String
 
         guard let folderName else {
             print("‼️ folderName == nil")

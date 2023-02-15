@@ -11,7 +11,7 @@ import iOSIntPackage
 class PostCell: UITableViewCell {
 
 
-    private var currentPost: PostCoreData? 
+    private var currentPost: PostCoreData?
 
     private var nameImage: String?
 
@@ -101,6 +101,7 @@ class PostCell: UITableViewCell {
     }()
 
 
+    
 
 
     private lazy var likesLabel: UILabel = {
@@ -155,7 +156,7 @@ class PostCell: UITableViewCell {
 
                 self.coreDataCoordinator?.savePersistentContainerContext()
 
-                
+
                 let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
 
                 let image = UIImage(systemName: "bookmark.slash", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
@@ -256,18 +257,12 @@ class PostCell: UITableViewCell {
     }
 
 
-    
-    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, profileVC: ProfileViewControllerDelegate?, savedPostsVC: SavedPostsViewControllerDelegate?) {
 
-        guard let post else {
-            print("‼️ PostCoreData? == nil")
-            return
-        }
+    private func setupButtonFavoriteImage(post: PostCoreData) {
 
         let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
 
         if post.favourite == "save" {
-
             let image = UIImage(systemName: "bookmark.slash", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
             buttonFavorite.setImage(image, for: .normal)
             buttonFavorite.tintColor = UIColor(named: "orange")
@@ -278,23 +273,13 @@ class PostCell: UITableViewCell {
             buttonFavorite.setImage(image, for: .normal)
             buttonFavorite.tintColor = .gray
         }
+    }
 
 
-        self.viewEditPost.delegate = profileVC
-        self.viewEditPost.delegateAlternative = savedPostsVC
 
-        self.currentPost = post
-        self.delegate = profileVC
-
-        self.viewEditPost.currentPost = post
-        self.viewEditPost.coreDataCoordinator = coreDataCoordinator
+    private func setupImageForPost(post: PostCoreData) {
 
         let urlDocument = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
-
-
-        self.coreDataCoordinator = coreDataCoordinator
-
-        authorLabel.text = (post.author ?? "") + " " + (post.surname ?? "")
 
         nameImage = post.image
 
@@ -304,13 +289,11 @@ class PostCell: UITableViewCell {
 
         var filteredImage: UIImage?
 
-
         if let nameForUrlFoto, nameForUrlFoto != "" {
 
             guard let urlDocument else { return }
 
             let fileURL = "file://" + urlDocument + "/" + nameForUrlFoto
-
 
 
             do {
@@ -327,7 +310,6 @@ class PostCell: UITableViewCell {
                     return
                 }
 
-
                 filter.processImage(sourceImage: image, filter: ColorFilter.noir) { outputImage in
                     filteredImage = outputImage
                 }
@@ -336,7 +318,6 @@ class PostCell: UITableViewCell {
                 print(error.localizedDescription)
             }
         }
-
 
         else {
 
@@ -349,22 +330,51 @@ class PostCell: UITableViewCell {
                 filteredImage = outputImage
             }
         }
-
-        
-        let localized = NSLocalizedString("LocalizedLike", tableName: "LocalizableDict", comment: "")
-        let likeValue = Int(post.likes ?? "") ?? 0
-        let formatLocalized = String(format: localized, likeValue)
-
         postImageView.image = filteredImage
+    }
+
+
+
+    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, profileVC: ProfileViewControllerDelegate?, savedPostsVC: SavedPostsViewControllerDelegate?) {
+
+        guard let post else {
+            print("‼️ PostCoreData? == nil")
+            return
+        }
+
+        setupButtonFavoriteImage(post: post)
+
+        setupImageForPost(post: post)
+
+        self.viewEditPost.delegate = profileVC
+        self.viewEditPost.delegateAlternative = savedPostsVC
+
+        self.currentPost = post
+        self.delegate = profileVC
+
+        self.viewEditPost.currentPost = post
+
+        self.viewEditPost.coreDataCoordinator = coreDataCoordinator
+
+        self.coreDataCoordinator = coreDataCoordinator
+
+        authorLabel.text = (post.author ?? "") + " " + (post.surname ?? "")
+
+
+        let localized = NSLocalizedString("LocalizedLike", tableName: "LocalizableDict", comment: "")
+        let likeValue = post.likes
+        let formatLocalized = String(format: localized, likeValue)
+        
         descriptionLabel.text = post.text
         
         likesLabel.text = formatLocalized
 
         let localizedViews = NSLocalizedString("LocalizedView", tableName: "LocalizableDict", comment: "")
-        let viewsValue = Int(post.views ?? "") ?? 0
+        let viewsValue = post.views
         let formatLocalizedViews = String(format: localizedViews, viewsValue)
 
         viewsLabel.text = formatLocalizedViews
-            }
+
+    }
 }
 

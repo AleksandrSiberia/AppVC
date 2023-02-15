@@ -233,7 +233,7 @@ class LoginViewController: UIViewController {
 
                     else {
 
-                        let alert = UIAlertController(title: nil, message: error?.localizedDescription ?? "Biometry is not enrolled", preferredStyle: .actionSheet)
+                        let alert = UIAlertController(title: nil, message: error?.localizedDescription ?? "Biometry is not enrolled".allLocalizable, preferredStyle: .actionSheet)
 
                         let action = UIAlertAction(title: "ok", style: .cancel, handler: nil)
 
@@ -247,7 +247,7 @@ class LoginViewController: UIViewController {
 
             else {
 
-                let alert = UIAlertController(title: nil, message: "Чтобы входить с помощью биометрии, вначале нужно авторизоваться с помощью логина и пароля", preferredStyle: .actionSheet)
+                let alert = UIAlertController(title: nil, message: "buttonBiometricMassage".allLocalizable, preferredStyle: .actionSheet)
 
                 let action = UIAlertAction(title: "ok", style: .cancel, handler: nil)
 
@@ -442,7 +442,7 @@ class LoginViewController: UIViewController {
 
                 print(CustomErrorNovigation.invalidPasswordOrLogin.rawValue)
 
-                let alert = UIAlertController(title: "Неверный пароль или логин", message: "", preferredStyle: .alert )
+                let alert = UIAlertController(title: "Неверный пароль или логин".allLocalizable, message: "", preferredStyle: .alert )
                 let action = UIAlertAction(title: "Ok", style: .cancel) { _ in
                     self.dismiss(animated: true)
                 }

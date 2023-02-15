@@ -2,6 +2,11 @@
 // AllLocalizable
 
 
+"Неверный пароль или логин" = "Invalid login or password";
+"buttonBiometricMassage" = "To log in using biometrics, you first need to log in with a username and password";
+"Biometry is not enrolled" = "Biometry is not enrolled";
+
+
 "buttonAddPost" = "Add Post";
 "labelAddImage" = "Add Foto";
 "textViewAddNewPost" = "What is new?";

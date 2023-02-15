@@ -181,12 +181,12 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
             for post in arrayModelPost {
 
 
-                let values: [String: String]  =  ["author":  currentProfile?.name ?? "User",
+                let values: [String: Any]  =  ["author":  currentProfile?.name ?? "User",
                                                   "surname": currentProfile?.surname ?? "Test",
                                                   "image": post.image,
                                                   "text": post.description,
-                                                  "likes": String(post.likes),
-                                                  "views": String(post.views),
+                                                  "likes": post.likes,
+                                                  "views": post.views,
                                                   "nameForUrlFoto": "" ]
 
 

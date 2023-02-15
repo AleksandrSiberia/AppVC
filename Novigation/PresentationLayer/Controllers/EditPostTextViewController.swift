@@ -19,6 +19,16 @@ class EditPostTextViewController: UIViewController {
 
     private var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
+
+    private var scrollView: UIScrollView = {
+
+        var scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+
+        return scrollView
+    }()
+
+
     private lazy var barButtonCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(barButtonCancelAction))
 
     private lazy var barButtonSave = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(barButtonSaveAction))
@@ -32,6 +42,8 @@ class EditPostTextViewController: UIViewController {
         self.delegate = delegate
         self.delegateAlternative = delegateAlternative
         self.coreDataCoordinator = coreData
+
+
     }
 
 
@@ -43,7 +55,9 @@ class EditPostTextViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(textViewPost)
+        view.addSubview(scrollView)
+        scrollView.addSubview(textViewPost)
+
         navigationItem.leftBarButtonItem = barButtonCancel
         navigationItem.rightBarButtonItem = barButtonSave
 
@@ -54,7 +68,6 @@ class EditPostTextViewController: UIViewController {
         setupConstrains()
     }
 
-    
 
     func setupConstrains() {
 
@@ -62,12 +75,20 @@ class EditPostTextViewController: UIViewController {
 
         NSLayoutConstraint.activate([
 
-            textViewPost.topAnchor.constraint(equalTo: safeAria.topAnchor),
-            textViewPost.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor),
-            textViewPost.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor),
-            textViewPost.bottomAnchor.constraint(equalTo: safeAria.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: safeAria.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeAria.bottomAnchor),
+
+            textViewPost.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            textViewPost.widthAnchor.constraint(equalTo: safeAria.widthAnchor),
+            textViewPost.heightAnchor.constraint(equalToConstant: 330),
+            textViewPost.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+
         ])
     }
+
+
     
     @objc func barButtonCancelAction() {
 
