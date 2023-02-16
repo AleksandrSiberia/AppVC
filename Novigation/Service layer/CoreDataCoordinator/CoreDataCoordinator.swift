@@ -78,6 +78,25 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
+
+//    lazy var fetchedResultsControllerCommentsCoreData: NSFetchedResultsController = {
+//
+//
+//        var request = CommentCoreData.fetchRequest()
+//
+//        request.sortDescriptors  = [ NSSortDescriptor(key: "time", ascending: true) ]
+//
+//
+//
+//        var fetchedResultsControllerCommentsCoreData = NSFetchedResultsController(fetchRequest: request , managedObjectContext: self.backgroundContext, sectionNameKeyPath: nil, cacheName: nil)
+//
+//
+//
+//        return fetchedResultsControllerCommentsCoreData
+//
+//    }()
+
+
     init() {
 
         guard let userFolder = KeychainSwift().get("userOnline") else {
@@ -168,17 +187,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
     func appendPost(values: [String: Any], folderName: String?, completion: (String?) -> Void) {
 
-//        guard let posts = fetchedResultsControllerSavePostCoreData?.sections?.first?.objects as? [PostCoreData]   else {
-//            print("‼️ fetchedResultsControllerSavePostCoreData?.sections?[0] == nil || empty" )
-//            return
-//        }
-//        for postInCoreData in posts {
-//
-//            if postInCoreData.text == values["text"] {
-//                completion(NSLocalizedString("appendPost", tableName: "ProfileViewControllerLocalizable", comment: "This post has already been saved"))
-//                return
-//            }
-//        }
 
         let post = PostCoreData(context: self.backgroundContext)
         
@@ -206,6 +214,36 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         self.performFetchAllPostCoreData()
     }
+
+
+
+
+    func appendNewCommentInPost(for post: PostCoreData?, values: [String: Any] ) {
+
+        guard let post else {
+            print("‼️ appendComment(for post: PostCoreData? == nil")
+            return
+        }
+
+        var comment = CommentCoreData(context: backgroundContext)
+
+        comment.nameAuthor = values["nameAuthor"] as? String
+        comment.surnameAuthor = values["surnameAuthor"] as? String
+
+
+        guard var arrayComment = post.relationshipArrayComments?.allObjects else {
+            print("‼️ post.relationshipArrayComments?.allObjects == nil")
+            return
+        }
+
+        arrayComment.append(comment)
+
+        post.relationshipArrayComments = NSSet(array: arrayComment)
+
+        savePersistentContainerContext()
+
+    }
+
 
 
 

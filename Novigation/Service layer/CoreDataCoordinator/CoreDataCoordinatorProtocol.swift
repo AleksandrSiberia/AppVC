@@ -43,6 +43,8 @@ protocol CoreDataCoordinatorProtocol {
     func deleteCurrentProfile(completionHandler: @escaping (_ success: String?) -> Void)
 
     func getProfiles(completionHandler: @escaping ([ProfileCoreData]?) -> Void )
+
+    func appendNewCommentInPost(for post: PostCoreData?, values: [String: Any] )
 }
 
 

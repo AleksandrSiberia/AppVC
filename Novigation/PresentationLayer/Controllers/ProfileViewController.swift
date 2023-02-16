@@ -44,8 +44,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         }
     }
 
-
-
+    
     lazy var userService: UserServiceProtocol = {
 #if DEBUG
         return TestUserService(coreDataCoordinator: coreDataCoordinator)
@@ -208,7 +207,9 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
                                                   "text": post.description,
                                                   "likes": post.likes,
                                                   "views": post.views,
-                                                  "nameForUrlFoto": "" ]
+                                                  "nameForUrlFoto": "",
+                                                 
+                ]
 
 
                 self.coreDataCoordinator?.appendPost(values: values, folderName: KeychainSwift().get("userOnline")) { _ in }
@@ -423,6 +424,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
         arrayCells.forEach { $0.viewEditPostIsHidden() }
 
     }
+
+
 }
 
 

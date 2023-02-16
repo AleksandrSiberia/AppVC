@@ -251,6 +251,12 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
         return actionConfiguration
     }
+
+
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+      2000
+    }
 }
 
 

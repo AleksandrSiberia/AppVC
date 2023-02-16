@@ -19,4 +19,15 @@ extension UITextField {
         textField.keyboardType = keyboardType
         return textField
     }
+
+    static func setupTextFieldComment(text: String?, keyboardType: UIKeyboardType) -> UITextField {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.text = text
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 12
+        textField.keyboardType = keyboardType
+        textField.placeholder = "Напишите коментарий"
+        return textField
+    }
 }
