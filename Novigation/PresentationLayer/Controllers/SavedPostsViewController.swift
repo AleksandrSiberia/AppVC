@@ -13,6 +13,9 @@ protocol SavedPostsViewControllerDelegate {
 
     func showEditPostTextViewController(currentPost: PostCoreData?)
     func dismissController()
+    func reloadTableView()
+
+
 }
 
 
@@ -106,11 +109,17 @@ class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelega
         present(navController, animated: true)
     }
 
-    func dismissController() {
 
+
+    func dismissController() {
         dismiss(animated: true)
     }
 
+
+
+    func reloadTableView() {
+        tableView.reloadData()
+    }
 
 
     @objc private func actionBarButtonItemSearch() {
@@ -167,7 +176,6 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        print("🌵", self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.sections?[0].numberOfObjects ?? 0)
         return self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.sections?[0].numberOfObjects ?? 0
     }
 
@@ -244,8 +252,6 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
         return actionConfiguration
     }
 }
-
-
 
 
 

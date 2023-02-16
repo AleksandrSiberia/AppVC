@@ -11,7 +11,7 @@ import iOSIntPackage
 class PostCell: UITableViewCell {
 
 
-    private var currentPost: PostCoreData?
+    var currentPost: PostCoreData?
 
     private var nameImage: String?
 
@@ -21,7 +21,9 @@ class PostCell: UITableViewCell {
 
     private var delegate: ProfileViewControllerDelegate?
 
+    private var delegateAlternative: SavedPostsViewControllerDelegate?
 
+    var countViews: Bool?
 
 
     private lazy var viewEditPost: ViewEditPost = {
@@ -81,6 +83,7 @@ class PostCell: UITableViewCell {
 
     private lazy var imageViewPost: UIImageView = {
         var imageViewPost = UIImageView()
+
         imageViewPost.translatesAutoresizingMaskIntoConstraints = false
         imageViewPost.backgroundColor = .black
         imageViewPost.contentMode = .scaleAspectFit
@@ -100,9 +103,6 @@ class PostCell: UITableViewCell {
         labelText.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
         return labelText
     }()
-
-
-    
 
 
     private lazy var labelLikes: UILabel = {
@@ -125,12 +125,16 @@ class PostCell: UITableViewCell {
             if self.currentPost?.likeYou == true {
 
                 self.currentPost?.likeYou = false
-                
+
                 if (self.currentPost?.likes ?? 0) > 0 {
                     self.currentPost?.likes -= 1
                 }
 
                 self.coreDataCoordinator?.savePersistentContainerContext()
+
+                self.delegate?.reloadTableView()
+                self.delegateAlternative?.reloadTableView()
+
 
                 let image = UIImage(systemName: "heart", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
 
@@ -145,13 +149,15 @@ class PostCell: UITableViewCell {
                 self.currentPost?.likes += 1
                 self.coreDataCoordinator?.savePersistentContainerContext()
 
+                self.delegate?.reloadTableView()
+                self.delegateAlternative?.reloadTableView()
+
                 let image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
 
                 self.buttonLike.tintColor = UIColor(named: "orange")
                 self.buttonLike.setImage(image, for: .normal)
             }
         }
-
 
         var buttonLike = UIButton(frame: CGRect(), primaryAction: action)
 
@@ -225,6 +231,7 @@ class PostCell: UITableViewCell {
         setupViews()
         setupConstrains()
 
+  //      countNewViews()
     }
 
 
@@ -273,11 +280,11 @@ class PostCell: UITableViewCell {
             buttonLike.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
 
 
-            labelLikes.leadingAnchor.constraint(equalTo: buttonLike.trailingAnchor, constant: 20),
+            labelLikes.leadingAnchor.constraint(equalTo: buttonLike.trailingAnchor, constant: 10),
             labelLikes.centerYAnchor.constraint(equalTo: buttonLike.centerYAnchor),
 
 
-            labelViews.leadingAnchor.constraint(equalTo: labelLikes.trailingAnchor, constant: 20),
+            labelViews.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             labelViews.centerYAnchor.constraint(equalTo: labelLikes.centerYAnchor),
 
 
@@ -422,11 +429,15 @@ class PostCell: UITableViewCell {
     private func setupLabelViews(post: PostCoreData) {
 
         let localizedViews = NSLocalizedString("LocalizedView", tableName: "LocalizableDict", comment: "")
+
         let viewsValue = post.views
+
         let formatLocalizedViews = String(format: localizedViews, viewsValue)
         labelViews.text = formatLocalizedViews
 
     }
+
+
 
 
 
@@ -441,6 +452,7 @@ class PostCell: UITableViewCell {
         self.viewEditPost.delegateAlternative = savedPostsVC
         self.currentPost = post
         self.delegate = profileVC
+        self.delegateAlternative = savedPostsVC
         self.viewEditPost.currentPost = post
         self.viewEditPost.coreDataCoordinator = coreDataCoordinator
         self.coreDataCoordinator = coreDataCoordinator
@@ -450,7 +462,6 @@ class PostCell: UITableViewCell {
         setupImageForPost(post: post)
         setupLabelLikes(post: post)
         setupLabelViews(post: post)
-
 
         labelAuthor.text = (post.author ?? "") + " " + (post.surname ?? "")
         labelText.text = post.text

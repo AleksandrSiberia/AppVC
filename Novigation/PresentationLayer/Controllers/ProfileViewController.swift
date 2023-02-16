@@ -22,6 +22,7 @@ protocol ProfileViewControllerDelegate {
     func showMassage(text: String)
     func showEditPostTextViewController(currentPost: PostCoreData?)
     func dismissController()
+    func reloadTableView()
 }
 
 protocol ProfileViewControllerOutput {
@@ -42,6 +43,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
             print("🙂 willSet")
         }
     }
+
 
 
     lazy var userService: UserServiceProtocol = {
@@ -144,6 +146,8 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         handle = Auth.auth().addStateDidChangeListener { auth, user in
             // ...
         }
+
+        saveNewViewsPost()
     }
 
 
@@ -166,6 +170,23 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         userService.getUserByEmail(email: emailUser) { currentUser  in
             self.currentProfile = currentUser
             self.tableView.reloadData()
+        }
+    }
+
+
+
+    private func saveNewViewsPost() {
+
+        for cell in arrayCells {
+
+            if cell.countViews == nil {
+                if let views = cell.currentPost?.views {
+                    cell.countViews = true
+                    cell.currentPost?.views = views + 1
+                    coreDataCoordinator?.savePersistentContainerContext()
+                    reloadTableView()
+                }
+            }
         }
     }
 
@@ -238,9 +259,22 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         present(navController, animated: true)
     }
 
+
+
+
+    func reloadTableView() {
+
+        tableView.reloadData()
+    }
+
+
+
+
     func dismissController() {
         dismiss(animated: true)
     }
+
+
 
 
     private func setupConstraints() {
@@ -315,7 +349,9 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
             cell.selectionStyle = .none
 
+
             if let posts = self.coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?.first?.objects as? [PostCoreData] {
+
 
                 if posts.count >= indexPath.row + 1 {
 

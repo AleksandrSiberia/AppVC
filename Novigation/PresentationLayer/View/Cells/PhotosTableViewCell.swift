@@ -58,6 +58,7 @@ class PhotosTableViewCell: UITableViewCell {
         return photoCollectionView
     }()
 
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -68,37 +69,14 @@ class PhotosTableViewCell: UITableViewCell {
         self.contentView.addSubview(photoCollectionView)
 
         setupConstraints()
-
-
-        // Я думаю удобно с помощью таймера скролить CollectionView с
-       // фотографиями в профиле для демонстрации того что можно посмотреть в
-       // следующем представлении
-
-        var count: Int = 1
-
-        Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
-
-
-            let width: Int = Int(self.neededWidth)
-
-            let contentSizeWidth = Int(self.photoCollectionView.contentSize.width)
-            let contentOffset = count * width
-            self.photoCollectionView.contentOffset = CGPoint(x: contentOffset, y: 0)
-            count += 1
-            if contentOffset + width + 20 > contentSizeWidth {
-                count = 0
-                self.photoCollectionView.contentOffset = CGPoint(x: 0, y: 0)
-                self.timer = timer
-            //    timer.invalidate()
-            }
-
-        }
+        autoScrollCollectionView()
     }
+
+
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 
 
     private func setupConstraints() {
@@ -116,24 +94,52 @@ class PhotosTableViewCell: UITableViewCell {
 
         NSLayoutConstraint.activate([
 
-            self.labelCollectionPhoto.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: collectionFlowLayout.sectionInset.top),
-            self.labelCollectionPhoto.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: collectionFlowLayout.sectionInset.left),
-            self.labelCollectionPhoto.trailingAnchor.constraint(equalTo: self.arrow.leadingAnchor),
-            self.labelCollectionPhoto.bottomAnchor.constraint(equalTo: self.photoCollectionView.topAnchor),
+            labelCollectionPhoto.topAnchor.constraint(equalTo: contentView.topAnchor, constant: collectionFlowLayout.sectionInset.top),
+            labelCollectionPhoto.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: collectionFlowLayout.sectionInset.left),
+            labelCollectionPhoto.trailingAnchor.constraint(equalTo: arrow.leadingAnchor),
+            labelCollectionPhoto.bottomAnchor.constraint(equalTo: photoCollectionView.topAnchor),
 
-            self.arrow.centerYAnchor.constraint(equalTo: self.labelCollectionPhoto.centerYAnchor),
-            self.arrow.leadingAnchor.constraint(equalTo: self.labelCollectionPhoto.trailingAnchor),
-            self.arrow.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -collectionFlowLayout.sectionInset.right),
-            self.arrow.widthAnchor.constraint(equalTo: self.arrow.heightAnchor),
+            arrow.centerYAnchor.constraint(equalTo: labelCollectionPhoto.centerYAnchor),
+            arrow.leadingAnchor.constraint(equalTo: labelCollectionPhoto.trailingAnchor),
+            arrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -collectionFlowLayout.sectionInset.right),
+            arrow.widthAnchor.constraint(equalTo: arrow.heightAnchor),
 
-            self.photoCollectionView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            self.photoCollectionView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            self.photoCollectionView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-            self.photoCollectionView.heightAnchor.constraint(equalToConstant: widthHeightCollection )
+            photoCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            photoCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            photoCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            photoCollectionView.heightAnchor.constraint(equalToConstant: widthHeightCollection )
 
          ])
     }
+
+
+
+    private func autoScrollCollectionView() {
+
+        var count: Int = 1
+
+        Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
+
+            let width: Int = Int(self.neededWidth)
+
+            let contentSizeWidth = Int(self.photoCollectionView.contentSize.width)
+            let contentOffset = count * width
+            self.photoCollectionView.contentOffset = CGPoint(x: contentOffset, y: 0)
+            count += 1
+
+            if contentOffset + width + 20 > contentSizeWidth {
+                count = 0
+                self.photoCollectionView.contentOffset = CGPoint(x: 0, y: 0)
+                //   self.timer = timer
+                //    timer.invalidate()
+            }
+
+        }
+
+    }
 }
+
+
 
 
 
