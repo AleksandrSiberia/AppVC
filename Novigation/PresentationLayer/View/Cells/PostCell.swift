@@ -25,7 +25,8 @@ class PostCell: UITableViewCell {
 
     var countViews: Bool?
 
-    lazy var heightAnchorTableViewComment: [NSLayoutConstraint] =  [self.tableViewComment.heightAnchor.constraint(equalToConstant: 300)]
+    private var heightAnchorTableViewComment: [NSLayoutConstraint] = []
+
 
 
     private lazy var buttonComments: UIButton = {
@@ -35,25 +36,17 @@ class PostCell: UITableViewCell {
             if self.tableViewComment.isHidden {
 
                 self.tableViewComment.isHidden = false
-                NSLayoutConstraint.deactivate(self.heightAnchorTableViewComment)
-                self.heightAnchorTableViewComment = [
-                    self.tableViewComment.heightAnchor.constraint(equalToConstant: 300)
-                ]
-                NSLayoutConstraint.activate( self.heightAnchorTableViewComment )
-            }
 
+                self.setupNewHeightAnchorTableViewComment(newConstrains: 300)
+            }
 
             else {
 
                 self.tableViewComment.isHidden = true
-                NSLayoutConstraint.deactivate(self.heightAnchorTableViewComment)
-                self.heightAnchorTableViewComment = [
-                    self.tableViewComment.heightAnchor.constraint(equalToConstant: 0)
-                ]
-                NSLayoutConstraint.activate( self.heightAnchorTableViewComment )
+
+                self.setupNewHeightAnchorTableViewComment(newConstrains: 0)
             }
         }
-
 
         var buttonComments = UIButton(frame: CGRect(), primaryAction: action)
 
@@ -365,12 +358,21 @@ class PostCell: UITableViewCell {
             tableViewComment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
 
+        setupNewHeightAnchorTableViewComment(newConstrains: 0)
+
+    }
 
 
-        heightAnchorTableViewComment = [tableViewComment.heightAnchor.constraint(equalToConstant: 0)]
-        NSLayoutConstraint.deactivate(
-            heightAnchorTableViewComment
-        )
+
+    private func setupNewHeightAnchorTableViewComment(newConstrains: CGFloat) {
+
+        NSLayoutConstraint.deactivate(self.heightAnchorTableViewComment)
+
+        self.heightAnchorTableViewComment = [
+            self.tableViewComment.heightAnchor.constraint(equalToConstant: newConstrains)
+        ]
+
+        NSLayoutConstraint.activate( self.heightAnchorTableViewComment )
     }
 
 
