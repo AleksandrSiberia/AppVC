@@ -262,13 +262,10 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
 
-
     func reloadTableView() {
 
         tableView.reloadData()
     }
-
-
 
 
     func dismissController() {
@@ -424,7 +421,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
         arrayCells.forEach { $0.viewEditPostIsHidden() }
 
     }
-
 
 }
 

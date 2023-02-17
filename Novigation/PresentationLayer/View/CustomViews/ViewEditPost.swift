@@ -17,6 +17,7 @@ class ViewEditPost: UIView {
 
     var currentPost: PostCoreData? {
         willSet {
+
             tableView.reloadData()
             print("🚗 willSet")
         }

@@ -1,23 +1,27 @@
 
 // AllLocalizable
 
+
+//LogiViewController
 "Неверный пароль или логин" = "Неверный пароль или логин";
 "buttonBiometricMassage" = "Чтобы входить с помощью биометрии, вначале нужно авторизоваться с помощью логина и пароля";
 "Biometry is not enrolled" = "Биометрия не зарегистрирована";
 
+//AddNewPostViewController
 "buttonAddPost" = "Добавить пост";
 "labelAddImage" = "Добавить фото";
 "textViewAddNewPost" = "Что нового?";
 
+//AddNewPostViewControllerTitle
 "AddNewPostViewControllerTitle" = "Добавить новый пост";
 "buttonAddPostAlertSuccess" = "Пост добавлен";
 "buttonAddPostAlertFailed" = "Добавьте фото с текстом";
 "этот пост уже сохранён" = "Этот пост уже сохранён";
 
+//ViewEditPost
 "Сохранить в избранное" = "Сохранить в избранное";
 "Редактировать текст" = "Редактировать текст";
 "Убрать из сохраненного" = "Убрать из сохраненного";
-
 "Пост убран из избранного" = "Пост убран из избранного";
 "Пост добавлен в избранное" = "Пост добавлен в избранное";
 
@@ -33,6 +37,7 @@
 "Интересы" = "Интересы";
 "Контакты" = "Контакты";
 
+//MainInformationViewController
 "labelNameMainInformation" = "Имя";
 "labelSurnameMainInformation" = "Фамилия";
 "labelGenderMainInformation" = "Пол";
@@ -41,10 +46,16 @@
 "labelBirthday" = "День Рождения";
 "labelHometown" = "Родной город";
 
+//SettingViewController
 "labelEducations" = "Образование";
 "labelCareer" = "Карьера";
 "labelInterest" = "Интересы";
 "labelMobilePhone" = "Сотовый телефон";
 
+//ProfileHeaderView
 "buttonDetailedInformations" = " Детальная информация";
+
+
+// UITextField
+"Напишите комментарий" = "   Напишите комментарий";
 

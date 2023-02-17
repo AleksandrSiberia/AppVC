@@ -27,7 +27,7 @@ extension UITextField {
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 12
         textField.keyboardType = keyboardType
-        textField.placeholder = "Напишите коментарий"
+        textField.placeholder = "Напишите комментарий".allLocalizable
         return textField
     }
 }

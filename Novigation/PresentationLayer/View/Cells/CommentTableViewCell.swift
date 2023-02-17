@@ -14,19 +14,31 @@ class CommentTableViewCell: UITableViewCell {
   private var currentComments: CommentCoreData?
 
 
-    private lazy var textFieldCommit = UITextField.setupTextFieldComment(text: "Hi !!!!!!!!!!!!!!!!!!!!!!!!!!", keyboardType: .default)
+    private var imageViewAuthorAvatar = {
+
+        var imageViewAuthorAvatar = UIImageView()
+        imageViewAuthorAvatar.translatesAutoresizingMaskIntoConstraints = false
+        imageViewAuthorAvatar.layer.cornerRadius = 15
+        return imageViewAuthorAvatar
+    }()
 
 
-    init() {
-        super.init(style: .default, reuseIdentifier: nil)
-
-        [textFieldCommit].forEach { addSubview( $0) }
+    private lazy var textFieldNewComment = UITextField.setupTextFieldComment(text: nil, keyboardType: .namePhonePad)
 
 
-   //     backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .gray)
 
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+
+        [imageViewAuthorAvatar, textFieldNewComment].forEach { contentView.addSubview( $0) }
+        setupConstraints()
+
+        backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .gray)
     }
+    
 
+ 
 
 
     required init?(coder: NSCoder) {
@@ -46,27 +58,42 @@ class CommentTableViewCell: UITableViewCell {
 
         NSLayoutConstraint.activate([
 
-            textFieldCommit.topAnchor.constraint(equalTo: contentView.topAnchor),
-            textFieldCommit.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            textFieldCommit.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            textFieldCommit.widthAnchor.constraint(equalToConstant: 40),
-            textFieldCommit.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            imageViewAuthorAvatar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            imageViewAuthorAvatar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            imageViewAuthorAvatar.heightAnchor.constraint(equalToConstant: 30),
+            imageViewAuthorAvatar.widthAnchor.constraint(equalToConstant: 30),
+
+            
+            textFieldNewComment.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            textFieldNewComment.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            textFieldNewComment.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            textFieldNewComment.heightAnchor.constraint(equalToConstant: 40),
+            textFieldNewComment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
     }
 
     
 
-    func setupCell(currentPost: PostCoreData?, coreData: CoreDataCoordinatorProtocol?, currentComment: CommentCoreData?) {
+    func setupCellAllComments(currentPost: PostCoreData?, coreData: CoreDataCoordinatorProtocol?, currentComment: CommentCoreData?) {
 
         self.currentPost = currentPost
         self.coreData = coreData
         self.currentComments = currentComment
 
+        textFieldNewComment.isHidden = true
+    }
 
+
+
+    func setupCellNewComment(currentPost: PostCoreData?, coreData: CoreDataCoordinatorProtocol?) {
+
+        self.currentPost = currentPost
+        self.coreData = coreData
+
+        imageViewAuthorAvatar.isHidden = true
     }
 
 }
-
 
 
 

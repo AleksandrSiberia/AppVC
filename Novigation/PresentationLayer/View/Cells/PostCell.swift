@@ -25,10 +25,64 @@ class PostCell: UITableViewCell {
 
     var countViews: Bool?
 
+    lazy var heightAnchorTableViewComment: [NSLayoutConstraint] =  [self.tableViewComment.heightAnchor.constraint(equalToConstant: 300)]
+
+
+    private lazy var buttonComments: UIButton = {
+
+        let action = UIAction() { _ in
+
+            if self.tableViewComment.isHidden {
+
+                self.tableViewComment.isHidden = false
+                NSLayoutConstraint.deactivate(self.heightAnchorTableViewComment)
+                self.heightAnchorTableViewComment = [
+                    self.tableViewComment.heightAnchor.constraint(equalToConstant: 300)
+                ]
+                NSLayoutConstraint.activate( self.heightAnchorTableViewComment )
+
+
+                self.delegate?.reloadTableView()
+                self.delegateAlternative?.reloadTableView()
+            }
+
+
+
+            else {
+
+                self.tableViewComment.isHidden = true
+                NSLayoutConstraint.deactivate(self.heightAnchorTableViewComment)
+                self.heightAnchorTableViewComment = [
+                    self.tableViewComment.heightAnchor.constraint(equalToConstant: 0)
+                ]
+                NSLayoutConstraint.activate( self.heightAnchorTableViewComment )
+
+                self.delegate?.reloadTableView()
+                self.delegateAlternative?.reloadTableView()
+            }
+
+        }
+        var buttonComments = UIButton(frame: CGRect(), primaryAction: action)
+
+        buttonComments.translatesAutoresizingMaskIntoConstraints = false
+
+        let image = UIImage(systemName: "message", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
+
+        buttonComments.setImage(image, for: .normal)
+
+        buttonComments.tintColor = UIColor.createColorForTheme(lightTheme: .gray, darkTheme: .white)
+
+        return buttonComments
+    }()
+
+
 
     private lazy var tableViewComment: UITableView = {
 
         var tableViewComment = UITableView()
+
+        tableViewComment.isHidden = true
+
         tableViewComment.translatesAutoresizingMaskIntoConstraints = false
         tableViewComment.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.name)
 
@@ -256,11 +310,15 @@ class PostCell: UITableViewCell {
 
 
 
+
+
+
     func setupViews() {
 
-        [labelAuthor, buttonEditPost, imageViewPost, labelText, buttonLike, labelLikes, labelViews, viewEditPost, buttonFavorite, tableViewComment].forEach {
+        [labelAuthor, buttonEditPost, imageViewPost, labelText, buttonLike, labelLikes, labelViews, viewEditPost, buttonFavorite,  tableViewComment, buttonComments].forEach {
             contentView.addSubview($0)
         }
+
     }
 
 
@@ -291,7 +349,6 @@ class PostCell: UITableViewCell {
 
             buttonLike.topAnchor.constraint(equalTo: labelText.bottomAnchor, constant: 20),
             buttonLike.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-      //      buttonLike.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
 
 
             labelLikes.leadingAnchor.constraint(equalTo: buttonLike.trailingAnchor, constant: 10),
@@ -302,15 +359,25 @@ class PostCell: UITableViewCell {
             labelViews.centerYAnchor.constraint(equalTo: labelLikes.centerYAnchor),
 
 
+            buttonComments.centerYAnchor.constraint(equalTo: labelViews.centerYAnchor),
+            buttonComments.trailingAnchor.constraint(equalTo: buttonFavorite.leadingAnchor, constant: -25),
+
+
             buttonFavorite.centerYAnchor.constraint(equalTo: labelViews.centerYAnchor),
             buttonFavorite.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -26),
 
-            tableViewComment.topAnchor.constraint(equalTo: buttonFavorite.bottomAnchor, constant: 20),
+            tableViewComment.topAnchor.constraint(equalTo: buttonFavorite.bottomAnchor, constant: 15),
             tableViewComment.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             tableViewComment.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            tableViewComment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -26),
-            tableViewComment.widthAnchor.constraint(equalToConstant: 500)
+            tableViewComment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
+
+
+
+        heightAnchorTableViewComment = [tableViewComment.heightAnchor.constraint(equalToConstant: 0)]
+        NSLayoutConstraint.deactivate(
+            heightAnchorTableViewComment
+        )
     }
 
 
@@ -491,69 +558,90 @@ class PostCell: UITableViewCell {
 
 
 extension PostCell: UITableViewDataSource, UITableViewDelegate {
+
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//
+//
+//        3
+//    }
+
+
+
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+
+        if section == 0 {
+
+            guard let comments = currentPost?.relationshipArrayComments?.allObjects as? [CommentCoreData] else {
+
+                print("‼️ currentPost?.relationshipArrayComments?.allObjects == nil")
+
+                return 0
+            }
+
+            return comments.count
+        }
+
+        else {
+
+           return  1
+        }
     }
+
+
+
+    func  numberOfSections(in tableView: UITableView) -> Int {
+        2
+    }
+
+
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        tableViewComment.dequeueReusableCell(withIdentifier: "Default", for: indexPath)
+
+        if indexPath.section == 0 {
+
+            guard let cell = tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name, for: indexPath) as? CommentTableViewCell
+
+            else {
+                print("‼️ tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name == nil")
+                return UITableViewCell()
+            }
+
+            guard let comments = currentPost?.relationshipArrayComments?.allObjects as? [CommentCoreData], comments.count - 1 >= indexPath.row
+
+            else {
+                print("‼️ currentPost?.relationshipArrayComments?.allObjects == nil")
+
+                return cell
+            }
+
+            let commentsSortByTime = comments.sorted { $0.time! < $1.time! }
+
+
+            cell.setupCellAllComments(currentPost: currentPost, coreData: coreDataCoordinator, currentComment: commentsSortByTime[indexPath.row] )
+
+            return cell
+        }
+
+
+
+        else {
+
+            guard let cell = tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name, for: indexPath) as? CommentTableViewCell
+
+            else {
+                print("‼️ tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name == nil")
+                return UITableViewCell()
+            }
+
+            cell.backgroundColor = .green
+
+            cell.setupCellNewComment(currentPost: currentPost, coreData: coreDataCoordinator)
+
+            return cell
+        }
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        400
-    }
-
-
-
-
-
-
-
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//
-//        guard let comments = currentPost?.relationshipArrayComments?.allObjects as? [CommentCoreData] else {
-//
-//            print("‼️ currentPost?.relationshipArrayComments?.allObjects == nil")
-//
-//            return 0
-//        }
-//
-//        return comments.count
-//    }
-//
-//
-//
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//        guard let cell = tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name, for: indexPath) as? CommentTableViewCell
-//
-//        else {
-//            print("‼️ tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name == nil")
-//            return UITableViewCell()
-//        }
-//
-//        guard let comments = currentPost?.relationshipArrayComments?.allObjects as? [CommentCoreData], comments.count - 1 >= indexPath.row
-//
-//        else {
-//            print("‼️ currentPost?.relationshipArrayComments?.allObjects == nil")
-//
-//            return cell
-//        }
-//
-//        let commentsSortByTime = comments.sorted { $0.time! < $1.time! }
-//
-//
-//        cell.setupCell(currentPost: currentPost, coreData: coreDataCoordinator, currentComment: commentsSortByTime[indexPath.row] )
-//
-//        return cell
-//    }
-//
-//
-//
-//
-//
 
 }

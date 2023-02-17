@@ -2,24 +2,27 @@
 // AllLocalizable
 
 
+//LogiViewController
 "Неверный пароль или логин" = "Invalid login or password";
 "buttonBiometricMassage" = "To log in using biometrics, you first need to log in with a username and password";
 "Biometry is not enrolled" = "Biometry is not enrolled";
 
-
+//AddNewPostViewController
 "buttonAddPost" = "Add Post";
 "labelAddImage" = "Add Foto";
 "textViewAddNewPost" = "What is new?";
 
+
+//AddNewPostViewControllerTitle
 "AddNewPostViewControllerTitle" = "Add new post";
 "buttonAddPostAlertSuccess" = "Post added";
 "buttonAddPostAlertFailed" = "Add a photo with text";
 "этот пост уже сохранён" = "this post has already been saved";
 
+//ViewEditPost
 "Сохранить в избранное" = "Save to Favorites";
 "Редактировать текст" = "Edit Text";
 "Убрать из сохраненного" = "Remove from Favorites";
-
 "Пост убран из избранного" = "Post removed from Favorites";
 "Пост добавлен в избранное" = "Post added to Favorites";
 
@@ -34,6 +37,8 @@
 "Интересы" = "Interest";
 "Контакты" = "Contacts";
 
+
+//MainInformationViewController
 "labelNameMainInformation" = "Name";
 "labelSurnameMainInformation" = "Surname";
 "labelGenderMainInformation" = "Gender";
@@ -42,11 +47,18 @@
 "labelBirthday" = "Birthday";
 "labelHometown" = "Hometown";
 
+//SettingViewController
 "labelEducations" = "Educations";
 "labelCareer" = "Career";
 "labelInterest" = "Interest";
 "labelMobilePhone" = "Mobile Phone";
 
+//ProfileHeaderView
 "buttonDetailedInformations" = " Detailed Information";
+
+
+// UITextField
+"Напишите комментарий" = "   Write a comment";
+
 
 

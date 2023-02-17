@@ -51,6 +51,7 @@ class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelega
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
+   
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
 
         tableView.register(PostCell.self, forCellReuseIdentifier: "PostCell")
@@ -253,10 +254,9 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
     }
 
 
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      2000
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//      2000
+//    }
 }
 
 
