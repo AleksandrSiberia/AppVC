@@ -40,12 +40,7 @@ class PostCell: UITableViewCell {
                     self.tableViewComment.heightAnchor.constraint(equalToConstant: 300)
                 ]
                 NSLayoutConstraint.activate( self.heightAnchorTableViewComment )
-
-
-                self.delegate?.reloadTableView()
-                self.delegateAlternative?.reloadTableView()
             }
-
 
 
             else {
@@ -56,12 +51,10 @@ class PostCell: UITableViewCell {
                     self.tableViewComment.heightAnchor.constraint(equalToConstant: 0)
                 ]
                 NSLayoutConstraint.activate( self.heightAnchorTableViewComment )
-
-                self.delegate?.reloadTableView()
-                self.delegateAlternative?.reloadTableView()
             }
-
         }
+
+
         var buttonComments = UIButton(frame: CGRect(), primaryAction: action)
 
         buttonComments.translatesAutoresizingMaskIntoConstraints = false
