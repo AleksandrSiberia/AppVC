@@ -145,6 +145,8 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 //        if self.delegate != nil {
 //            self.delegate.showPost()
 //        }
+
+        reloadTableView()
         
         handle = Auth.auth().addStateDidChangeListener { auth, user in
             // ...
@@ -360,6 +362,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
                 if posts.count >= indexPath.row + 1 {
 
                     let post = posts[indexPath.row ]
+
 
                     cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, profileVC: self, savedPostsVC: nil)
 

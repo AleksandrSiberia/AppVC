@@ -13,7 +13,6 @@ class PostCell: UITableViewCell {
 
     var currentPost: PostCoreData?
 
-    
 
     private var nameImage: String?
 
@@ -50,10 +49,9 @@ class PostCell: UITableViewCell {
 
                 self.tableViewComment.isHidden = false
 
+                self.setupConstrains(newTableViewCommentHeightAnchor: 200)
 
-                self.setupConstrains(newTableViewCommentHeightAnchor: 200) {}
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.delegate?.reloadTableView()
                     self.delegateAlternative?.reloadTableView()
                 }
@@ -63,8 +61,8 @@ class PostCell: UITableViewCell {
 
                 self.tableViewComment.isHidden = true
 
-                self.setupConstrains(newTableViewCommentHeightAnchor: 0) {}
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.setupConstrains(newTableViewCommentHeightAnchor: 0)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                    self.delegate?.reloadTableView()
                    self.delegateAlternative?.reloadTableView()
                 }
@@ -308,7 +306,7 @@ class PostCell: UITableViewCell {
 
         setupViews()
 
-        setupConstrains(newTableViewCommentHeightAnchor: 0) {}
+        setupConstrains(newTableViewCommentHeightAnchor: 0)
 
 
     }
@@ -333,7 +331,7 @@ class PostCell: UITableViewCell {
 
 
 
-    private func setupConstrains(newTableViewCommentHeightAnchor: CGFloat, completionHandler: @escaping () -> Void ) {
+    private func setupConstrains(newTableViewCommentHeightAnchor: CGFloat) {
 
 
 
@@ -589,12 +587,6 @@ class PostCell: UITableViewCell {
 
 extension PostCell: UITableViewDataSource, UITableViewDelegate {
 
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//
-//
-//        3
-//    }
-
 
 
 
@@ -609,8 +601,10 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
                 return 0
             }
 
+            print("🌵", comments.count)
             return comments.count
         }
+
 
         else {
 

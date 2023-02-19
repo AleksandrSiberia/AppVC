@@ -14,7 +14,6 @@ protocol SavedPostsViewControllerDelegate {
     func showEditPostTextViewController(currentPost: PostCoreData?)
     func dismissController()
     func reloadTableView()
-   
 
 }
 
@@ -85,6 +84,7 @@ class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelega
         super.viewWillAppear(animated)
 
         self.coreDataCoordinator.performFetchSavePostCoreData()
+        reloadTableView()
 
     }
 
@@ -211,6 +211,8 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
 
         let postCoreData = self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.object(at: indexPath)
+
+     
 
         cell.setupCell(post: postCoreData, coreDataCoordinator: coreDataCoordinator, profileVC: nil, savedPostsVC: self)
 

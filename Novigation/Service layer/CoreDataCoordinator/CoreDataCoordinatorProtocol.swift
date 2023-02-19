@@ -26,7 +26,7 @@ protocol CoreDataCoordinatorProtocol {
 
     func appendFolder(name: String?)
 
-func appendPost(values: [String: Any], currentProfile: ProfileCoreData?, folderName: String?, completion: (String?) -> Void)
+    func appendPost(values: [String: Any], currentProfile: ProfileCoreData?, folderName: String?, completion: (String?) -> Void)
 
     func getFolderByName(nameFolder: String?) -> FoldersCoreData?
 
@@ -44,7 +44,7 @@ func appendPost(values: [String: Any], currentProfile: ProfileCoreData?, folderN
 
     func getProfiles(completionHandler: @escaping ([ProfileCoreData]?) -> Void )
 
-    func appendNewCommentInPost(for post: PostCoreData?, values: [String: Any] )
+    func appendNewCommentInPost(for post: PostCoreData?, text: String?)
 }
 
 

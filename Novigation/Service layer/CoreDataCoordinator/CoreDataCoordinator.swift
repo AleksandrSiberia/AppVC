@@ -203,30 +203,38 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    func appendNewCommentInPost(for post: PostCoreData?, values: [String: Any] ) {
-
-        guard let post else {
-            print("‼️ appendComment(for post: PostCoreData? == nil")
-            return
-        }
-
-        let comment = CommentCoreData(context: backgroundContext)
-
-        comment.nameAuthor = values["nameAuthor"] as? String
-        comment.surnameAuthor = values["surnameAuthor"] as? String
+    func appendNewCommentInPost(for post: PostCoreData?, text: String?) {
 
 
-        guard var arrayComment = post.relationshipArrayComments?.allObjects else {
-            print("‼️ post.relationshipArrayComments?.allObjects == nil")
-            return
-        }
+        getCurrentProfile(completionHandler: { profile in
 
-        arrayComment.append(comment)
 
-        post.relationshipArrayComments = NSSet(array: arrayComment)
+            guard let post, let profile else {
+                print("‼️ appendComment(for post: PostCoreData? == nil || getCurrentProfile == nil")
+                return
+            }
 
-        savePersistentContainerContext()
+            let comment = CommentCoreData(context: self.backgroundContext)
 
+            comment.nameAuthor = profile.name
+            comment.surnameAuthor = profile.surname
+            comment.text = text
+
+
+//            guard var arrayComment = post.relationshipArrayComments?.allObjects else {
+//                print("‼️ post.relationshipArrayComments?.allObjects == nil")
+//                return
+//            }
+
+            post.addToRelationshipArrayComments(comment)
+
+         //   arrayComment.append(comment)
+
+        //    post.relationshipArrayComments = NSSet(array: arrayComment)
+
+            self.savePersistentContainerContext()
+
+        })
     }
 
 
@@ -305,7 +313,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    
     func getCurrentProfile(completionHandler: @escaping (ProfileCoreData?) -> Void) {
 
         guard let emailCurrentUser = KeychainSwift().get("userOnline") else {
