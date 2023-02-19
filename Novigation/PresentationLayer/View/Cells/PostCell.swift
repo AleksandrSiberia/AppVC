@@ -13,6 +13,8 @@ class PostCell: UITableViewCell {
 
     var currentPost: PostCoreData?
 
+    
+
     private var nameImage: String?
 
     private var nameForUrlFoto: String?
@@ -25,8 +27,19 @@ class PostCell: UITableViewCell {
 
     var countViews: Bool?
 
-    private var heightAnchorTableViewComment: [NSLayoutConstraint] = []
+    private var myConstraints: [NSLayoutConstraint] = []
 
+
+
+    private var imageViewAuthorAvatar: UIImageView = {
+
+        var imageViewAuthorAvatar = UIImageView()
+        imageViewAuthorAvatar.translatesAutoresizingMaskIntoConstraints = false
+        imageViewAuthorAvatar.layer.cornerRadius = 20
+        imageViewAuthorAvatar.clipsToBounds = true
+
+        return imageViewAuthorAvatar
+    }()
 
 
     private lazy var buttonComments: UIButton = {
@@ -37,14 +50,25 @@ class PostCell: UITableViewCell {
 
                 self.tableViewComment.isHidden = false
 
-                self.setupNewHeightAnchorTableViewComment(newConstrains: 300)
+
+                self.setupConstrains(newTableViewCommentHeightAnchor: 200) {}
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.delegate?.reloadTableView()
+                    self.delegateAlternative?.reloadTableView()
+                }
             }
 
             else {
 
                 self.tableViewComment.isHidden = true
 
-                self.setupNewHeightAnchorTableViewComment(newConstrains: 0)
+                self.setupConstrains(newTableViewCommentHeightAnchor: 0) {}
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                   self.delegate?.reloadTableView()
+                   self.delegateAlternative?.reloadTableView()
+                }
+
             }
         }
 
@@ -75,8 +99,6 @@ class PostCell: UITableViewCell {
         tableViewComment.register(UITableViewCell.self, forCellReuseIdentifier: "Default")
         tableViewComment.dataSource = self
         tableViewComment.delegate = self
-
-        tableViewComment.backgroundColor = .yellow
 
         return tableViewComment
     }()
@@ -285,7 +307,10 @@ class PostCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         setupViews()
-        setupConstrains()
+
+        setupConstrains(newTableViewCommentHeightAnchor: 0) {}
+
+
     }
 
 
@@ -301,30 +326,45 @@ class PostCell: UITableViewCell {
 
     func setupViews() {
 
-        [labelAuthor, buttonEditPost, imageViewPost, labelText, buttonLike, labelLikes, labelViews, viewEditPost, buttonFavorite,  tableViewComment, buttonComments].forEach {
+        [imageViewAuthorAvatar, labelAuthor, buttonEditPost, imageViewPost, labelText, buttonLike, labelLikes, labelViews, viewEditPost, buttonFavorite,  tableViewComment, buttonComments].forEach {
             contentView.addSubview($0)
         }
-
     }
 
 
-    private func setupConstrains() {
+
+    private func setupConstrains(newTableViewCommentHeightAnchor: CGFloat, completionHandler: @escaping () -> Void ) {
 
 
-        NSLayoutConstraint.activate( [
+
+        NSLayoutConstraint.deactivate(self.myConstraints)
+
+        delegate?.reloadTableView()
+        delegateAlternative?.reloadTableView()
+
+        self.myConstraints = [
 
             viewEditPost.topAnchor.constraint(equalTo: buttonEditPost.bottomAnchor),
             viewEditPost.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
             viewEditPost.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 70),
             viewEditPost.heightAnchor.constraint(equalToConstant: 300),
 
-            labelAuthor.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            labelAuthor.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            labelAuthor.bottomAnchor.constraint(equalTo: imageViewPost.topAnchor, constant: -12),
+
+
+            imageViewAuthorAvatar.centerYAnchor.constraint(equalTo: labelAuthor.centerYAnchor),
+            imageViewAuthorAvatar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            imageViewAuthorAvatar.widthAnchor.constraint(equalToConstant: 40),
+            imageViewAuthorAvatar.heightAnchor.constraint(equalToConstant: 40),
+
+            labelAuthor.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            labelAuthor.leadingAnchor.constraint(equalTo: imageViewAuthorAvatar.trailingAnchor, constant: 20),
+            labelAuthor.trailingAnchor.constraint(equalTo: buttonEditPost.leadingAnchor, constant: -5),
+
 
             buttonEditPost.centerYAnchor.constraint(equalTo: labelAuthor.centerYAnchor),
             buttonEditPost.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22),
 
+            imageViewPost.topAnchor.constraint(equalTo: labelAuthor.bottomAnchor, constant: 18),
             imageViewPost.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             imageViewPost.heightAnchor.constraint(equalTo: contentView.widthAnchor),
             imageViewPost.bottomAnchor.constraint(equalTo: labelText.topAnchor, constant: -16),
@@ -356,24 +396,18 @@ class PostCell: UITableViewCell {
             tableViewComment.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             tableViewComment.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             tableViewComment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-        ])
 
-        setupNewHeightAnchorTableViewComment(newConstrains: 0)
+            tableViewComment.heightAnchor.constraint(equalToConstant: newTableViewCommentHeightAnchor)
 
-    }
-
-
-
-    private func setupNewHeightAnchorTableViewComment(newConstrains: CGFloat) {
-
-        NSLayoutConstraint.deactivate(self.heightAnchorTableViewComment)
-
-        self.heightAnchorTableViewComment = [
-            self.tableViewComment.heightAnchor.constraint(equalToConstant: newConstrains)
         ]
 
-        NSLayoutConstraint.activate( self.heightAnchorTableViewComment )
+        NSLayoutConstraint.activate( self.myConstraints )
+
+
     }
+
+
+
 
 
 
@@ -545,6 +579,7 @@ class PostCell: UITableViewCell {
         setupLabelLikes(post: post)
         setupLabelViews(post: post)
 
+        imageViewAuthorAvatar.image = UIImage(named: post.relationshipProfile?.avatar ?? "")
         labelAuthor.text = (post.author ?? "") + " " + (post.surname ?? "")
         labelText.text = post.text
     }
@@ -594,6 +629,7 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
 
+
         if indexPath.section == 0 {
 
             guard let cell = tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name, for: indexPath) as? CommentTableViewCell
@@ -629,8 +665,6 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
                 print("‼️ tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name == nil")
                 return UITableViewCell()
             }
-
-            cell.backgroundColor = .green
 
             cell.setupCellNewComment(currentPost: currentPost, coreData: coreDataCoordinator)
 

@@ -176,7 +176,7 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
 
 
         fullNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(avatarImageView.snp_topMargin)
+            make.top.equalTo(avatarImageView.snp.topMargin)
             make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
         }
 

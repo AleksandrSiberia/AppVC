@@ -14,7 +14,7 @@ protocol SavedPostsViewControllerDelegate {
     func showEditPostTextViewController(currentPost: PostCoreData?)
     func dismissController()
     func reloadTableView()
-
+   
 
 }
 
@@ -109,6 +109,7 @@ class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelega
 
         present(navController, animated: true)
     }
+
 
 
 

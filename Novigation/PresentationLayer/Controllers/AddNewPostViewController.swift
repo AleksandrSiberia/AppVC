@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import KeychainSwift
 
 
 class AddNewPostViewController: UIViewController {
@@ -17,6 +18,8 @@ class AddNewPostViewController: UIViewController {
     private var imagePost: UIImage?
 
     private var keyboardHeight: CGFloat?
+
+    var currentProfile: ProfileCoreData?
 
 
     private lazy var gestureRecognizerEndEditingInScrollView = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerEndEditingInScrollViewAction))
@@ -97,18 +100,26 @@ class AddNewPostViewController: UIViewController {
 
                     let imageURL = tuple.2
 
-                    let values: [String: String]  =  ["author": "NewPost",
+
+
+                    let values: [String: Any]  =  ["author": self.currentProfile?.name ?? "",
+                                                      "surname": self.currentProfile?.surname ?? "",
                                                       "image": "",
                                                       "text": text,
-                                                      "likes": "0",
-                                                      "views": "0",
+                                                      "likes": 0,
+                                                      "views": 0,
                                                       "nameForUrlFoto": imageURL ]
 
+                    guard let nameUserFolder = KeychainSwift().get("userOnline")
 
-                    self.coreDataCoordinator?.appendPost(values: values, folderName: "AllPosts")
+                    else  {
+                        print("‼️ KeychainSwift().get(userOnline) == nil")
+                        return
+                    }
+
+                    self.coreDataCoordinator?.appendPost(values: values, currentProfile: self.currentProfile, folderName: nameUserFolder)
                     {_ in}
 
-                    self.coreDataCoordinator?.performFetchAllPostCoreData()
 
                     self.alert(alertMassage: "buttonAddPostAlertSuccess".allLocalizable, handler: { self.dismiss(animated: true) })
                 })

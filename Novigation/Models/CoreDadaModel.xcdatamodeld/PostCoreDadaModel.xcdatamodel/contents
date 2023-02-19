@@ -26,6 +26,7 @@
         <attribute name="views" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="relationFolder" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FoldersCoreData" inverseName="relationPost" inverseEntity="FoldersCoreData"/>
         <relationship name="relationshipArrayComments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CommentCoreData"/>
+        <relationship name="relationshipProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileCoreData"/>
     </entity>
     <entity name="ProfileCoreData" representedClassName="ProfileCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="avatar" optional="YES" attributeType="String"/>

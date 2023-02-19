@@ -79,24 +79,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-//    lazy var fetchedResultsControllerCommentsCoreData: NSFetchedResultsController = {
-//
-//
-//        var request = CommentCoreData.fetchRequest()
-//
-//        request.sortDescriptors  = [ NSSortDescriptor(key: "time", ascending: true) ]
-//
-//
-//
-//        var fetchedResultsControllerCommentsCoreData = NSFetchedResultsController(fetchRequest: request , managedObjectContext: self.backgroundContext, sectionNameKeyPath: nil, cacheName: nil)
-//
-//
-//
-//        return fetchedResultsControllerCommentsCoreData
-//
-//    }()
-
-
     init() {
 
         guard let userFolder = KeychainSwift().get("userOnline") else {
@@ -185,7 +167,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    func appendPost(values: [String: Any], folderName: String?, completion: (String?) -> Void) {
+    func appendPost(values: [String: Any], currentProfile: ProfileCoreData?, folderName: String?, completion: (String?) -> Void) {
 
 
         let post = PostCoreData(context: self.backgroundContext)
@@ -208,6 +190,9 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
             return
         }
 
+
+        post.relationshipProfile = currentProfile
+
         post.addToRelationFolder(folder)
 
         self.savePersistentContainerContext()
@@ -225,7 +210,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
             return
         }
 
-        var comment = CommentCoreData(context: backgroundContext)
+        let comment = CommentCoreData(context: backgroundContext)
 
         comment.nameAuthor = values["nameAuthor"] as? String
         comment.surnameAuthor = values["surnameAuthor"] as? String

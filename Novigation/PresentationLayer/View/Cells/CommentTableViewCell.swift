@@ -14,11 +14,13 @@ class CommentTableViewCell: UITableViewCell {
   private var currentComments: CommentCoreData?
 
 
-    private var imageViewAuthorAvatar = {
+    private var imageViewAuthorAvatar: UIImageView = {
 
         var imageViewAuthorAvatar = UIImageView()
         imageViewAuthorAvatar.translatesAutoresizingMaskIntoConstraints = false
         imageViewAuthorAvatar.layer.cornerRadius = 15
+        imageViewAuthorAvatar.clipsToBounds = true
+
         return imageViewAuthorAvatar
     }()
 
@@ -34,7 +36,6 @@ class CommentTableViewCell: UITableViewCell {
         [imageViewAuthorAvatar, textFieldNewComment].forEach { contentView.addSubview( $0) }
         setupConstraints()
 
-        backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .gray)
     }
     
 
@@ -58,14 +59,14 @@ class CommentTableViewCell: UITableViewCell {
 
         NSLayoutConstraint.activate([
 
-            imageViewAuthorAvatar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            imageViewAuthorAvatar.centerYAnchor.constraint(equalTo: textFieldNewComment.centerYAnchor),
             imageViewAuthorAvatar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             imageViewAuthorAvatar.heightAnchor.constraint(equalToConstant: 30),
             imageViewAuthorAvatar.widthAnchor.constraint(equalToConstant: 30),
 
-            
+
             textFieldNewComment.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            textFieldNewComment.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            textFieldNewComment.leadingAnchor.constraint(equalTo: imageViewAuthorAvatar.trailingAnchor, constant: 15),
             textFieldNewComment.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             textFieldNewComment.heightAnchor.constraint(equalToConstant: 40),
             textFieldNewComment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
@@ -90,9 +91,15 @@ class CommentTableViewCell: UITableViewCell {
         self.currentPost = currentPost
         self.coreData = coreData
 
-        imageViewAuthorAvatar.isHidden = true
-    }
 
+        guard let profile =  currentPost?.relationshipProfile
+
+        else {
+            print("‼️ currentPost?.relationFolder?.allObjects -> nil || isEmpty ")
+            return
+        }
+        self.imageViewAuthorAvatar.image = UIImage(named: profile.avatar ?? "")
+    }
 }
 
 

@@ -137,11 +137,15 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
         navigationController?.navigationBar.isHidden = true
 
-        coreDataCoordinator?.fetchedResultsControllerPostCoreData?.delegate = self
+        if coreDataCoordinator?.fetchedResultsControllerPostCoreData?.delegate == nil {
 
-        if self.delegate != nil {
-            self.delegate.showPost()
+            coreDataCoordinator?.fetchedResultsControllerPostCoreData?.delegate = self
         }
+
+//        if self.delegate != nil {
+//            self.delegate.showPost()
+//        }
+        
         handle = Auth.auth().addStateDidChangeListener { auth, user in
             // ...
         }
@@ -212,7 +216,8 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
                 ]
 
 
-                self.coreDataCoordinator?.appendPost(values: values, folderName: KeychainSwift().get("userOnline")) { _ in }
+
+                self.coreDataCoordinator?.appendPost(values: values, currentProfile: currentProfile, folderName: KeychainSwift().get("userOnline")) { _ in }
             }
         }
     }
@@ -234,6 +239,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
     func addNewPost() {
         let controller = AddNewPostViewController(coreDataCoordinator: coreDataCoordinator, fileManagerService: fileManager)
+        controller.currentProfile = currentProfile
         let nav = UINavigationController(rootViewController: controller)
         present(nav, animated: true)
     }
@@ -529,7 +535,7 @@ extension ProfileViewController: UITableViewDropDelegate {
                                                       "views": "0",
                                                       "nameForUrlFoto": nameFoto ]
 
-                    self.coreDataCoordinator?.appendPost(values: values, folderName: "AllPosts") { _ in }
+                    self.coreDataCoordinator?.appendPost(values: values, currentProfile: self.currentProfile, folderName: "AllPosts") { _ in }
 
 
                     self.coreDataCoordinator?.performFetchAllPostCoreData()
