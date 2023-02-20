@@ -26,8 +26,9 @@ class PostCell: UITableViewCell {
 
     var countViews: Bool?
 
-    private var myConstraints: [NSLayoutConstraint] = []
+    private var tableViewIsHidden = true
 
+    private var myConstraints: [NSLayoutConstraint] = []
 
 
     private var imageViewAuthorAvatar: UIImageView = {
@@ -45,13 +46,18 @@ class PostCell: UITableViewCell {
 
         let action = UIAction() { _ in
 
-            if self.tableViewComment.isHidden {
+            self.delegate?.reloadTableView()
 
-                self.tableViewComment.isHidden = false
+            self.delegate?.reloadTableView()
+            self.delegateAlternative?.reloadTableView()
+
+            if self.tableViewIsHidden {
+
+                self.tableViewIsHidden = false
 
                 self.setupConstrains(newTableViewCommentHeightAnchor: 200)
 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.delegate?.reloadTableView()
                     self.delegateAlternative?.reloadTableView()
                 }
@@ -59,10 +65,10 @@ class PostCell: UITableViewCell {
 
             else {
 
-                self.tableViewComment.isHidden = true
+                self.tableViewIsHidden = true
 
                 self.setupConstrains(newTableViewCommentHeightAnchor: 0)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                    self.delegate?.reloadTableView()
                    self.delegateAlternative?.reloadTableView()
                 }
@@ -85,12 +91,12 @@ class PostCell: UITableViewCell {
 
 
 
+
     private lazy var tableViewComment: UITableView = {
 
         var tableViewComment = UITableView()
 
         tableViewComment.separatorStyle = .none
-        tableViewComment.isHidden = true
 
         tableViewComment.translatesAutoresizingMaskIntoConstraints = false
         tableViewComment.register(CommentNewTableViewCell.self, forCellReuseIdentifier: CommentNewTableViewCell.name)
@@ -103,6 +109,7 @@ class PostCell: UITableViewCell {
 
         return tableViewComment
     }()
+
 
 
     private lazy var viewEditPost: ViewEditPost = {
@@ -310,8 +317,6 @@ class PostCell: UITableViewCell {
         setupViews()
 
         setupConstrains(newTableViewCommentHeightAnchor: 0)
-
-
     }
 
 
@@ -407,10 +412,14 @@ class PostCell: UITableViewCell {
 
     }
 
+    
     func reloadTableViewComment() {
 
         tableViewComment.reloadData()
+//        delegateAlternative?.reloadTableView()
+//        delegate?.reloadTableView()
     }
+
 
     func viewEditPostIsHidden() {
         viewEditPost.isHidden = true
@@ -565,14 +574,19 @@ class PostCell: UITableViewCell {
             return
         }
 
-        self.viewEditPost.delegate = profileVC
-        self.viewEditPost.delegateAlternative = savedPostsVC
+
         self.currentPost = post
         self.delegate = profileVC
         self.delegateAlternative = savedPostsVC
+
+        self.viewEditPost.delegate = profileVC
+        self.viewEditPost.delegateAlternative = savedPostsVC
         self.viewEditPost.currentPost = post
         self.viewEditPost.coreDataCoordinator = coreDataCoordinator
+
         self.coreDataCoordinator = coreDataCoordinator
+
+        tableViewComment.reloadData()
 
         setupImageForButtonFavorite(post: post)
         setupImageForButtonLike(post: post)
@@ -591,11 +605,10 @@ class PostCell: UITableViewCell {
 extension PostCell: UITableViewDataSource, UITableViewDelegate {
 
 
-
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         if section == 0 {
+
 
             guard let comments = currentPost?.relationshipArrayComments?.allObjects as? [CommentCoreData] else {
 
@@ -606,6 +619,7 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
 
             return comments.count
         }
+
 
 
         else {
@@ -669,6 +683,4 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
             return cell
         }
     }
-
-
 }

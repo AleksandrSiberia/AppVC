@@ -45,7 +45,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         let request = PostCoreData.fetchRequest()
 
-        request.sortDescriptors = [NSSortDescriptor(key: "author", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "image", ascending: true)]
 
         guard let folder = getFolderByName(nameFolder: KeychainSwift().get("userOnline")) else {
             print("getFolderByName(nameFolder: KeychainSwift().get(userOnline) == nil" )
@@ -66,7 +66,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         let request = PostCoreData.fetchRequest()
 
-        request.sortDescriptors = [ NSSortDescriptor(key: "author", ascending: true) ]
+        request.sortDescriptors = [ NSSortDescriptor(key: "image", ascending: true) ]
 
 
         request.predicate = NSPredicate(format: "favourite == %@", "save")
@@ -77,6 +77,24 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
     }()
 
 
+    func getSavedPost() -> [PostCoreData]? {
+
+        let request = PostCoreData.fetchRequest()
+
+        request.predicate = NSPredicate(format: "favourite == %@", "save")
+
+        do {
+
+            let posts = try backgroundContext.fetch(request)
+            return posts
+        }
+
+        catch {
+            print("‼️", error.localizedDescription)
+            return nil
+        }
+
+    }
 
 
     init() {

@@ -95,7 +95,6 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
     private func setupConstraints() {
 
 
-
         NSLayoutConstraint.activate([
 
             imageViewAuthorAvatar.centerYAnchor.constraint(equalTo: textFieldNewComment.centerYAnchor),

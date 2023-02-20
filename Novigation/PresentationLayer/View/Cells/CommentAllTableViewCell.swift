@@ -5,12 +5,6 @@
 //  Created by Александр Хмыров on 20.02.2023.
 //
 
-//
-//  CommentTableViewCell.swift
-//  Novigation
-//
-//  Created by Александр Хмыров on 16.02.2023.
-//
 
 import UIKit
 import KeychainSwift

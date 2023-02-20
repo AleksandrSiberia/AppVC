@@ -12,8 +12,6 @@ import UIKit
 protocol CommentTableViewCellProtocol { }
 
 
-
-
 extension CommentTableViewCellProtocol {
 
 

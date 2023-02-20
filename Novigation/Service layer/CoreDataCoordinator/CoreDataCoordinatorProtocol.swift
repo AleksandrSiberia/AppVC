@@ -45,6 +45,9 @@ protocol CoreDataCoordinatorProtocol {
     func getProfiles(completionHandler: @escaping ([ProfileCoreData]?) -> Void )
 
     func appendNewCommentInPost(for post: PostCoreData?, text: String?)
+
+
+    func getSavedPost() -> [PostCoreData]? 
 }
 
 
