@@ -89,10 +89,13 @@ class PostCell: UITableViewCell {
 
         var tableViewComment = UITableView()
 
+        tableViewComment.separatorStyle = .none
         tableViewComment.isHidden = true
 
         tableViewComment.translatesAutoresizingMaskIntoConstraints = false
-        tableViewComment.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.name)
+        tableViewComment.register(CommentNewTableViewCell.self, forCellReuseIdentifier: CommentNewTableViewCell.name)
+
+        tableViewComment.register(CommentAllTableViewCell.self, forCellReuseIdentifier: CommentAllTableViewCell.name)
 
         tableViewComment.register(UITableViewCell.self, forCellReuseIdentifier: "Default")
         tableViewComment.dataSource = self
@@ -404,10 +407,10 @@ class PostCell: UITableViewCell {
 
     }
 
+    func reloadTableViewComment() {
 
-
-
-
+        tableViewComment.reloadData()
+    }
 
     func viewEditPostIsHidden() {
         viewEditPost.isHidden = true
@@ -601,7 +604,6 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
                 return 0
             }
 
-            print("🌵", comments.count)
             return comments.count
         }
 
@@ -626,10 +628,10 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
 
         if indexPath.section == 0 {
 
-            guard let cell = tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name, for: indexPath) as? CommentTableViewCell
+            guard let cell = tableViewComment.dequeueReusableCell(withIdentifier: CommentAllTableViewCell.name, for: indexPath) as? CommentAllTableViewCell
 
             else {
-                print("‼️ tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name == nil")
+                print("‼️ tableViewComment.dequeueReusableCell(withIdentifier: CommentAllTableViewCell.name == nil")
                 return UITableViewCell()
             }
 
@@ -646,6 +648,7 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
 
             cell.setupCellAllComments(currentPost: currentPost, coreData: coreDataCoordinator, currentComment: commentsSortByTime[indexPath.row] )
 
+            cell.selectionStyle = .none
             return cell
         }
 
@@ -653,15 +656,16 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
 
         else {
 
-            guard let cell = tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name, for: indexPath) as? CommentTableViewCell
+            guard let cell = tableViewComment.dequeueReusableCell(withIdentifier: CommentNewTableViewCell.name, for: indexPath) as? CommentNewTableViewCell
 
             else {
                 print("‼️ tableViewComment.dequeueReusableCell(withIdentifier: CommentTableViewCell.name == nil")
                 return UITableViewCell()
             }
 
-            cell.setupCellNewComment(currentPost: currentPost, coreData: coreDataCoordinator)
+            cell.setupCellNewComment(currentPost: currentPost, coreData: coreDataCoordinator, delegate: self)
 
+            cell.selectionStyle = .none
             return cell
         }
     }

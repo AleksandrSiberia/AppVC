@@ -104,7 +104,9 @@
 		8B8870FF299643730066884E /* ExtensionUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8870FE299643730066884E /* ExtensionUITextField.swift */; };
 		8B8871012998D2C10066884E /* ViewEditPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8871002998D2C10066884E /* ViewEditPost.swift */; };
 		8B887103299A32220066884E /* EditPostTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B887102299A32220066884E /* EditPostTextViewController.swift */; };
-		8B887105299E2A600066884E /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B887104299E2A600066884E /* CommentTableViewCell.swift */; };
+		8B887105299E2A600066884E /* CommentNewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B887104299E2A600066884E /* CommentNewTableViewCell.swift */; };
+		8B88710729A355260066884E /* CommentAllTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88710629A355260066884E /* CommentAllTableViewCell.swift */; };
+		8B88710929A35BB10066884E /* CommentTableViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88710829A35BB10066884E /* CommentTableViewCellProtocol.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */; };
@@ -264,7 +266,9 @@
 		8B8870FE299643730066884E /* ExtensionUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITextField.swift; sourceTree = "<group>"; };
 		8B8871002998D2C10066884E /* ViewEditPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewEditPost.swift; sourceTree = "<group>"; };
 		8B887102299A32220066884E /* EditPostTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostTextViewController.swift; sourceTree = "<group>"; };
-		8B887104299E2A600066884E /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		8B887104299E2A600066884E /* CommentNewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentNewTableViewCell.swift; sourceTree = "<group>"; };
+		8B88710629A355260066884E /* CommentAllTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAllTableViewCell.swift; sourceTree = "<group>"; };
+		8B88710829A35BB10066884E /* CommentTableViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommentTableViewCellProtocol.swift; path = /Users/aleksandrhmyrov/Desktop/Case/IndustrialDevelopment/Novigation/PresentationLayer/View/Cells/CommentTableViewCellProtocol.swift; sourceTree = "<absolute>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -463,7 +467,9 @@
 				8B353274285DD5E800704D08 /* PhotosCollectionViewCell.swift */,
 				8B4749C528ED75A3007DE402 /* VideoTableViewCell.swift */,
 				8B4749D828F82A9F007DE402 /* InfoTableViewCell.swift */,
-				8B887104299E2A600066884E /* CommentTableViewCell.swift */,
+				8B88710829A35BB10066884E /* CommentTableViewCellProtocol.swift */,
+				8B887104299E2A600066884E /* CommentNewTableViewCell.swift */,
+				8B88710629A355260066884E /* CommentAllTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -960,6 +966,7 @@
 				8B77B9A029530E4E00A8D1A3 /* ProfileViewControllable.swift in Sources */,
 				8B138F2828D8890A00ACA1B9 /* FeedModel.swift in Sources */,
 				8B30DF29283A1CC6006763B9 /* AppDelegate.swift in Sources */,
+				8B88710729A355260066884E /* CommentAllTableViewCell.swift in Sources */,
 				8B4749D328F58C1A007DE402 /* ManagerDataModelData.swift in Sources */,
 				8B353275285DD5E800704D08 /* PhotosCollectionViewCell.swift in Sources */,
 				8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */,
@@ -982,6 +989,7 @@
 				8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */,
 				8B4749D728F7FB13007DE402 /* ManagerDataResidentsPlanet.swift in Sources */,
 				8BED12D928C6848D006FF146 /* ArrayFoto.swift in Sources */,
+				8B88710929A35BB10066884E /* CommentTableViewCellProtocol.swift in Sources */,
 				8B8870DD2984FACE0066884E /* AddNewPostViewController.swift in Sources */,
 				8B77B9B629570BE500A8D1A3 /* LocalAuthorizationService.swift in Sources */,
 				8B30E0052840E5BA006763B9 /* InfoViewController.swift in Sources */,
@@ -1000,7 +1008,7 @@
 				8B30DFFF283F97D6006763B9 /* FeedViewController.swift in Sources */,
 				8B30DF2B283A1CC6006763B9 /* SceneDelegate.swift in Sources */,
 				8B474A1A28FD37D7007DE402 /* CheckServiceProtocol.swift in Sources */,
-				8B887105299E2A600066884E /* CommentTableViewCell.swift in Sources */,
+				8B887105299E2A600066884E /* CommentNewTableViewCell.swift in Sources */,
 				8BED12E628CA1680006FF146 /* CheckWord.swift in Sources */,
 				8B8870F5299245240066884E /* ContactsViewController.swift in Sources */,
 				8BED12D028C5DC2E006FF146 /* LogicFactoryProtocol.swift in Sources */,

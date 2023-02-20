@@ -8,35 +8,21 @@
 import UIKit
 import KeychainSwift
 
-class CommentTableViewCell: UITableViewCell {
 
-  private var currentPost: PostCoreData?
-  private var coreData: CoreDataCoordinatorProtocol?
-  private var currentProfile: ProfileCoreData?
+class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
+
+    private var currentPost: PostCoreData?
+    private var coreData: CoreDataCoordinatorProtocol?
+    private var currentProfile: ProfileCoreData?
+    private var delegate: PostCell?
 
 
-    private var imageViewAuthorAvatar: UIImageView = {
 
-        var imageViewAuthorAvatar = UIImageView()
-        imageViewAuthorAvatar.translatesAutoresizingMaskIntoConstraints = false
-        imageViewAuthorAvatar.layer.cornerRadius = 15
-        imageViewAuthorAvatar.clipsToBounds = true
-
-        return imageViewAuthorAvatar
-    }()
+    private lazy var imageViewAuthorAvatar: UIImageView = setupViewAuthorAvatar()
 
 
     private lazy var textFieldNewComment = UITextField.setupTextFieldComment(text: nil, keyboardType: .namePhonePad)
 
-
-    private var labelComment: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = .systemGray6
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.numberOfLines = 0
-        return label
-    }()
 
     
     private lazy var buttonSentComment: UIButton = {
@@ -60,8 +46,11 @@ class CommentTableViewCell: UITableViewCell {
                 let image = UIImage(systemName: "arrow.up.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
                 
                 self.buttonSentComment.setImage(image, for: .normal)
+
+                self.delegate?.reloadTableViewComment()
             }
         }
+
 
         var buttonSentComment = UIButton(frame: CGRect(), primaryAction: action)
 
@@ -81,7 +70,7 @@ class CommentTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
 
-        [imageViewAuthorAvatar, textFieldNewComment, buttonSentComment, labelComment].forEach { contentView.addSubview( $0) }
+        [imageViewAuthorAvatar, textFieldNewComment, buttonSentComment].forEach { contentView.addSubview( $0) }
         setupConstraints()
 
     }
@@ -99,11 +88,13 @@ class CommentTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        print("🍌")
+
     }
 
 
     private func setupConstraints() {
+
+
 
         NSLayoutConstraint.activate([
 
@@ -113,63 +104,37 @@ class CommentTableViewCell: UITableViewCell {
             imageViewAuthorAvatar.widthAnchor.constraint(equalToConstant: 30),
 
 
-            textFieldNewComment.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            textFieldNewComment.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             textFieldNewComment.leadingAnchor.constraint(equalTo: imageViewAuthorAvatar.trailingAnchor, constant: 15),
+            textFieldNewComment.trailingAnchor.constraint(equalTo: buttonSentComment.leadingAnchor, constant: -10),
             textFieldNewComment.heightAnchor.constraint(equalToConstant: 40),
-            textFieldNewComment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            textFieldNewComment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
 
-            labelComment.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            labelComment.leadingAnchor.constraint(equalTo: imageViewAuthorAvatar.trailingAnchor, constant: 15),
-            labelComment.heightAnchor.constraint(equalToConstant: 40),
-            labelComment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-
-            buttonSentComment.leadingAnchor.constraint(equalTo: textFieldNewComment.trailingAnchor, constant: 10),
             buttonSentComment.centerYAnchor.constraint(equalTo: textFieldNewComment.centerYAnchor),
             buttonSentComment.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
         ])
     }
 
-    
 
-    func setupCellAllComments(currentPost: PostCoreData?, coreData: CoreDataCoordinatorProtocol?, currentComment: CommentCoreData?) {
-
-        self.currentPost = currentPost
-        self.coreData = coreData
-
-        textFieldNewComment.isHidden = true
-        buttonSentComment.isHidden = true
-
-        labelComment.text = currentComment?.text
-    }
-
- 
+   
 
 
-    func setupCellNewComment(currentPost: PostCoreData?, coreData: CoreDataCoordinatorProtocol?) {
+
+    func setupCellNewComment(currentPost: PostCoreData?, coreData: CoreDataCoordinatorProtocol?, delegate: PostCell?) {
 
         self.currentPost = currentPost
         self.coreData = coreData
+        self.delegate = delegate
 
-        labelComment.isHidden = true
-
-        coreData?.getCurrentProfile(completionHandler: { profile in
-            self.currentProfile = profile
-        })
-
-
-        guard let profile =  currentPost?.relationshipProfile
-
-        else {
-            print("‼️ currentPost?.relationFolder?.allObjects -> nil || isEmpty ")
-            return
+        setupImageViewAuthorAvatar(coreData: coreData, currentPost: currentPost) { image in
+            self.imageViewAuthorAvatar.image = image
         }
-        self.imageViewAuthorAvatar.image = UIImage(named: profile.avatar ?? "")
     }
 }
 
 
 
-extension CommentTableViewCell {
+extension CommentNewTableViewCell {
 
     static var name: String {
         return String(describing: self)

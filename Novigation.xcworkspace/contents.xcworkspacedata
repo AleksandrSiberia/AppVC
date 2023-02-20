@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/aleksandrhmyrov/Desktop/Case/IndustrialDevelopment/Novigation/PresentationLayer/View/Cells/CommentTableViewCellProtocol.swift">
+   </FileRef>
+   <FileRef
       location = "group:Novigation.xcodeproj">
    </FileRef>
    <FileRef

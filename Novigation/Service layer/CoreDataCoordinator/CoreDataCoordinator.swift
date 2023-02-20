@@ -219,18 +219,9 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
             comment.nameAuthor = profile.name
             comment.surnameAuthor = profile.surname
             comment.text = text
-
-
-//            guard var arrayComment = post.relationshipArrayComments?.allObjects else {
-//                print("‼️ post.relationshipArrayComments?.allObjects == nil")
-//                return
-//            }
+            comment.time = Date()
 
             post.addToRelationshipArrayComments(comment)
-
-         //   arrayComment.append(comment)
-
-        //    post.relationshipArrayComments = NSSet(array: arrayComment)
 
             self.savePersistentContainerContext()
 
