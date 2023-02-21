@@ -30,6 +30,8 @@ class PostCell: UITableViewCell {
 
     private var myConstraints: [NSLayoutConstraint] = []
 
+    private var currentIndexPath: IndexPath?
+
 
     private var imageViewAuthorAvatar: UIImageView = {
 
@@ -46,35 +48,40 @@ class PostCell: UITableViewCell {
 
         let action = UIAction() { _ in
 
-            self.delegate?.reloadTableView()
-
-            self.delegate?.reloadTableView()
-            self.delegateAlternative?.reloadTableView()
-
             if self.tableViewIsHidden {
 
                 self.tableViewIsHidden = false
 
+
+
+                self.delegateAlternative?.beginUpdatesTableView()
+                self.delegate?.beginUpdatesTableView()
+
                 self.setupConstrains(newTableViewCommentHeightAnchor: 200)
 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.delegate?.reloadTableView()
-                    self.delegateAlternative?.reloadTableView()
-                }
+                self.delegateAlternative?.endUpdatesTableView()
+                self.delegate?.endUpdatesTableView()
+
             }
+
 
             else {
 
                 self.tableViewIsHidden = true
 
+                
+                self.delegateAlternative?.beginUpdatesTableView()
+                self.delegate?.beginUpdatesTableView()
+
                 self.setupConstrains(newTableViewCommentHeightAnchor: 0)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                   self.delegate?.reloadTableView()
-                   self.delegateAlternative?.reloadTableView()
-                }
+
+                self.delegateAlternative?.endUpdatesTableView()
+                self.delegate?.endUpdatesTableView()
 
             }
         }
+
+
 
         var buttonComments = UIButton(frame: CGRect(), primaryAction: action)
 
@@ -146,9 +153,11 @@ class PostCell: UITableViewCell {
             }
 
             if self.viewEditPost.isHidden == true {
+
                 self.viewEditPost.isHidden = false
             }
             else {
+                
                 self.viewEditPost.isHidden = true
             }
         }
@@ -341,12 +350,11 @@ class PostCell: UITableViewCell {
 
     private func setupConstrains(newTableViewCommentHeightAnchor: CGFloat) {
 
-
+//        delegate?.reloadTableView()
+//        delegateAlternative?.reloadTableView()
 
         NSLayoutConstraint.deactivate(self.myConstraints)
 
-        delegate?.reloadTableView()
-        delegateAlternative?.reloadTableView()
 
         self.myConstraints = [
 
@@ -379,16 +387,18 @@ class PostCell: UITableViewCell {
             labelText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 
 
-            buttonLike.topAnchor.constraint(equalTo: labelText.bottomAnchor, constant: 20),
+            buttonLike.centerYAnchor.constraint(equalTo: labelLikes.centerYAnchor),
             buttonLike.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
 
 
+            labelLikes.topAnchor.constraint(equalTo: labelText.bottomAnchor, constant: 30),
             labelLikes.leadingAnchor.constraint(equalTo: buttonLike.trailingAnchor, constant: 10),
-            labelLikes.centerYAnchor.constraint(equalTo: buttonLike.centerYAnchor),
+
 
 
             labelViews.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             labelViews.centerYAnchor.constraint(equalTo: labelLikes.centerYAnchor),
+
 
 
             buttonComments.centerYAnchor.constraint(equalTo: labelViews.centerYAnchor),
@@ -398,7 +408,7 @@ class PostCell: UITableViewCell {
             buttonFavorite.centerYAnchor.constraint(equalTo: labelViews.centerYAnchor),
             buttonFavorite.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -26),
 
-            tableViewComment.topAnchor.constraint(equalTo: buttonFavorite.bottomAnchor, constant: 15),
+            tableViewComment.topAnchor.constraint(equalTo: labelText.bottomAnchor, constant: 80),
             tableViewComment.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             tableViewComment.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             tableViewComment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -408,7 +418,6 @@ class PostCell: UITableViewCell {
         ]
 
         NSLayoutConstraint.activate( self.myConstraints )
-
 
     }
 
@@ -567,7 +576,7 @@ class PostCell: UITableViewCell {
 
 
 
-    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, profileVC: ProfileViewControllerDelegate?, savedPostsVC: SavedPostsViewControllerDelegate?) {
+    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, profileVC: ProfileViewControllerDelegate?, savedPostsVC: SavedPostsViewControllerDelegate?, indexPath: IndexPath) {
 
         guard let post else {
             print("‼️ PostCoreData? == nil")
@@ -579,12 +588,16 @@ class PostCell: UITableViewCell {
         self.delegate = profileVC
         self.delegateAlternative = savedPostsVC
 
+        self.currentIndexPath = indexPath
+
         self.viewEditPost.delegate = profileVC
         self.viewEditPost.delegateAlternative = savedPostsVC
         self.viewEditPost.currentPost = post
         self.viewEditPost.coreDataCoordinator = coreDataCoordinator
 
         self.coreDataCoordinator = coreDataCoordinator
+
+        // hasUncommittedUpdates
 
         tableViewComment.reloadData()
 

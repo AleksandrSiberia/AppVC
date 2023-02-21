@@ -22,7 +22,11 @@ protocol ProfileViewControllerDelegate {
     func showMassage(text: String)
     func showEditPostTextViewController(currentPost: PostCoreData?)
     func dismissController()
+
     func reloadTableView()
+    func beginUpdatesTableView()
+    func endUpdatesTableView()
+
 }
 
 protocol ProfileViewControllerOutput {
@@ -269,6 +273,16 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     }
 
 
+    func beginUpdatesTableView() {
+        tableView.beginUpdates()
+    }
+
+
+    func endUpdatesTableView() {
+        tableView.endUpdates()
+    }
+
+
 
     func reloadTableView() {
 
@@ -364,7 +378,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
                     let post = posts[indexPath.row ]
 
 
-                    cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, profileVC: self, savedPostsVC: nil)
+                    cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, profileVC: self, savedPostsVC: nil, indexPath: indexPath)
 
                     if arrayCells.count - 1 >= indexPath.row {
                         arrayCells.remove(at: indexPath.row)

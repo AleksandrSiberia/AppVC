@@ -10,18 +10,24 @@ import CoreData
 
 
 protocol SavedPostsViewControllerDelegate {
-
+    
+    var arrayConstraints: [[NSLayoutConstraint]] {get set}
+    
     func showEditPostTextViewController(currentPost: PostCoreData?)
     func dismissController()
     func reloadTableView()
-
+    
+    func beginUpdatesTableView()
+    func endUpdatesTableView()
+    
 }
-
 
 
 class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelegate {
 
     private var arrayCells: [PostCell] = []
+
+    var arrayConstraints: [[NSLayoutConstraint]] = []
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
@@ -111,17 +117,25 @@ class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelega
     }
 
 
-
-
     func dismissController() {
         dismiss(animated: true)
     }
 
 
+    func beginUpdatesTableView() {
+        tableView.beginUpdates()
+    }
+
+
+    func endUpdatesTableView() {
+        tableView.endUpdates()
+    }
+
 
     func reloadTableView() {
         tableView.reloadData()
     }
+
 
 
     @objc private func actionBarButtonItemSearch() {
@@ -214,7 +228,7 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
      
 
-        cell.setupCell(post: postCoreData, coreDataCoordinator: coreDataCoordinator, profileVC: nil, savedPostsVC: self)
+        cell.setupCell(post: postCoreData, coreDataCoordinator: coreDataCoordinator, profileVC: nil, savedPostsVC: self, indexPath: indexPath)
 
 
         return cell
