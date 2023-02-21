@@ -26,7 +26,6 @@ protocol ProfileViewControllerDelegate {
     func reloadTableView()
     func beginUpdatesTableView()
     func endUpdatesTableView()
-
 }
 
 protocol ProfileViewControllerOutput {
@@ -287,6 +286,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     func reloadTableView() {
 
         tableView.reloadData()
+    
     }
 
 
@@ -441,9 +441,11 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
+        view.endEditing(true)
         arrayCells.forEach { $0.viewEditPostIsHidden() }
-
     }
+
+
 
 }
 

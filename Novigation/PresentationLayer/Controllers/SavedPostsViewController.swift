@@ -15,11 +15,11 @@ protocol SavedPostsViewControllerDelegate {
     
     func showEditPostTextViewController(currentPost: PostCoreData?)
     func dismissController()
+    func endEditing()
+
     func reloadTableView()
-    
     func beginUpdatesTableView()
     func endUpdatesTableView()
-    
 }
 
 
@@ -32,6 +32,8 @@ class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelega
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
     private var nameAuthor: String = ""
+
+    private lazy var viewInitialized = false
 
     private var textFieldSearchAuthor: UITextField?
 
@@ -86,13 +88,22 @@ class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelega
     }
 
 
+
+
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         self.coreDataCoordinator.performFetchSavePostCoreData()
         reloadTableView()
-
     }
+
+
+
+    func endEditing() {
+        view.endEditing(true)
+    }
+
 
 
     func setupConstrains() {
@@ -239,7 +250,9 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
+        endEditing()
         arrayCells.forEach { $0.viewEditPostIsHidden() }
+
     }
 
 

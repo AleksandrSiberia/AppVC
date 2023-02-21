@@ -74,6 +74,7 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
         setupConstraints()
 
     }
+
     
 
  

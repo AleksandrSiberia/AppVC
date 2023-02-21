@@ -32,7 +32,6 @@ class PostCell: UITableViewCell {
 
     private var currentIndexPath: IndexPath?
 
-
     private var imageViewAuthorAvatar: UIImageView = {
 
         var imageViewAuthorAvatar = UIImageView()
@@ -61,6 +60,8 @@ class PostCell: UITableViewCell {
 
                 self.delegateAlternative?.endUpdatesTableView()
                 self.delegate?.endUpdatesTableView()
+
+         //       NSLayoutConstraint.deactivate(self.constraints)
 
             }
 
@@ -157,7 +158,7 @@ class PostCell: UITableViewCell {
                 self.viewEditPost.isHidden = false
             }
             else {
-                
+
                 self.viewEditPost.isHidden = true
             }
         }
@@ -225,10 +226,13 @@ class PostCell: UITableViewCell {
                     self.currentPost?.likes -= 1
                 }
 
+
                 self.coreDataCoordinator?.savePersistentContainerContext()
 
-                self.delegate?.reloadTableView()
-                self.delegateAlternative?.reloadTableView()
+
+
+//                self.delegate?.reloadTableView()
+//                self.delegateAlternative?.reloadTableView()
 
 
                 let image = UIImage(systemName: "heart", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
@@ -326,7 +330,33 @@ class PostCell: UITableViewCell {
         setupViews()
 
         setupConstrains(newTableViewCommentHeightAnchor: 0)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShowNotificationAction(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHideNotificationAction), name: UIResponder.keyboardDidHideNotification, object: nil)
+
     }
+
+
+
+    @objc private func keyboardDidShowNotificationAction(_ notification: Notification) {
+
+
+        if let keyboard = notification.userInfo?[ UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect
+        {
+            delegateAlternative?.beginUpdatesTableView()
+
+            frame.origin.y -= keyboard.height + 20
+        }
+    }
+
+
+
+    @objc private func keyboardDidHideNotificationAction() {
+        delegateAlternative?.endUpdatesTableView()
+    }
+
+
 
 
 
@@ -337,6 +367,9 @@ class PostCell: UITableViewCell {
 
 
 
+    override func setSelected(_ selected: Bool, animated: Bool) {
+
+    }
 
 
     func setupViews() {
@@ -350,11 +383,8 @@ class PostCell: UITableViewCell {
 
     private func setupConstrains(newTableViewCommentHeightAnchor: CGFloat) {
 
-//        delegate?.reloadTableView()
-//        delegateAlternative?.reloadTableView()
 
         NSLayoutConstraint.deactivate(self.myConstraints)
-
 
         self.myConstraints = [
 
@@ -408,7 +438,7 @@ class PostCell: UITableViewCell {
             buttonFavorite.centerYAnchor.constraint(equalTo: labelViews.centerYAnchor),
             buttonFavorite.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -26),
 
-            tableViewComment.topAnchor.constraint(equalTo: labelText.bottomAnchor, constant: 80),
+            tableViewComment.topAnchor.constraint(equalTo: labelLikes.bottomAnchor, constant: 30),
             tableViewComment.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             tableViewComment.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             tableViewComment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -590,14 +620,14 @@ class PostCell: UITableViewCell {
 
         self.currentIndexPath = indexPath
 
+
+
         self.viewEditPost.delegate = profileVC
         self.viewEditPost.delegateAlternative = savedPostsVC
         self.viewEditPost.currentPost = post
         self.viewEditPost.coreDataCoordinator = coreDataCoordinator
 
         self.coreDataCoordinator = coreDataCoordinator
-
-        // hasUncommittedUpdates
 
         tableViewComment.reloadData()
 
