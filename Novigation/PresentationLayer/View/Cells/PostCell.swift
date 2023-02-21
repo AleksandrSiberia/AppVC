@@ -61,8 +61,6 @@ class PostCell: UITableViewCell {
                 self.delegateAlternative?.endUpdatesTableView()
                 self.delegate?.endUpdatesTableView()
 
-         //       NSLayoutConstraint.deactivate(self.constraints)
-
             }
 
 
@@ -226,14 +224,7 @@ class PostCell: UITableViewCell {
                     self.currentPost?.likes -= 1
                 }
 
-
                 self.coreDataCoordinator?.savePersistentContainerContext()
-
-
-
-//                self.delegate?.reloadTableView()
-//                self.delegateAlternative?.reloadTableView()
-
 
                 let image = UIImage(systemName: "heart", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
 
@@ -339,27 +330,6 @@ class PostCell: UITableViewCell {
 
 
 
-    @objc private func keyboardDidShowNotificationAction(_ notification: Notification) {
-
-
-        if let keyboard = notification.userInfo?[ UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect
-        {
-            delegateAlternative?.beginUpdatesTableView()
-
-            frame.origin.y -= keyboard.height + 20
-        }
-    }
-
-
-
-    @objc private func keyboardDidHideNotificationAction() {
-        delegateAlternative?.endUpdatesTableView()
-    }
-
-
-
-
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -452,11 +422,12 @@ class PostCell: UITableViewCell {
     }
 
     
+
+    
     func reloadTableViewComment() {
 
         tableViewComment.reloadData()
-//        delegateAlternative?.reloadTableView()
-//        delegate?.reloadTableView()
+
     }
 
 
@@ -603,6 +574,17 @@ class PostCell: UITableViewCell {
     }
 
 
+    func setupButtonComments(post: PostCoreData?) {
+
+        if let comments = post?.relationshipArrayComments?.allObjects as? [CommentCoreData], comments.isEmpty == false {
+
+            let image = UIImage(systemName: "message.fill", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
+
+            buttonComments.setImage(image, for: .normal)
+
+            buttonComments.tintColor = UIColor(named: "orange")
+        }
+    }
 
 
 
@@ -620,8 +602,6 @@ class PostCell: UITableViewCell {
 
         self.currentIndexPath = indexPath
 
-
-
         self.viewEditPost.delegate = profileVC
         self.viewEditPost.delegateAlternative = savedPostsVC
         self.viewEditPost.currentPost = post
@@ -636,11 +616,31 @@ class PostCell: UITableViewCell {
         setupImageForPost(post: post)
         setupLabelLikes(post: post)
         setupLabelViews(post: post)
+        setupButtonComments(post: post)
 
         imageViewAuthorAvatar.image = UIImage(named: post.relationshipProfile?.avatar ?? "")
         labelAuthor.text = (post.author ?? "") + " " + (post.surname ?? "")
         labelText.text = post.text
     }
+
+
+
+    @objc private func keyboardDidShowNotificationAction(_ notification: Notification) {
+
+        if let keyboard = notification.userInfo?[ UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect
+        {
+            delegateAlternative?.beginUpdatesTableView()
+
+            frame.origin.y -= (keyboard.height * 0.9)
+        }
+    }
+
+
+
+    @objc private func keyboardDidHideNotificationAction() {
+           delegateAlternative?.endUpdatesTableView()
+    }
+
 }
 
 

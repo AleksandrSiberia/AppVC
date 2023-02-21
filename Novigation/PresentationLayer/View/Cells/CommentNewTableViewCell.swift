@@ -21,9 +21,17 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
     private lazy var imageViewAuthorAvatar: UIImageView = setupViewAuthorAvatar()
 
 
-    private lazy var textFieldNewComment = UITextField.setupTextFieldComment(text: nil, keyboardType: .namePhonePad)
+    private lazy var textFieldNewComment = {
 
-
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.addTarget(self, action: #selector(textFieldNewCommentAction), for: .editingChanged)
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 12
+        textField.keyboardType = .namePhonePad
+        textField.placeholder = "Напишите комментарий".allLocalizable
+        return textField
+    }()
     
     private lazy var buttonSentComment: UIButton = {
 
@@ -36,9 +44,12 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
             self.buttonSentComment.translatesAutoresizingMaskIntoConstraints = false
 
 
-            self.coreData?.appendNewCommentInPost(for: self.currentPost, text: self.textFieldNewComment.text)
+            if self.textFieldNewComment.text != "" {
 
-            self.textFieldNewComment.text = ""
+                self.coreData?.appendNewCommentInPost(for: self.currentPost, text: self.textFieldNewComment.text)
+
+                self.textFieldNewComment.text = ""
+            }
 
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -53,6 +64,8 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
 
 
         var buttonSentComment = UIButton(frame: CGRect(), primaryAction: action)
+
+        buttonSentComment.isHidden = true
 
         let image = UIImage(systemName: "arrow.up.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
 
@@ -73,11 +86,9 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
         [imageViewAuthorAvatar, textFieldNewComment, buttonSentComment].forEach { contentView.addSubview( $0) }
         setupConstraints()
 
+
+
     }
-
-    
-
- 
 
 
     required init?(coder: NSCoder) {
@@ -116,8 +127,6 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
     }
 
 
-   
-
 
 
     func setupCellNewComment(currentPost: PostCoreData?, coreData: CoreDataCoordinatorProtocol?, delegate: PostCell?) {
@@ -130,7 +139,21 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
             self.imageViewAuthorAvatar.image = image
         }
     }
+
+
+    @objc private func textFieldNewCommentAction() {
+
+        if textFieldNewComment.text == "" {
+            buttonSentComment.isHidden = true
+        }
+
+        else {
+            buttonSentComment.isHidden = false
+        }
+    }
 }
+
+
 
 
 
@@ -140,3 +163,7 @@ extension CommentNewTableViewCell {
         return String(describing: self)
     }
 }
+
+
+
+

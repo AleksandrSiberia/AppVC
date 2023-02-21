@@ -30,6 +30,8 @@ class CommentAllTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.numberOfLines = 0
+        label.layer.cornerRadius = 14
+        label.clipsToBounds = true
         return label
     }()
 

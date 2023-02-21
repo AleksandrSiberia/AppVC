@@ -444,9 +444,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
         view.endEditing(true)
         arrayCells.forEach { $0.viewEditPostIsHidden() }
     }
-
-
-
 }
 
 
