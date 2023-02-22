@@ -277,7 +277,7 @@ class AddNewPostViewController: UIViewController {
 
             let contentOffSet = bottomScrollViewElements - keyboardTop
 
-            scrollView.contentOffset.y = contentOffSet + 15
+            scrollView.contentOffset.y = contentOffSet + 130
         }
     }
 

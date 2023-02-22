@@ -36,7 +36,6 @@ class FeedViewController: UIViewController, ViewControllersDelegate {
         let action = UIAction() { _ in
 
             let videoViewController = VideoViewController()
-            videoViewController.view.backgroundColor = .white
             self.present(videoViewController, animated: true)
 
 
@@ -74,7 +73,6 @@ class FeedViewController: UIViewController, ViewControllersDelegate {
         let action = UIAction() { _ in
 
             let audioViewController = AudioViewController()
-            audioViewController.view.backgroundColor = .white
             self.present(audioViewController, animated: true)
 
 

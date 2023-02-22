@@ -498,15 +498,17 @@ class LoginViewController: UIViewController {
 
         let viewHaight = view.frame.height
 
+
+
         let scrollViewElementsMaxY = buttonBiometric.frame.maxY
 
         let keyboardMinY = viewHaight - keyboardHaight
 
         if scrollViewElementsMaxY > keyboardMinY {
 
-            let contentOffset = scrollViewElementsMaxY - keyboardMinY
+        let contentOffset = scrollViewElementsMaxY - keyboardMinY
 
-            scrollView.contentOffset.y = contentOffset + 15
+         scrollView.contentOffset.y = contentOffset + 80
         }
     }
 

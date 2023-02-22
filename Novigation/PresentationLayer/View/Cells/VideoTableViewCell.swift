@@ -42,20 +42,22 @@ class VideoTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        self.videoPlayerView.addSubview(self.videoImageView)
-        self.contentView.addSubview(self.videoPlayerView)
+        backgroundColor = UIColor(named: "grey")
+
+        videoPlayerView.addSubview(videoImageView)
+        contentView.addSubview(videoPlayerView)
 
 
         NSLayoutConstraint.activate([
-            self.videoPlayerView.topAnchor.constraint(equalTo: self.topAnchor, constant: 6),
-            self.videoPlayerView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -6),
-            self.videoPlayerView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 6),
-            self.videoPlayerView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -6),
+            videoPlayerView.topAnchor.constraint(equalTo: topAnchor, constant: 6),
+            videoPlayerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),
+            videoPlayerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6),
+            videoPlayerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6),
 
-            self.videoImageView.centerYAnchor.constraint(equalTo: self.videoPlayerView.centerYAnchor),
-            self.videoImageView.widthAnchor.constraint(equalTo: self.videoPlayerView.widthAnchor),
-            self.videoImageView.heightAnchor
-                .constraint(equalTo: self.videoPlayerView.widthAnchor)
+            videoImageView.centerYAnchor.constraint(equalTo: videoPlayerView.centerYAnchor),
+            videoImageView.widthAnchor.constraint(equalTo: videoPlayerView.widthAnchor),
+            videoImageView.heightAnchor
+                .constraint(equalTo: videoPlayerView.widthAnchor)
         ])
     }
 
@@ -83,13 +85,13 @@ class VideoTableViewCell: UITableViewCell {
 
     func setupVideoTableViewCell(nameVideo: String, nameFoto: String, videoViewController: VideoViewController) {
 
-        self.videoImageView.image = UIImage(named: nameFoto)
+        videoImageView.image = UIImage(named: nameFoto)
 
         self.videoViewController = videoViewController
 
-        self.player = AVPlayer(url: Bundle.main.url(forResource:  nameVideo, withExtension: "mp4")!)
-        self.playerLayer = AVPlayerLayer(player: self.player)
-        self.videoPlayerView.layer.addSublayer(self.playerLayer!)
+        player = AVPlayer(url: Bundle.main.url(forResource:  nameVideo, withExtension: "mp4")!)
+        playerLayer = AVPlayerLayer(player: player)
+        videoPlayerView.layer.addSublayer(playerLayer!)
     }
 }
 
@@ -104,21 +106,21 @@ extension VideoTableViewCell: NameClass {
 extension VideoTableViewCell: VideoViewControllerOutput {
 
     func stopVideo() {
-        self.player?.pause()
+        player?.pause()
     }
 
     func playPauseVideo(videoViewController: VideoViewController) {
 
         guard
-            self.play == false
+            play == false
         else  {
-            self.player!.pause()
-            self.play = false
+            player!.pause()
+            play = false
             return
         }
-        self.player!.play()
-        self.play = true
-        self.videoImageView.isHidden = true
+        player!.play()
+        play = true
+        videoImageView.isHidden = true
     }
 
 

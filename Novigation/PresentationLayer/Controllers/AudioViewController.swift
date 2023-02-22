@@ -47,6 +47,9 @@ class AudioViewController: UIViewController {
         labelTrackName.text = self.tracks[self.numberTrack]
         labelTrackName.translatesAutoresizingMaskIntoConstraints = false
         labelTrackName.textColor = .white
+        labelTrackName.numberOfLines = 0
+        labelTrackName.clipsToBounds = true
+
         return labelTrackName
     }()
 
@@ -64,9 +67,10 @@ class AudioViewController: UIViewController {
         var buttonPlayPauseAudio = UIButton(primaryAction: action)
         buttonPlayPauseAudio.setTitle( "buttonPlayPauseAudio".audioViewControllerLocalizable , for: .normal)
         buttonPlayPauseAudio.translatesAutoresizingMaskIntoConstraints = false
-        buttonPlayPauseAudio.backgroundColor = .white
+        buttonPlayPauseAudio.backgroundColor = UIColor(named: "grey")
         buttonPlayPauseAudio.layer.cornerRadius = 12
-        buttonPlayPauseAudio.setTitleColor(.darkGray, for: .normal)
+
+        buttonPlayPauseAudio.setTitleColor( UIColor(named: "orange"), for: .selected)
         return buttonPlayPauseAudio
     }()
 
@@ -78,9 +82,9 @@ class AudioViewController: UIViewController {
         }
         var buttonStopPlay = UIButton(primaryAction: action)
         buttonStopPlay.setTitle( "buttonStopPlay".audioViewControllerLocalizable, for: .normal)
-        buttonStopPlay.backgroundColor = .white
+        buttonStopPlay.backgroundColor = UIColor(named: "grey")
         buttonStopPlay.layer.cornerRadius = 12
-        buttonStopPlay.setTitleColor(.darkGray, for: .normal)
+        buttonStopPlay.setTitleColor(UIColor(named: "orange"), for: .selected)
         buttonStopPlay.translatesAutoresizingMaskIntoConstraints = false
         return buttonStopPlay
     }()
@@ -99,9 +103,9 @@ class AudioViewController: UIViewController {
         }
         var buttonTrackBack = UIButton(primaryAction: action)
         buttonTrackBack.setTitle("buttonTrackBack".audioViewControllerLocalizable, for: .normal)
-        buttonTrackBack.backgroundColor = .white
+        buttonTrackBack.backgroundColor = UIColor(named: "grey")
         buttonTrackBack.layer.cornerRadius = 12
-        buttonTrackBack.setTitleColor(.darkGray, for: .normal)
+        buttonTrackBack.setTitleColor(UIColor(named: "orange"), for: .normal)
         buttonTrackBack.translatesAutoresizingMaskIntoConstraints = false
         return buttonTrackBack
     }()
@@ -121,9 +125,9 @@ class AudioViewController: UIViewController {
         }
         var buttonTrackForward = UIButton(primaryAction: action)
         buttonTrackForward.setTitle("buttonTrackForward".audioViewControllerLocalizable, for: .normal)
-        buttonTrackForward.backgroundColor = .white
+        buttonTrackForward.backgroundColor = UIColor(named: "grey")
         buttonTrackForward.layer.cornerRadius = 12
-        buttonTrackForward.setTitleColor(.darkGray, for: .normal)
+        buttonTrackForward.setTitleColor(UIColor(named: "orange"), for: .normal)
         buttonTrackForward.translatesAutoresizingMaskIntoConstraints = false
         return buttonTrackForward
     }()
@@ -133,37 +137,15 @@ class AudioViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.addSubview(self.audioPlayerView)
-        self.audioPlayerView.addSubview(self.buttonPlayPauseAudio)
-        self.audioPlayerView.addSubview(self.buttonStopPlay)
-        self.audioPlayerView.addSubview(self.labelTrackName)
-        self.audioPlayerView.addSubview(self.buttonTrackBack)
-        self.audioPlayerView.addSubview(self.buttonTrackForward)
+        view.addSubview(audioPlayerView)
+        audioPlayerView.addSubview(buttonPlayPauseAudio)
+        audioPlayerView.addSubview(buttonStopPlay)
+        audioPlayerView.addSubview(labelTrackName)
+        audioPlayerView.addSubview(buttonTrackBack)
+        audioPlayerView.addSubview(buttonTrackForward)
 
-        NSLayoutConstraint.activate([
-            self.audioPlayerView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.audioPlayerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.audioPlayerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.audioPlayerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+        setupConstrains()
 
-            self.buttonPlayPauseAudio.topAnchor.constraint(equalTo: self.buttonTrackBack.bottomAnchor, constant: 20),
-            self.buttonPlayPauseAudio.leadingAnchor.constraint(equalTo: self.audioPlayerView.leadingAnchor, constant: 20),
-
-            self.buttonStopPlay.centerYAnchor.constraint(equalTo: self.buttonPlayPauseAudio.centerYAnchor),
-            self.buttonStopPlay.trailingAnchor.constraint(equalTo: self.audioPlayerView.trailingAnchor, constant: -20),
-
-
-            self.buttonTrackBack.topAnchor.constraint(equalTo: self.labelTrackName.bottomAnchor, constant: 40),
-            self.buttonTrackBack.centerXAnchor.constraint(equalTo: self.audioPlayerView.centerXAnchor, constant: -30),
-
-            self.buttonTrackForward.leadingAnchor.constraint(equalTo: self.buttonTrackBack.trailingAnchor, constant: 12),
-            self.buttonTrackForward.centerYAnchor.constraint(equalTo: self.buttonTrackBack.centerYAnchor),
-
-            self.labelTrackName.topAnchor.constraint(equalTo: self.audioPlayerView.topAnchor, constant: 50),
-            self.labelTrackName.centerXAnchor.constraint(equalTo: self.audioPlayerView.centerXAnchor)
-
-
-        ])
     }
 
 
@@ -176,6 +158,39 @@ class AudioViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.player.pause()
+    }
+
+
+    func setupConstrains() {
+
+        let safeAria = view.safeAreaLayoutGuide
+
+        NSLayoutConstraint.activate([
+
+            audioPlayerView.topAnchor.constraint(equalTo: safeAria.topAnchor),
+            audioPlayerView.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor),
+            audioPlayerView.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor),
+            audioPlayerView.bottomAnchor.constraint(equalTo: safeAria.bottomAnchor),
+
+
+            labelTrackName.topAnchor.constraint(equalTo: audioPlayerView.topAnchor, constant: 100),
+            labelTrackName.centerXAnchor.constraint(equalTo: audioPlayerView.centerXAnchor),
+
+            buttonPlayPauseAudio.centerYAnchor.constraint(equalTo: audioPlayerView.centerYAnchor),
+            buttonPlayPauseAudio.centerXAnchor.constraint(equalTo: audioPlayerView.centerXAnchor),
+
+            buttonTrackBack.centerYAnchor.constraint(equalTo: buttonPlayPauseAudio.centerYAnchor),
+            buttonTrackBack.trailingAnchor.constraint(equalTo: buttonPlayPauseAudio.leadingAnchor, constant: -20),
+
+            buttonTrackForward.leadingAnchor.constraint(equalTo: buttonPlayPauseAudio.trailingAnchor, constant: 20),
+            buttonTrackForward.centerYAnchor.constraint(equalTo: buttonPlayPauseAudio.centerYAnchor),
+
+
+            buttonStopPlay.centerXAnchor.constraint(equalTo: buttonPlayPauseAudio.centerXAnchor),
+            buttonStopPlay.topAnchor.constraint(equalTo: buttonPlayPauseAudio.bottomAnchor, constant: 20),
+
+
+        ])
     }
 
 }

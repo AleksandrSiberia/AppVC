@@ -29,31 +29,35 @@ class VideoViewController: UIViewController {
         tableViewVideo.dataSource = self
         tableViewVideo.translatesAutoresizingMaskIntoConstraints = false
         tableViewVideo.register( VideoTableViewCell.self, forCellReuseIdentifier: VideoTableViewCell.name)
-        tableViewVideo.backgroundColor = .orange
+        tableViewVideo.backgroundColor = UIColor(named: "grey")
         return tableViewVideo
     }()
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(self.tableViewVideo)
+        view.addSubview(tableViewVideo)
+
+        view.backgroundColor = UIColor(named: "grey")
+
+        let safeAria = view.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
-            self.tableViewVideo.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.tableViewVideo.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.tableViewVideo.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.tableViewVideo.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            tableViewVideo.topAnchor.constraint(equalTo: safeAria.topAnchor),
+            tableViewVideo.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor),
+            tableViewVideo.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor),
+            tableViewVideo.bottomAnchor.constraint(equalTo: safeAria.bottomAnchor),
         ])
     }
 
     func reloadTableViewVideo() {
-        self.tableViewVideo.reloadData()
+        tableViewVideo.reloadData()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        self.cells.forEach {  $0.stopVideo() }
+        cells.forEach {  $0.stopVideo() }
     }
 }
 
@@ -62,14 +66,17 @@ class VideoViewController: UIViewController {
 extension VideoViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return self.videos.count
+       return videos.count
     }
 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableViewVideo.dequeueReusableCell(withIdentifier: VideoTableViewCell.name, for: indexPath) as! VideoTableViewCell
-        cell.setupVideoTableViewCell(nameVideo: self.videos[indexPath.row], nameFoto: self.fotos[indexPath.row], videoViewController: self)
-        self.cells.append(cell)
+
+        guard let cell = tableViewVideo.dequeueReusableCell(withIdentifier: VideoTableViewCell.name, for: indexPath) as? VideoTableViewCell, fotos.count - 1 >= indexPath.row, videos.count - 1 >= indexPath.row
+        else { return UITableViewCell() }
+
+        cell.setupVideoTableViewCell(nameVideo: videos[indexPath.row], nameFoto: fotos[indexPath.row], videoViewController: self)
+        cells.append(cell)
         return cell
     }
 
@@ -80,7 +87,7 @@ extension VideoViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let cell = self.cells[indexPath.row]
+        let cell = cells[indexPath.row]
 
         cell.playPauseVideo(videoViewController: self)
 
