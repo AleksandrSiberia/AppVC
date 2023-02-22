@@ -6,145 +6,141 @@
 //
 
 import UIKit
-import StorageService
 import RealmSwift
 import SwiftUI
+import CoreData
 
 
-class FeedViewController: UIViewController {
+protocol FeedViewControllerDelegate {
 
 
-   
-    var delegate: FeedViewDelegate! {
+    func showEditPostTextViewController(currentPost: PostCoreData?)
+    func dismissController()
 
-        didSet {
-            self.delegate.didChange = { [ unowned self ] viewModel in
-                self.viewCheckWord.backgroundColor = UIColor(cgColor: viewModel.colorWordVerification)
-            }
-        }
-    }
+    func reloadTableView()
+    func beginUpdatesTableView()
+    func endUpdatesTableView()
+}
 
 
-    private lazy var viewCheckWord: CheckWord = {
-        var viewCheckWord = CheckWord()
-        viewCheckWord.translatesAutoresizingMaskIntoConstraints = false
-        viewCheckWord.layer.cornerRadius = 12
-        return viewCheckWord
-    }()
+class FeedViewController: UIViewController, FeedViewControllerDelegate {
+//    var onSelectAction: (() -> Void)?
 
+    private var arrayCells: [PostCell] = []
 
-
-    private lazy var textFieldCheckWord: UITextField = {
-        var textFieldCheckWord = UITextField()
-        textFieldCheckWord.translatesAutoresizingMaskIntoConstraints = false
-        textFieldCheckWord.clearButtonMode = .whileEditing
-        textFieldCheckWord.backgroundColor = .systemGray5
-        textFieldCheckWord.layer.cornerRadius = 12
-        textFieldCheckWord.placeholder = "textFieldCheckWord".feedViewControllerLocalizable
-        return  textFieldCheckWord
-    }()
-
+    var coreData: CoreDataCoordinatorProtocol?
 
     
-    private lazy var buttonCheckWord: CustomButton = {
-        var buttonCheckWord = CustomButton(title: "buttonCheckWord".feedViewControllerLocalizable) {
-         self.delegate.wordVerification = self.textFieldCheckWord.text
-        }
+    private lazy var buttonVideoPlayer: UIButton = {
 
-        return buttonCheckWord
-    }()
-
-
-
-    private lazy var buttonAudioPlayer: CustomButton = {
-        var buttonAudioPlayer = CustomButton(title: "buttonAudioPlayer".feedViewControllerLocalizable, targetAction: {
-
-            let audioViewController = AudioViewController()
-            audioViewController.view.backgroundColor = .white
-            self.present(audioViewController, animated: true)
-        })
-        return buttonAudioPlayer
-    }()
-
-
-
-    private lazy var buttonVideoPlayer: CustomButton = {
-        var buttonVideoPlayer = CustomButton(title: "buttonVideoPlayer".feedViewControllerLocalizable, targetAction: {
+        let action = UIAction() { _ in
 
             let videoViewController = VideoViewController()
             videoViewController.view.backgroundColor = .white
             self.present(videoViewController, animated: true)
-        })
-        return buttonVideoPlayer
+
+
+            let image = UIImage(systemName: "video.fill", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
+
+            self.buttonVideoPlayer.setImage(image, for: .normal)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+
+                let image = UIImage(systemName: "video", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
+
+                self.buttonVideoPlayer.setImage(image, for: .normal)
+
+            }
+
+        }
+        var button = UIButton(frame: CGRect(), primaryAction: action)
+
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        let image = UIImage(systemName: "video", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
+
+        button.setImage(image, for: .normal)
+
+        button.tintColor = UIColor.createColorForTheme(lightTheme: .gray, darkTheme: .white)
+
+        return button
     }()
 
 
 
-    private lazy var postStack: UIStackView = {
-        var postStack = UIStackView()
-        postStack.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
-        postStack.translatesAutoresizingMaskIntoConstraints = false
-        postStack.axis = .vertical
-        postStack.distribution = .fillEqually
-        postStack.spacing = 10
-        return postStack
+    
+    private lazy var buttonAudioPlayer: UIButton = {
+
+        let action = UIAction() { _ in
+
+            let audioViewController = AudioViewController()
+            audioViewController.view.backgroundColor = .white
+            self.present(audioViewController, animated: true)
+
+
+            let image = UIImage(systemName: "headphones.circle.fill", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
+
+            self.buttonAudioPlayer.setImage(image, for: .normal)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+
+                let image = UIImage(systemName: "headphones.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
+
+                self.buttonAudioPlayer.setImage(image, for: .normal)
+            }
+
+        }
+        var button = UIButton(frame: CGRect(), primaryAction: action)
+
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        let image = UIImage(systemName: "headphones.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
+
+        button.setImage(image, for: .normal)
+
+        button.tintColor = UIColor.createColorForTheme(lightTheme: .gray, darkTheme: .white)
+
+        return button
     }()
 
 
 
-    private lazy var buttonRightNavInfo: UIBarButtonItem = {
-        var buttonRightNavInfo = UIBarButtonItem(title: "buttonRightNavInfo".feedViewControllerLocalizable, style: .done, target: self, action: #selector(actionButtonRightNavInfo))
-        return buttonRightNavInfo
+    private lazy var tableView: UITableView = {
+        var tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(PostCell.self, forCellReuseIdentifier: "PostCell")
+
+        tableView.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
+
+        return tableView
     }()
 
-
-
-    private lazy var postButton: UIButton = {
-        var postButton = UIButton()
-        postButton.isHidden = true
-        postButton.translatesAutoresizingMaskIntoConstraints = false
-        postButton.backgroundColor = .systemYellow
-        postButton.setTitle( "postButton".feedViewControllerLocalizable, for: .normal)
-        postButton.addTarget(self, action: #selector(didTapPostButton), for: .touchUpInside)
-        return postButton
-    }()
-
-
-
-
-    private lazy var postButton2: UIButton = {
-        var postButton2 = UIButton()
-        postButton2.translatesAutoresizingMaskIntoConstraints = false
-        postButton2.backgroundColor = .systemYellow
-        postButton2.setTitle("Пост2", for: .normal)
-        postButton2.addTarget(self, action: #selector(didTapPostButton2), for: .touchUpInside)
-        postButton2.isHidden = true
-        return postButton2
-    }()
 
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupView()
+        self.view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
+
+        self.navigationItem.title = "navigationItem.title".feedViewControllerLocalizable
+
+        self.coreData?.fetchedResultsControllerPostCoreData?.delegate = self
+
+        [buttonVideoPlayer, buttonAudioPlayer, tableView].forEach{ view.addSubview($0) }
+
+        setupConstrains()
     }
 
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.postButton.layer.cornerRadius = self.postButton.frame.height / 2
-        self.postButton2.layer.cornerRadius = self.postButton2.frame.height / 2
-
+  //      coreData?.performFetchAllPostCoreData()
+        tableView.reloadData()
     }
-
-
-//    deinit {
-//        self.publisher?.delete(subscriber: { _ in
-//            return true })
-//    }
 
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -155,57 +151,124 @@ class FeedViewController: UIViewController {
 
 
 
+    private func setupConstrains() {
 
-    private func setupView() {
-
-        self.view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
-
-        self.navigationItem.title = "navigationItem.title".feedViewControllerLocalizable
-        
-        self.view.addSubview(postStack)
-        [viewCheckWord, textFieldCheckWord, buttonCheckWord, postButton, postButton2, buttonAudioPlayer, buttonVideoPlayer].forEach({ self.postStack.addArrangedSubview($0)})
-
-        self.navigationItem.rightBarButtonItem = buttonRightNavInfo
+        let safeAria = view.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
 
-            self.postStack.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            self.postStack.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.postStack.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40),
-            self.postStack.heightAnchor.constraint(equalToConstant: 300),
+            buttonVideoPlayer.topAnchor.constraint(equalTo: safeAria.topAnchor),
+            buttonVideoPlayer.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor, constant: 30),
+
+            buttonAudioPlayer.centerYAnchor.constraint(equalTo: buttonVideoPlayer.centerYAnchor),
+            buttonAudioPlayer.leadingAnchor.constraint(equalTo: buttonVideoPlayer.trailingAnchor, constant: 20),
+
+            tableView.topAnchor.constraint(equalTo: buttonVideoPlayer.bottomAnchor, constant: 15),
+            tableView.leadingAnchor.constraint(equalTo: safeAria.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeAria.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeAria.bottomAnchor),
+
         ])
     }
 
 
-    @objc private func didTapPostButton(){
-        let postViewController = PostViewController()
-        self.navigationController?.pushViewController(postViewController, animated: true)
-        if let title = postButton.titleLabel?.text {
-            postViewController.post = Post(title: title)
-        }
+    func dismissController() {
+        dismiss(animated: true)
     }
 
 
-    
-    @objc private func didTapPostButton2() {
-        let postViewController = PostViewController()
-        self.navigationController?.pushViewController(postViewController, animated: true)
-        if let title = postButton2.titleLabel?.text {
-            postViewController.post = Post(title: title)
-        }
+    func beginUpdatesTableView() {
+        tableView.beginUpdates()
     }
 
 
+    func endUpdatesTableView() {
+        tableView.endUpdates()
+    }
 
-    @objc private func actionButtonRightNavInfo() {
-        let navInfoViewController = UINavigationController(rootViewController: InfoViewController())
-        present(navInfoViewController, animated: true, completion: nil)
+
+    func reloadTableView() {
+        tableView.reloadData()
+    }
+
+    func showEditPostTextViewController(currentPost: PostCoreData?) {
+
+        let controller = EditPostTextViewController(currentPost: currentPost, delegate: nil, delegateAlternative: nil, delegateFVC: self, coreData: coreData)
+        let navController = UINavigationController(rootViewController: controller)
+
+        present(navController, animated: true)
     }
 }
+
+
 
 
 extension String {
     var feedViewControllerLocalizable: String {
         NSLocalizedString(self, tableName: "FeedViewControllerLocalizable", comment: "")
+    }
+}
+
+
+
+extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        if let section = coreData?.fetchedResultsControllerPostCoreData?.sections, section.isEmpty == false, let array = section.first  {
+
+
+            return array.numberOfObjects
+        }
+
+        return 0
+    }
+
+
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCell else {
+            return UITableViewCell()
+        }
+
+        guard let section = coreData?.fetchedResultsControllerPostCoreData?.sections, section.isEmpty == false, let arrayPosts = section.first, arrayPosts.numberOfObjects - 1 >= indexPath.row, let post = arrayPosts.objects?[indexPath.row] as? PostCoreData
+
+        else { return UITableViewCell() }
+
+        if arrayCells.count - 1 >= indexPath.row {
+            arrayCells.remove(at: indexPath.row)
+            arrayCells.insert(cell, at: indexPath.row)
+        }
+
+        else {
+            if arrayCells.count - 1 >= indexPath.row {
+                arrayCells.insert(cell, at: indexPath.row)
+            }
+            else {
+                arrayCells.insert(cell, at: arrayCells.endIndex)
+            }
+        }
+
+        cell.setupCell(post: post, coreDataCoordinator: coreData, profileVC: nil, savedPostsVC: nil)
+
+        return cell
+
+    }
+
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+        arrayCells.forEach { $0.viewEditPostIsHidden() }
+    }
+}
+
+
+extension FeedViewController: NSFetchedResultsControllerDelegate {
+
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+
+        tableView.reloadData()
     }
 }

@@ -10,12 +10,10 @@ import CoreData
 
 
 protocol SavedPostsViewControllerDelegate {
-    
-    var arrayConstraints: [[NSLayoutConstraint]] {get set}
+
     
     func showEditPostTextViewController(currentPost: PostCoreData?)
     func dismissController()
-    func endEditing()
 
     func reloadTableView()
     func beginUpdatesTableView()
@@ -26,8 +24,6 @@ protocol SavedPostsViewControllerDelegate {
 class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelegate {
 
     private var arrayCells: [PostCell] = []
-
-    var arrayConstraints: [[NSLayoutConstraint]] = []
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
@@ -121,7 +117,7 @@ class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelega
 
     func showEditPostTextViewController(currentPost: PostCoreData?) {
 
-        let controller = EditPostTextViewController(currentPost: currentPost, delegate: nil, delegateAlternative: self, coreData: coreDataCoordinator)
+        let controller = EditPostTextViewController(currentPost: currentPost, delegate: nil, delegateAlternative: self, delegateFVC: nil, coreData: coreDataCoordinator)
         let navController = UINavigationController(rootViewController: controller)
 
         present(navController, animated: true)
@@ -212,20 +208,21 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCell
-
         else { let cell = self.tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
             return cell
         }
 
         cell.selectionStyle = .none
 
-        if arrayCells.count - 1 >= indexPath.row {
+        guard let section = coreDataCoordinator?.fetchedResultsControllerSavePostCoreData?.sections, section.isEmpty == false, let arrayPosts = section.first, arrayPosts.numberOfObjects - 1 >= indexPath.row, let post = arrayPosts.objects?[indexPath.row] as? PostCoreData
+        else { return  self.tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)}
 
+        if arrayCells.count - 1 >= indexPath.row {
             arrayCells.remove(at: indexPath.row)
             arrayCells.insert(cell, at: indexPath.row)
         }
-        else {
 
+        else {
             if arrayCells.count - 1 >= indexPath.row {
                 arrayCells.insert(cell, at: indexPath.row)
             }
@@ -234,13 +231,7 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
             }
         }
 
-
-        let postCoreData = self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.object(at: indexPath)
-
-     
-
-        cell.setupCell(post: postCoreData, coreDataCoordinator: coreDataCoordinator, profileVC: nil, savedPostsVC: self, indexPath: indexPath)
-
+        cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, profileVC: nil, savedPostsVC: self)
 
         return cell
         
@@ -252,7 +243,6 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
         endEditing()
         arrayCells.forEach { $0.viewEditPostIsHidden() }
-
     }
 
 

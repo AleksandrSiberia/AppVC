@@ -30,7 +30,7 @@ class PostCell: UITableViewCell {
 
     private var myConstraints: [NSLayoutConstraint] = []
 
-    private var currentIndexPath: IndexPath?
+   
 
     private var imageViewAuthorAvatar: UIImageView = {
 
@@ -342,7 +342,7 @@ class PostCell: UITableViewCell {
     }
 
 
-    func setupViews() {
+    private func setupViews() {
 
         [imageViewAuthorAvatar, labelAuthor, buttonEditPost, imageViewPost, labelText, buttonLike, labelLikes, labelViews, viewEditPost, buttonFavorite,  tableViewComment, buttonComments].forEach {
             contentView.addSubview($0)
@@ -574,7 +574,7 @@ class PostCell: UITableViewCell {
     }
 
 
-    func setupButtonComments(post: PostCoreData?) {
+    private func setupButtonComments(post: PostCoreData?) {
 
         if let comments = post?.relationshipArrayComments?.allObjects as? [CommentCoreData], comments.isEmpty == false {
 
@@ -588,7 +588,7 @@ class PostCell: UITableViewCell {
 
 
 
-    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, profileVC: ProfileViewControllerDelegate?, savedPostsVC: SavedPostsViewControllerDelegate?, indexPath: IndexPath) {
+    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, profileVC: ProfileViewControllerDelegate?, savedPostsVC: SavedPostsViewControllerDelegate?) {
 
         guard let post else {
             print("‼️ PostCoreData? == nil")
@@ -600,7 +600,6 @@ class PostCell: UITableViewCell {
         self.delegate = profileVC
         self.delegateAlternative = savedPostsVC
 
-        self.currentIndexPath = indexPath
 
         self.viewEditPost.delegate = profileVC
         self.viewEditPost.delegateAlternative = savedPostsVC

@@ -109,8 +109,6 @@
 		8B88710929A35BB10066884E /* CommentTableViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88710829A35BB10066884E /* CommentTableViewCellProtocol.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
-		8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */; };
-		8B975F4328D1B58600CC47D9 /* FeedViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F4228D1B58600CC47D9 /* FeedViewControllerDelegate.swift */; };
 		8B975F4728D1BC3D00CC47D9 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */; };
 		8B975F4C28D1F02800CC47D9 /* LoginAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F4B28D1F02800CC47D9 /* LoginAssembly.swift */; };
 		8B975F4E28D1FE4400CC47D9 /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F4D28D1FE4400CC47D9 /* FeedCoordinator.swift */; };
@@ -271,8 +269,6 @@
 		8B88710829A35BB10066884E /* CommentTableViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommentTableViewCellProtocol.swift; path = /Users/aleksandrhmyrov/Desktop/Case/IndustrialDevelopment/Novigation/PresentationLayer/View/Cells/CommentTableViewCellProtocol.swift; sourceTree = "<absolute>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
-		8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		8B975F4228D1B58600CC47D9 /* FeedViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewControllerDelegate.swift; sourceTree = "<group>"; };
 		8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAssembly.swift; sourceTree = "<group>"; };
 		8B975F4B28D1F02800CC47D9 /* LoginAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAssembly.swift; sourceTree = "<group>"; };
 		8B975F4D28D1FE4400CC47D9 /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
@@ -575,8 +571,6 @@
 				8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */,
 				8B975F4D28D1FE4400CC47D9 /* FeedCoordinator.swift */,
 				8B975F4F28D1FE8100CC47D9 /* ProfileCoordinator.swift */,
-				8B975F4228D1B58600CC47D9 /* FeedViewControllerDelegate.swift */,
-				8B975F3E28D1B37A00CC47D9 /* ViewModel.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -951,7 +945,6 @@
 			files = (
 				8B695C5528BCEED9008F0414 /* TestUserService.swift in Sources */,
 				8BED12CE28C5DBD5006FF146 /* LoginViewControllerDelegate.swift in Sources */,
-				8B975F3F28D1B37A00CC47D9 /* ViewModel.swift in Sources */,
 				8B353271285DCE3A00704D08 /* PhotosTableViewCell.swift in Sources */,
 				8B975F4728D1BC3D00CC47D9 /* FeedAssembly.swift in Sources */,
 				8B30E003283FAF91006763B9 /* PostViewController.swift in Sources */,
@@ -985,7 +978,6 @@
 				8B8871012998D2C10066884E /* ViewEditPost.swift in Sources */,
 				8B474A782910F19E007DE402 /* CoreDadaModel.xcdatamodeld in Sources */,
 				8B4749D928F82A9F007DE402 /* InfoTableViewCell.swift in Sources */,
-				8B975F4328D1B58600CC47D9 /* FeedViewControllerDelegate.swift in Sources */,
 				8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */,
 				8B4749D728F7FB13007DE402 /* ManagerDataResidentsPlanet.swift in Sources */,
 				8BED12D928C6848D006FF146 /* ArrayFoto.swift in Sources */,

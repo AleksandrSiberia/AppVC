@@ -265,7 +265,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     }
 
     func showEditPostTextViewController(currentPost: PostCoreData?)  {
-        let controller = EditPostTextViewController(currentPost: currentPost, delegate: self, delegateAlternative: nil, coreData: coreDataCoordinator)
+        let controller = EditPostTextViewController(currentPost: currentPost, delegate: self, delegateAlternative: nil, delegateFVC: nil, coreData: coreDataCoordinator)
         let navController = UINavigationController(rootViewController: controller)
 
         present(navController, animated: true)
@@ -343,9 +343,17 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
         if section == 0 {
             return 1
         }
+
+
         if section == 1 {
-            return self.coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?[0].numberOfObjects ?? 0
+
+            if let section = coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections, section.isEmpty == false, let array = section.first  {
+                return array.numberOfObjects
+            }
+            return 0
         }
+
+
         else {
             return 0
         }
@@ -353,6 +361,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+
         if indexPath.section == 0 {
             guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "PhotosTableViewCell", for: indexPath) as? PhotosTableViewCell else { let cell = self.tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 return cell
@@ -363,46 +373,36 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
         }
 
         else {
-            guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCell else { let cell = self.tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+
+            guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCell
+            else { let cell = self.tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 return cell
             }
 
             cell.selectionStyle = .none
 
 
-            if let posts = self.coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?.first?.objects as? [PostCoreData] {
+            guard let section = coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections, section.isEmpty == false, let arrayPosts = section.first, arrayPosts.numberOfObjects - 1 >= indexPath.row, let post = arrayPosts.objects?[indexPath.row] as? PostCoreData
+            else { return  self.tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)}
 
+            if arrayCells.count - 1 >= indexPath.row {
+                arrayCells.remove(at: indexPath.row)
+                arrayCells.insert(cell, at: indexPath.row)
+            }
 
-                if posts.count >= indexPath.row + 1 {
-
-                    let post = posts[indexPath.row ]
-
-
-                    cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, profileVC: self, savedPostsVC: nil, indexPath: indexPath)
-
-                    if arrayCells.count - 1 >= indexPath.row {
-                        arrayCells.remove(at: indexPath.row)
-                        arrayCells.insert(cell, at: indexPath.row)
-                    }
-
-                    else {
-                        if arrayCells.count - 1 >= indexPath.row {
-                            arrayCells.insert(cell, at: indexPath.row)
-                        }
-                        else {
-                            arrayCells.insert(cell, at: arrayCells.endIndex)
-                        }
-                    }
-
-                    return cell
+            else {
+                if arrayCells.count - 1 >= indexPath.row {
+                    arrayCells.insert(cell, at: indexPath.row)
                 }
                 else {
-                    return cell
+                    arrayCells.insert(cell, at: arrayCells.endIndex)
                 }
             }
-            else {
-                return cell
-            }
+
+            cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, profileVC: self, savedPostsVC: nil)
+
+            return cell
+
         }
     }
 

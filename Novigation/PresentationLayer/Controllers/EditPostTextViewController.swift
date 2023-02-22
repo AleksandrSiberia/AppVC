@@ -12,13 +12,13 @@ class EditPostTextViewController: UIViewController {
 
 
     private var delegate: ProfileViewControllerDelegate?
-
     private var delegateAlternative: SavedPostsViewControllerDelegate?
+    private var delegateFVC: FeedViewControllerDelegate?
+
 
     private var currentPost: PostCoreData?
 
     private var coreDataCoordinator: CoreDataCoordinatorProtocol?
-
 
     private var scrollView: UIScrollView = {
 
@@ -35,13 +35,16 @@ class EditPostTextViewController: UIViewController {
 
     private lazy var textViewPost = UITextView.setupTextView(text: currentPost?.text)
 
-    init(currentPost: PostCoreData?, delegate: ProfileViewControllerDelegate?, delegateAlternative: SavedPostsViewControllerDelegate?, coreData: CoreDataCoordinatorProtocol?) {
+
+
+    init(currentPost: PostCoreData?, delegate: ProfileViewControllerDelegate?, delegateAlternative: SavedPostsViewControllerDelegate?, delegateFVC: FeedViewControllerDelegate?, coreData: CoreDataCoordinatorProtocol?) {
         super.init(nibName: nil, bundle: nil)
 
         self.currentPost = currentPost
         self.delegate = delegate
         self.delegateAlternative = delegateAlternative
         self.coreDataCoordinator = coreData
+        self.delegateFVC = delegateFVC
 
 
     }
@@ -94,6 +97,7 @@ class EditPostTextViewController: UIViewController {
 
         delegate?.dismissController()
         delegateAlternative?.dismissController()
+        delegateFVC?.dismissController()
     }
 
     @objc func barButtonSaveAction() {
@@ -103,6 +107,7 @@ class EditPostTextViewController: UIViewController {
 
         delegate?.dismissController()
         delegateAlternative?.dismissController()
+        delegateFVC?.dismissController()
 
     }
 

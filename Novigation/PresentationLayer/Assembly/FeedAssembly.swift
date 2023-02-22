@@ -17,7 +17,7 @@ final class FeedAssembly {
         let viewModel = FeedViewModel(director: view, feedModel: feedModel)
 
 
-        view.delegate = viewModel
+      
         return  view
     }
 }

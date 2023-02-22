@@ -38,7 +38,12 @@ class RootCoordinator: AppCoordinatorProtocol {
 
     fileprivate func showTabBarScreen() -> UITabBarController? {
 
-        let navFeedView = UINavigationController(rootViewController: FeedAssembly.createFeedViewController())
+        let feedViewController = FeedAssembly.createFeedViewController()
+
+        feedViewController.coreData = coreDataCoordinator
+
+        let navFeedView = UINavigationController(rootViewController: feedViewController)
+
         let feedCoordinator = FeedCoordinator(transitionHandler: navFeedView)
 
         let navLoginView = UINavigationController(rootViewController: LoginAssembly.createLoginViewController(coordinator: self, coreData: self.coreDataCoordinator))
