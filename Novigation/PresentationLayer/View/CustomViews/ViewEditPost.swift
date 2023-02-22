@@ -11,15 +11,13 @@ import UIKit
 
 class ViewEditPost: UIView {
 
-    var delegate: ProfileViewControllerDelegate?
+    var delegate: ViewControllersDelegate?
 
-    var delegateAlternative: SavedPostsViewControllerDelegate?
-
+    
     var currentPost: PostCoreData? {
         willSet {
 
             tableView.reloadData()
-            print("🚗 willSet")
         }
     }
 
@@ -196,6 +194,8 @@ extension ViewEditPost: UITableViewDelegate {
                 self.isHidden = true
 
                 delegate?.showMassage(text: "Пост убран из избранного".allLocalizable)
+                delegate?.reloadTableView()
+
 
             }
             else {
@@ -204,6 +204,7 @@ extension ViewEditPost: UITableViewDelegate {
                 self.isHidden = true
 
                 delegate?.showMassage(text: "Пост добавлен в избранное".allLocalizable)
+                delegate?.reloadTableView()
             }
 
             
@@ -211,7 +212,7 @@ extension ViewEditPost: UITableViewDelegate {
 
             self.isHidden = true
             delegate?.showEditPostTextViewController(currentPost: currentPost)
-            delegateAlternative?.showEditPostTextViewController(currentPost: currentPost)
+          
 
 
         default:

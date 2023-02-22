@@ -19,22 +19,16 @@ protocol ProfileViewControllerDelegate {
     func showSettingViewController()
     func loadUserFromCoreData()
     func showDetailedInformationsViewController()
-    func showMassage(text: String)
-    func showEditPostTextViewController(currentPost: PostCoreData?)
-    func dismissController()
 
-    func reloadTableView()
-    func beginUpdatesTableView()
-    func endUpdatesTableView()
 }
+
 
 protocol ProfileViewControllerOutput {
     func timerStop()
 }
 
 
-
-final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable, ProfileViewControllerDelegate {
+final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable, ProfileViewControllerDelegate, ViewControllersDelegate {
 
     private var arrayCells: [PostCell] = []
 
@@ -265,7 +259,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     }
 
     func showEditPostTextViewController(currentPost: PostCoreData?)  {
-        let controller = EditPostTextViewController(currentPost: currentPost, delegate: self, delegateAlternative: nil, delegateFVC: nil, coreData: coreDataCoordinator)
+        let controller = EditPostTextViewController(currentPost: currentPost, delegate: self, coreData: coreDataCoordinator)
         let navController = UINavigationController(rootViewController: controller)
 
         present(navController, animated: true)
@@ -399,7 +393,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
                 }
             }
 
-            cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, profileVC: self, savedPostsVC: nil)
+            cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, delegate: self)
 
             return cell
 

@@ -9,22 +9,20 @@ import UIKit
 import CoreData
 
 
-protocol SavedPostsViewControllerDelegate {
-
-    
-    func showEditPostTextViewController(currentPost: PostCoreData?)
-    func dismissController()
-
-    func reloadTableView()
-    func beginUpdatesTableView()
-    func endUpdatesTableView()
-}
+//protocol ViewControllersDelegate {
+//
+//    func showEditPostTextViewController(currentPost: PostCoreData?)
+//    func dismissController()
+//    func reloadTableView()
+//    func beginUpdatesTableView()
+//    func endUpdatesTableView()
+//}
 
 
-class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelegate {
+class SavedPostsViewController: UIViewController, ViewControllersDelegate {
+
 
     private var arrayCells: [PostCell] = []
-
     var coreDataCoordinator: CoreDataCoordinatorProtocol!
 
     private var nameAuthor: String = ""
@@ -117,10 +115,22 @@ class SavedPostsViewController: UIViewController, SavedPostsViewControllerDelega
 
     func showEditPostTextViewController(currentPost: PostCoreData?) {
 
-        let controller = EditPostTextViewController(currentPost: currentPost, delegate: nil, delegateAlternative: self, delegateFVC: nil, coreData: coreDataCoordinator)
+        let controller = EditPostTextViewController(currentPost: currentPost, delegate: self, coreData: coreDataCoordinator)
         let navController = UINavigationController(rootViewController: controller)
 
         present(navController, animated: true)
+    }
+
+
+    func showMassage(text: String) {
+
+        let alert = UIAlertController(title: nil, message: text, preferredStyle: .actionSheet)
+
+        present(alert, animated: true)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.dismiss(animated: true)
+        }
     }
 
 
@@ -231,7 +241,7 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
             }
         }
 
-        cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, profileVC: nil, savedPostsVC: self)
+        cell.setupCell(post: post, coreDataCoordinator: coreDataCoordinator, delegate: self)
 
         return cell
         

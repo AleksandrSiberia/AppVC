@@ -11,20 +11,20 @@ import SwiftUI
 import CoreData
 
 
-protocol FeedViewControllerDelegate {
+//protocol FeedViewControllerDelegate {
+//
+//
+//    func showEditPostTextViewController(currentPost: PostCoreData?)
+//    func dismissController()
+//
+//    func reloadTableView()
+//    func beginUpdatesTableView()
+//    func endUpdatesTableView()
+//}
 
 
-    func showEditPostTextViewController(currentPost: PostCoreData?)
-    func dismissController()
+class FeedViewController: UIViewController, ViewControllersDelegate {
 
-    func reloadTableView()
-    func beginUpdatesTableView()
-    func endUpdatesTableView()
-}
-
-
-class FeedViewController: UIViewController, FeedViewControllerDelegate {
-//    var onSelectAction: (() -> Void)?
 
     private var arrayCells: [PostCell] = []
 
@@ -172,28 +172,41 @@ class FeedViewController: UIViewController, FeedViewControllerDelegate {
     }
 
 
+    func showMassage(text: String) {
+
+        let alert = UIAlertController(title: nil, message: text, preferredStyle: .actionSheet)
+
+        present(alert, animated: true)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.dismiss(animated: true)
+        }
+    }
+
+
     func dismissController() {
         dismiss(animated: true)
     }
-
 
     func beginUpdatesTableView() {
         tableView.beginUpdates()
     }
 
-
     func endUpdatesTableView() {
         tableView.endUpdates()
     }
-
 
     func reloadTableView() {
         tableView.reloadData()
     }
 
+
+
+
     func showEditPostTextViewController(currentPost: PostCoreData?) {
 
-        let controller = EditPostTextViewController(currentPost: currentPost, delegate: nil, delegateAlternative: nil, delegateFVC: self, coreData: coreData)
+        let controller = EditPostTextViewController(currentPost: currentPost, delegate: self, coreData: coreData)
+
         let navController = UINavigationController(rootViewController: controller)
 
         present(navController, animated: true)
@@ -250,7 +263,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
 
-        cell.setupCell(post: post, coreDataCoordinator: coreData, profileVC: nil, savedPostsVC: nil)
+        cell.setupCell(post: post, coreDataCoordinator: coreData, delegate: self)
 
         return cell
 

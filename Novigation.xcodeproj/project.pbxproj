@@ -107,6 +107,7 @@
 		8B887105299E2A600066884E /* CommentNewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B887104299E2A600066884E /* CommentNewTableViewCell.swift */; };
 		8B88710729A355260066884E /* CommentAllTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88710629A355260066884E /* CommentAllTableViewCell.swift */; };
 		8B88710929A35BB10066884E /* CommentTableViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88710829A35BB10066884E /* CommentTableViewCellProtocol.swift */; };
+		8B88710D29A62A9F0066884E /* ViewControllersDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88710C29A62A9F0066884E /* ViewControllersDelegate.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F4728D1BC3D00CC47D9 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */; };
@@ -267,6 +268,7 @@
 		8B887104299E2A600066884E /* CommentNewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentNewTableViewCell.swift; sourceTree = "<group>"; };
 		8B88710629A355260066884E /* CommentAllTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAllTableViewCell.swift; sourceTree = "<group>"; };
 		8B88710829A35BB10066884E /* CommentTableViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommentTableViewCellProtocol.swift; path = /Users/aleksandrhmyrov/Desktop/Case/IndustrialDevelopment/Novigation/PresentationLayer/View/Cells/CommentTableViewCellProtocol.swift; sourceTree = "<absolute>"; };
+		8B88710C29A62A9F0066884E /* ViewControllersDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllersDelegate.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAssembly.swift; sourceTree = "<group>"; };
@@ -632,6 +634,7 @@
 		8BED12DD28C8BD84006FF146 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8B88710C29A62A9F0066884E /* ViewControllersDelegate.swift */,
 				8B30DFFE283F97D6006763B9 /* FeedViewController.swift */,
 				8B0F0D1A285728B1008F75C0 /* LoginViewController.swift */,
 				8BED12CD28C5DBD5006FF146 /* LoginViewControllerDelegate.swift */,
@@ -944,6 +947,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B695C5528BCEED9008F0414 /* TestUserService.swift in Sources */,
+				8B88710D29A62A9F0066884E /* ViewControllersDelegate.swift in Sources */,
 				8BED12CE28C5DBD5006FF146 /* LoginViewControllerDelegate.swift in Sources */,
 				8B353271285DCE3A00704D08 /* PhotosTableViewCell.swift in Sources */,
 				8B975F4728D1BC3D00CC47D9 /* FeedAssembly.swift in Sources */,

@@ -11,9 +11,8 @@ class EditPostTextViewController: UIViewController {
 
 
 
-    private var delegate: ProfileViewControllerDelegate?
-    private var delegateAlternative: SavedPostsViewControllerDelegate?
-    private var delegateFVC: FeedViewControllerDelegate?
+    private var delegate: ViewControllersDelegate?
+
 
 
     private var currentPost: PostCoreData?
@@ -37,14 +36,15 @@ class EditPostTextViewController: UIViewController {
 
 
 
-    init(currentPost: PostCoreData?, delegate: ProfileViewControllerDelegate?, delegateAlternative: SavedPostsViewControllerDelegate?, delegateFVC: FeedViewControllerDelegate?, coreData: CoreDataCoordinatorProtocol?) {
+    init(currentPost: PostCoreData?, delegate: ViewControllersDelegate, coreData: CoreDataCoordinatorProtocol?) {
         super.init(nibName: nil, bundle: nil)
 
         self.currentPost = currentPost
+
         self.delegate = delegate
-        self.delegateAlternative = delegateAlternative
+
         self.coreDataCoordinator = coreData
-        self.delegateFVC = delegateFVC
+
 
 
     }
@@ -96,8 +96,7 @@ class EditPostTextViewController: UIViewController {
     @objc func barButtonCancelAction() {
 
         delegate?.dismissController()
-        delegateAlternative?.dismissController()
-        delegateFVC?.dismissController()
+
     }
 
     @objc func barButtonSaveAction() {
@@ -106,8 +105,8 @@ class EditPostTextViewController: UIViewController {
         coreDataCoordinator?.savePersistentContainerContext()
 
         delegate?.dismissController()
-        delegateAlternative?.dismissController()
-        delegateFVC?.dismissController()
+        delegate?.reloadTableView()
+  
 
     }
 

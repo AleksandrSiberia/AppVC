@@ -59,6 +59,7 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
                 self.buttonSentComment.setImage(image, for: .normal)
 
                 self.delegate?.reloadTableViewComment()
+
             }
         }
 

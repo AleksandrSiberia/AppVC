@@ -20,9 +20,8 @@ class PostCell: UITableViewCell {
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
-    private var delegate: ProfileViewControllerDelegate?
+    private var delegate: ViewControllersDelegate?
 
-    private var delegateAlternative: SavedPostsViewControllerDelegate?
 
     var countViews: Bool?
 
@@ -52,13 +51,10 @@ class PostCell: UITableViewCell {
                 self.tableViewIsHidden = false
 
 
-
-                self.delegateAlternative?.beginUpdatesTableView()
                 self.delegate?.beginUpdatesTableView()
 
                 self.setupConstrains(newTableViewCommentHeightAnchor: 200)
 
-                self.delegateAlternative?.endUpdatesTableView()
                 self.delegate?.endUpdatesTableView()
 
             }
@@ -68,13 +64,10 @@ class PostCell: UITableViewCell {
 
                 self.tableViewIsHidden = true
 
-                
-                self.delegateAlternative?.beginUpdatesTableView()
                 self.delegate?.beginUpdatesTableView()
 
                 self.setupConstrains(newTableViewCommentHeightAnchor: 0)
 
-                self.delegateAlternative?.endUpdatesTableView()
                 self.delegate?.endUpdatesTableView()
 
             }
@@ -225,11 +218,15 @@ class PostCell: UITableViewCell {
                 }
 
                 self.coreDataCoordinator?.savePersistentContainerContext()
+                self.setupLabelLikes(post: self.currentPost)
 
                 let image = UIImage(systemName: "heart", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
 
                 self.buttonLike.tintColor = .gray
                 self.buttonLike.setImage(image, for: .normal)
+
+
+
             }
 
 
@@ -237,10 +234,11 @@ class PostCell: UITableViewCell {
 
                 self.currentPost?.likeYou = true
                 self.currentPost?.likes += 1
-                self.coreDataCoordinator?.savePersistentContainerContext()
 
-                self.delegate?.reloadTableView()
-                self.delegateAlternative?.reloadTableView()
+
+                self.coreDataCoordinator?.savePersistentContainerContext()
+                self.setupLabelLikes(post: self.currentPost)
+
 
                 let image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
 
@@ -287,6 +285,8 @@ class PostCell: UITableViewCell {
                 self.buttonFavorite.setImage(image, for: .normal)
 
                 self.buttonFavorite.tintColor = .gray
+
+                self.delegate?.reloadTableView()
             }
 
 
@@ -303,6 +303,8 @@ class PostCell: UITableViewCell {
                 self.buttonFavorite.tintColor = UIColor(named: "orange")
 
                 self.buttonFavorite.setImage(image, for: .normal)
+
+                self.delegate?.reloadTableView()
             }
         }
 
@@ -550,9 +552,10 @@ class PostCell: UITableViewCell {
 
 
 
-    private func setupLabelLikes(post: PostCoreData) {
+    private func setupLabelLikes(post: PostCoreData?) {
 
         let localized = NSLocalizedString("LocalizedLike", tableName: "LocalizableDict", comment: "")
+        guard let post else { return }
         let likeValue = post.likes
         let formatLocalized = String(format: localized, likeValue)
 
@@ -588,21 +591,18 @@ class PostCell: UITableViewCell {
 
 
 
-    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, profileVC: ProfileViewControllerDelegate?, savedPostsVC: SavedPostsViewControllerDelegate?) {
+    func setupCell(post: PostCoreData?, coreDataCoordinator: CoreDataCoordinatorProtocol?, delegate: ViewControllersDelegate?) {
 
         guard let post else {
             print("‼️ PostCoreData? == nil")
             return
         }
 
-
         self.currentPost = post
-        self.delegate = profileVC
-        self.delegateAlternative = savedPostsVC
+        self.delegate = delegate
 
+        self.viewEditPost.delegate = delegate
 
-        self.viewEditPost.delegate = profileVC
-        self.viewEditPost.delegateAlternative = savedPostsVC
         self.viewEditPost.currentPost = post
         self.viewEditPost.coreDataCoordinator = coreDataCoordinator
 
@@ -628,7 +628,7 @@ class PostCell: UITableViewCell {
 
         if let keyboard = notification.userInfo?[ UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect
         {
-            delegateAlternative?.beginUpdatesTableView()
+            delegate?.beginUpdatesTableView()
 
             frame.origin.y -= (keyboard.height * 0.9)
         }
@@ -637,7 +637,7 @@ class PostCell: UITableViewCell {
 
 
     @objc private func keyboardDidHideNotificationAction() {
-           delegateAlternative?.endUpdatesTableView()
+           delegate?.endUpdatesTableView()
     }
 
 }
