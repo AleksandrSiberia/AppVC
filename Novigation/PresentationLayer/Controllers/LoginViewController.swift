@@ -403,6 +403,7 @@ class LoginViewController: UIViewController {
             if RealmService.shared.getAllUsers() != nil && RealmService.shared.getAllUsers()?.isEmpty == false {
 
                 for user in RealmService.shared.getAllUsers()! {
+
                     if user.login == loginUserOnline {
 
                         self.userService.checkTheLogin(user.login, password: user.password, loginInspector: self.loginDelegate!, loginViewController: self) {  user in
@@ -414,6 +415,7 @@ class LoginViewController: UIViewController {
 
                             self.output.coordinator.startProfileCoordinator(user: user)
                         }
+
                     }
                 }
             }

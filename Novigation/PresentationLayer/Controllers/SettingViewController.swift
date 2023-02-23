@@ -134,6 +134,7 @@ class SettingViewController: UIViewController {
                                          style: .cancel,
                                          handler: {_ in
         })
+
         alertExit.addAction(cancelAction)
 
         let exitAction = UIAlertAction(title: NSLocalizedString("buttonExitExitAction", tableName: "InfoViewControllerLocalizable", comment: ""),
@@ -141,9 +142,23 @@ class SettingViewController: UIViewController {
                                        handler: {_ in
 
             KeychainSwift().delete("userOnline")
-            self.dismiss(animated: true)
 
+            if let users = RealmService.shared.getAllUsers() {
+
+                for user in users {
+
+                        try!  RealmService.shared.realm.write {
+                            RealmService.shared.realm.delete(user)
+                    }
+                }
+            }
+
+
+            self.dismiss(animated: true)
         })
+
+
+
         alertExit.addAction(exitAction)
         present(alertExit, animated: true)
     }

@@ -116,14 +116,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         fetchedResultsControllerPostCoreData =   setupFetchedResultsControllerPostCoreData()
 
-//        guard let userFolder = KeychainSwift().get("userOnline") else {
-//            print("‼️ KeychainSwift().get(userOnline) == nil")
-//            return
-//        }
-//
-//        if getFolderByName(nameFolder: userFolder) == nil {
-//            appendFolder(name: userFolder)
-//        }
     }
 
 
@@ -452,7 +444,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         }
 
         appendFolder(name: userFolder)
-        
+
         fetchedResultsControllerPostCoreData = setupFetchedResultsControllerPostCoreData()
 
         getPostsInFetchedResultsController(nameFolder: KeychainSwift().get("userOnline") )

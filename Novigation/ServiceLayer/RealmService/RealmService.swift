@@ -49,7 +49,6 @@ final class RealmService {
 
 
 
-
     func setUser(user: RealmUserModel) {
 
         let idAllCategory = realm.objects(RealmCategoryModel.self)[0].id
@@ -101,7 +100,6 @@ final class RealmService {
 
 
     func deleteUser(indexInArrayUsers: Int) {
-
 
         if self.getAllUsers()!.count > indexInArrayUsers {
 

@@ -106,7 +106,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
         coreDataCoordinator?.appendDefaultPostsFromCoreData(currentProfile: currentProfile)
 
-   //     loadDefaultPostsFromCoreData()
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
@@ -178,28 +177,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         }
     }
 
-
-
-//    private func loadDefaultPostsFromCoreData() {
-//
-//        if let allPosts = coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?.first?.objects, allPosts.isEmpty {
-//
-//            for post in arrayModelPost {
-//
-//
-//                let values: [String: Any]  =  ["author":  currentProfile?.name ?? "User",
-//                                               "surname": currentProfile?.surname ?? "Test",
-//                                               "image": post.image,
-//                                               "text": post.description,
-//                                               "likes": post.likes,
-//                                               "views": post.views,
-//                                               "nameForUrlFoto": "",
-//                ]
-//
-//                self.coreDataCoordinator?.appendPost(values: values, currentProfile: currentProfile, folderName: KeychainSwift().get("userOnline")) { _ in }
-//            }
-//        }
-//    }
 
 
 
