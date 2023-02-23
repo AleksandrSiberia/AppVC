@@ -18,8 +18,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var keychainSwift = KeychainSwift()
     
 
-
-
 //    var premium: Bool {
 //        get {
 //            return UserDefaults.standard.object(forKey: "premium") as! String == UIDevice.current.identifierForVendor!.uuidString
@@ -35,8 +33,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //            UserDefaults.standard.synchronize()
 //        }
 //    }
-
-
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {

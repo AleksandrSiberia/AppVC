@@ -11,13 +11,9 @@ import KeychainSwift
 
 
 
-
 final class RealmService {
 
-
-
     lazy var config = Realm.Configuration(encryptionKey: KeychainSwift().getData("realmKey"))
-
 
     lazy var realm = try! Realm(configuration: config)
 
@@ -54,7 +50,6 @@ final class RealmService {
 
 
 
-
     func setUser(user: RealmUserModel) {
 
         let idAllCategory = realm.objects(RealmCategoryModel.self)[0].id
@@ -71,24 +66,20 @@ final class RealmService {
 
 
 
-
     func getAllCategory() -> [RealmCategoryModel] {
-
 
         let arrayRealmCategory = realm.objects(RealmCategoryModel.self)
         let arrayCategory = Array(arrayRealmCategory)
         return arrayCategory
-
     }
-
 
 
 
     func getAllUsers() -> [RealmUserModel]? {
 
         if self.getAllCategory().isEmpty {
-                    self.setCategory(name: "AllUser")
-                }
+            self.setCategory(name: "AllUser")
+        }
 
         guard self.getAllCategory().isEmpty == false else {
             print("нет категории")
@@ -102,8 +93,7 @@ final class RealmService {
             return nil
         }
 
-            return Array(categoryUsers)
-
+        return Array(categoryUsers)
     }
 
 
@@ -124,7 +114,6 @@ final class RealmService {
         else {
             print("error: index out array")
         }
-
     }
 
 
@@ -142,5 +131,4 @@ final class RealmService {
             realm.delete(category)
         }
     }
-
 }

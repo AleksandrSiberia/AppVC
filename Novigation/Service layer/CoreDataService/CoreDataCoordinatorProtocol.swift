@@ -46,7 +46,6 @@ protocol CoreDataCoordinatorProtocol {
 
     func appendNewCommentInPost(for post: PostCoreData?, text: String?)
 
-
     func getSavedPost() -> [PostCoreData]? 
 }
 

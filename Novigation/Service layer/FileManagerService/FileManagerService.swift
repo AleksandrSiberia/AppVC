@@ -20,12 +20,8 @@ class FileManagerService: FileManagerServiceable {
     private lazy var documentURL = self.manager.urls(for: .documentDirectory, in: .userDomainMask).first
 
 
-
     init() {
-
-        print("🎉 url document = \(String(describing: self.documentStringURL))")
     }
-
 
 
     func saveImage(imageData: UIImage?, completionHandler: @escaping ((Bool, urlNewFile: String, String)?) -> Void)  {
@@ -57,13 +53,10 @@ class FileManagerService: FileManagerServiceable {
 
         let conditionCreateFile = manager.createFile(atPath: urlNewFile, contents: imageData.pngData())
 
-
-
         guard conditionCreateFile else {
             print("‼️ conditionCreateFile == nil")
             return completionHandler(nil)
         }
-
 
         return  completionHandler((conditionCreateFile, urlNewFile, stringDateNameFoto))
 

@@ -108,6 +108,7 @@
 		8B88710729A355260066884E /* CommentAllTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88710629A355260066884E /* CommentAllTableViewCell.swift */; };
 		8B88710929A35BB10066884E /* CommentTableViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88710829A35BB10066884E /* CommentTableViewCellProtocol.swift */; };
 		8B88710D29A62A9F0066884E /* ViewControllersDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88710C29A62A9F0066884E /* ViewControllersDelegate.swift */; };
+		8B88711029A771610066884E /* ViewControllersDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88710C29A62A9F0066884E /* ViewControllersDelegate.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F4728D1BC3D00CC47D9 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */; };
@@ -385,15 +386,15 @@
 		8B138F3228DA489900ACA1B9 /* Service layer */ = {
 			isa = PBXGroup;
 			children = (
-				8B8870D9297134920066884E /* FileManagerService */,
-				8B474A792910F1B2007DE402 /* CoreDataCoordinator */,
-				8B474A73290BEE73007DE402 /* RealmService */,
-				8B474A71290BC455007DE402 /* Users */,
 				8B14FAB928BC9043006DE94A /* UsersStarWars */,
+				8B8870D9297134920066884E /* FileManagerService */,
+				8B474A792910F1B2007DE402 /* CoreDataService */,
+				8B474A73290BEE73007DE402 /* RealmService */,
+				8B474A71290BC455007DE402 /* UsersService */,
+				8B88710F29A7669E0066884E /* AuthorizationService */,
+				8B88710E29A7666F0066884E /* NotificationsService */,
 				8B4749D228F58C1A007DE402 /* ManagerDataModelData.swift */,
 				8B77B9812950772100A8D1A3 /* NetworkMonitor.swift */,
-				8B77B9B529570BE500A8D1A3 /* LocalAuthorizationService.swift */,
-				8B8870D5295DACC20066884E /* LocalNotificationsService.swift */,
 			);
 			path = "Service layer";
 			sourceTree = "<group>";
@@ -472,7 +473,7 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		8B474A71290BC455007DE402 /* Users */ = {
+		8B474A71290BC455007DE402 /* UsersService */ = {
 			isa = PBXGroup;
 			children = (
 				8BED12CF28C5DC2E006FF146 /* LogicFactoryProtocol.swift */,
@@ -486,7 +487,7 @@
 				8B14FABC28BC90A7006DE94A /* User.swift */,
 				8B474A72290BC5CB007DE402 /* OffService */,
 			);
-			path = Users;
+			path = UsersService;
 			sourceTree = "<group>";
 		};
 		8B474A72290BC5CB007DE402 /* OffService */ = {
@@ -505,13 +506,14 @@
 			path = RealmService;
 			sourceTree = "<group>";
 		};
-		8B474A792910F1B2007DE402 /* CoreDataCoordinator */ = {
+		8B474A792910F1B2007DE402 /* CoreDataService */ = {
 			isa = PBXGroup;
 			children = (
+				8B474A762910F19E007DE402 /* CoreDadaModel.xcdatamodeld */,
 				8B77B98B2951E0AC00A8D1A3 /* CoreDataCoordinatorProtocol.swift */,
 				8B474A7A2910F386007DE402 /* CoreDataCoordinator.swift */,
 			);
-			path = CoreDataCoordinator;
+			path = CoreDataService;
 			sourceTree = "<group>";
 		};
 		8B77B96A294F3C6D00A8D1A3 /* NovigationTests */ = {
@@ -538,6 +540,8 @@
 			isa = PBXGroup;
 			children = (
 				8B77B99F29530E4E00A8D1A3 /* ProfileViewControllable.swift */,
+				8B88710C29A62A9F0066884E /* ViewControllersDelegate.swift */,
+				8BED12CD28C5DBD5006FF146 /* LoginViewControllerDelegate.swift */,
 			);
 			path = Interfase;
 			sourceTree = "<group>";
@@ -564,6 +568,22 @@
 				8B8870D7297129050066884E /* FileManagerService.swift */,
 			);
 			path = FileManagerService;
+			sourceTree = "<group>";
+		};
+		8B88710E29A7666F0066884E /* NotificationsService */ = {
+			isa = PBXGroup;
+			children = (
+				8B8870D5295DACC20066884E /* LocalNotificationsService.swift */,
+			);
+			path = NotificationsService;
+			sourceTree = "<group>";
+		};
+		8B88710F29A7669E0066884E /* AuthorizationService */ = {
+			isa = PBXGroup;
+			children = (
+				8B77B9B529570BE500A8D1A3 /* LocalAuthorizationService.swift */,
+			);
+			path = AuthorizationService;
 			sourceTree = "<group>";
 		};
 		8B975F3328D0A87A00CC47D9 /* Coordinators */ = {
@@ -603,7 +623,6 @@
 		8BED12DA28C8BD59006FF146 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8B474A762910F19E007DE402 /* CoreDadaModel.xcdatamodeld */,
 				8BED12D328C5DD91006FF146 /* Post.swift */,
 				8B138F2728D8890A00ACA1B9 /* FeedModel.swift */,
 				8B0F0D1C285868FA008F75C0 /* ModelPost.swift */,
@@ -634,10 +653,8 @@
 		8BED12DD28C8BD84006FF146 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8B88710C29A62A9F0066884E /* ViewControllersDelegate.swift */,
 				8B30DFFE283F97D6006763B9 /* FeedViewController.swift */,
 				8B0F0D1A285728B1008F75C0 /* LoginViewController.swift */,
-				8BED12CD28C5DBD5006FF146 /* LoginViewControllerDelegate.swift */,
 				8B30E000283F98C2006763B9 /* ProfileViewController.swift */,
 				8B2D2CA2291429B80090498C /* SavedPostsViewController.swift */,
 				8B353276285DEC1900704D08 /* PhotosViewController.swift */,
@@ -1052,6 +1069,7 @@
 				8B77B9942952F65B00A8D1A3 /* ProfileCoordinator.swift in Sources */,
 				8B77B983295077B800A8D1A3 /* NetworkMonitor.swift in Sources */,
 				8B77B9932952F4C400A8D1A3 /* CoreDadaModel.xcdatamodeld in Sources */,
+				8B88711029A771610066884E /* ViewControllersDelegate.swift in Sources */,
 				8B77B98F2951E23200A8D1A3 /* CoreDataCoordinatorDummy.swift in Sources */,
 				8B77B9962952F73B00A8D1A3 /* User.swift in Sources */,
 				8B77B9A5295333FE00A8D1A3 /* CoreDataCoordinator.swift in Sources */,

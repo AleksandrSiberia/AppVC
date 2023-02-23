@@ -43,5 +43,4 @@ class ManagerDataModelData {
         }
         task.resume()
     }
-
 }

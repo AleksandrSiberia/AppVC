@@ -12,18 +12,18 @@ struct LoginInspector: LoginViewControllerDelegate {
 
 
     func checkCredentials(withEmail: String, password: String, completion: @escaping (String?) -> Void) {
-
+        
         CheckService.shared.checkCredentials(withEmail: withEmail, password: password) { string in
             completion(string)
         }
     }
+
+
 
     func signUp(withEmail: String, password: String, completion: @escaping (String?) -> Void) {
 
         CheckService.shared.signUp(withEmail: withEmail, password: password) { string in
             completion(string)
         }
-
     }
-
 }

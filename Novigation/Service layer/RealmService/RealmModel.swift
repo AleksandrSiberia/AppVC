@@ -29,8 +29,4 @@ class RealmUserModel: Object {
     var userFullName: String?
     var userStatus: String?
     var userImage: String?
-
-
-
-
 }

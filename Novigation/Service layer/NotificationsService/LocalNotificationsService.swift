@@ -11,13 +11,11 @@ import UserNotificationsUI
 
 
 
-
 class LocalNotificationsService: NSObject {
-
 
     let unCenter = UNUserNotificationCenter.current()
 
-
+    
     func registerForLatestUpdatesIfPossible(completionHandler: @escaping (String, LocalNotificationsService?) -> Void) {
 
         self.registerUpdatesCategory()
@@ -48,8 +46,8 @@ class LocalNotificationsService: NSObject {
         let content = UNMutableNotificationContent()
 
         content.badge = 1
-        content.title = "Напоменаем"
-        content.body = "Посмотрите последние обновления"
+        content.title = "Напоминаем".allLocalizable
+        content.body = "Посмотрите последние обновления".allLocalizable
         content.categoryIdentifier = "updates"
 
         var dateComponents = DateComponents()
@@ -99,7 +97,6 @@ class LocalNotificationsService: NSObject {
 extension LocalNotificationsService: UNUserNotificationCenterDelegate {
 
 
-
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 
         switch response.actionIdentifier {
@@ -111,7 +108,7 @@ extension LocalNotificationsService: UNUserNotificationCenterDelegate {
             self.addNotificationRequest(timer: true)
 
         default:
-            print("кнопка дефолт")
+            print("дефолт")
         }
 
         completionHandler()

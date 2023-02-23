@@ -25,7 +25,7 @@ class LocalAuthorizationService {
 
     private var error: NSError?
 
-
+    
     lazy var context: LAContext = {
         return LAContext()
     }()
@@ -54,7 +54,6 @@ class LocalAuthorizationService {
     }()
 
 
-
     lazy var policy: LAPolicy = {
         return .deviceOwnerAuthenticationWithBiometrics
     }()
@@ -64,7 +63,6 @@ class LocalAuthorizationService {
     init() {
 
         self.canEvaluateBiometric { bool, error in
-
         }
     }
 
@@ -109,7 +107,6 @@ class LocalAuthorizationService {
                     }
                 }
                 completion(true, nil)
-
             }
         }
     }

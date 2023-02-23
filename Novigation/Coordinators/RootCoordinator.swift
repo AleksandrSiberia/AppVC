@@ -59,7 +59,7 @@ class RootCoordinator: AppCoordinatorProtocol {
         
         let navSavedPosts = UINavigationController(rootViewController: savedPostsViewController)
         self.navSavedPosts = navSavedPosts
-        navSavedPosts.tabBarItem = UITabBarItem(title: NSLocalizedString("navSavedPosts", tableName: "TabBarItemLocalizable", comment: "Saved"), image: UIImage(systemName: "square.and.arrow.down"), tag: 3)
+        navSavedPosts.tabBarItem = UITabBarItem(title: NSLocalizedString("navSavedPosts", tableName: "TabBarItemLocalizable", comment: "Saved"), image: UIImage(systemName: "heart"), tag: 3)
 
 
 

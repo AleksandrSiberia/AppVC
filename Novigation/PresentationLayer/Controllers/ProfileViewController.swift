@@ -115,8 +115,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadUserFromCoreData()
-        loadDefaultPostsFromCoreData()
+
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
@@ -131,6 +130,8 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        loadUserFromCoreData()
+        loadDefaultPostsFromCoreData()
 
         navigationController?.navigationBar.isHidden = true
 

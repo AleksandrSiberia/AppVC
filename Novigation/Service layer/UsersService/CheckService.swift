@@ -18,8 +18,8 @@ final class CheckService: LoginViewControllerDelegate {
 
 extension CheckService: CheckServiceProtocol {
 
-    func checkCredentials(withEmail: String, password: String, completion: @escaping (String?) -> Void ) {
 
+    func checkCredentials(withEmail: String, password: String, completion: @escaping (String?) -> Void ) {
 
         Auth.auth().signIn(withEmail: withEmail, password: password) {
             [weak self] authDataResult, error in
@@ -34,14 +34,12 @@ extension CheckService: CheckServiceProtocol {
             if authDataResult != nil {
                 completion("Открыть доступ")
             }
-                }
+        }
     }
 
 
 
     func signUp(withEmail: String, password: String, completion: @escaping (String?) -> Void )  {
-
-        // FirebaseAuth.Auth.auth().currentUser
 
         Auth.auth().createUser(withEmail: withEmail, password: password){
 
@@ -52,11 +50,10 @@ extension CheckService: CheckServiceProtocol {
             }
 
             if authDataResult != nil {
-
+                
                 completion("Пользователь зарегистрирован")
             }
         }
-
     }
 }
 

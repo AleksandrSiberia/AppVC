@@ -31,12 +31,9 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
     }()
 
 
-
-
-   lazy var backgroundContext: NSManagedObjectContext = {
+    lazy var backgroundContext: NSManagedObjectContext = {
         return persistentContainer.newBackgroundContext()
     }()
-
 
 
 
@@ -68,13 +65,25 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         request.sortDescriptors = [ NSSortDescriptor(key: "image", ascending: true) ]
 
+        guard let folder = getFolderByName(nameFolder: KeychainSwift().get("userOnline")) else {
+            print("getFolderByName(nameFolder: KeychainSwift().get(userOnline) == nil" )
+            return nil
+        }
 
-        request.predicate = NSPredicate(format: "favourite == %@", "save")
+        request.predicate = NSPredicate(format: "relationFolder.@count == 0")
+
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+            NSPredicate(format: "favourite == %@", "save"),
+            NSPredicate(format: "relationFolder contains %@", folder)
+        ])
+
 
         let fetchedResultsControllerSavePostCoreData = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.backgroundContext, sectionNameKeyPath: nil, cacheName: nil)
 
         return fetchedResultsControllerSavePostCoreData
     }()
+
+
 
 
     func getSavedPost() -> [PostCoreData]? {
@@ -93,8 +102,8 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
             print("‼️", error.localizedDescription)
             return nil
         }
-
     }
+
 
 
     init() {
@@ -151,8 +160,8 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         catch {
             print("‼️", error.localizedDescription)
         }
-
     }
+
 
 
     func savePersistentContainerContext() {
@@ -180,7 +189,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         )
         folder.name = name
         self.savePersistentContainerContext()
-
     }
 
 
@@ -208,7 +216,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
             return
         }
 
-
         post.relationshipProfile = currentProfile
 
         post.addToRelationFolder(folder)
@@ -223,9 +230,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
     func appendNewCommentInPost(for post: PostCoreData?, text: String?) {
 
-
         getCurrentProfile(completionHandler: { profile in
-
 
             guard let post, let profile else {
                 print("‼️ appendComment(for post: PostCoreData? == nil || getCurrentProfile == nil")
@@ -311,7 +316,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
             DispatchQueue.main.async {
-                 return completionHandler(profiles)
+                return completionHandler(profiles)
             }
         }
         catch {

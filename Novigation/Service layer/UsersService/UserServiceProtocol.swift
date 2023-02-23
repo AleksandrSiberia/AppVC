@@ -37,11 +37,11 @@ extension UserServiceProtocol {
                       "career": "Автор уникальной системы тренировок и книги BOOKFINESS",
                       "interest": "Фитнесс, путешествия",
                       "mobilePhone": "8(999)111-11-11",
-
         ]
 
         coreDataCoordinator?.appendProfile(values: values)
     }
+
 
 
     func getUserByEmail(email: String, completionHandler: @escaping (ProfileCoreData) -> Void ) {
@@ -63,15 +63,6 @@ extension UserServiceProtocol {
                 print("‼️ currentProfile == nil")
                 return
             }
-
-//            let avatar = UIImage(named: currentProfile.avatar ?? "")
-//
-//            let fullName = (currentProfile.name ?? "") + " " + (currentProfile.surname ?? "")
-//
-//            let currentUser: User = User(fullName,
-//                                         userStatus: currentProfile.status ?? "",
-//                                         userImage: avatar!)
-
             completionHandler(currentProfile)
         }
     }
@@ -94,7 +85,7 @@ extension UserServiceProtocol {
 
                     if login == user.login {
 
-                        print("🤸🏼‍♂️ this is cached user")
+                        /// this is cached user
 
                         self.getUserByEmail(email: login) { currentUser in
 
@@ -105,7 +96,7 @@ extension UserServiceProtocol {
 
 
                     else {
-                        print("📩 save new user" )
+                        /// save new user
 
                         self.saveDefaultProfile(login: login)
 
@@ -119,7 +110,7 @@ extension UserServiceProtocol {
 
             else {
 
-                print("📩 save new user, 0 cashed users" )
+                /// save new user, 0 cashed users
 
                 self.saveDefaultProfile(login: login)
 
@@ -128,7 +119,5 @@ extension UserServiceProtocol {
                 }
             }
         }
-
     }
-
 }
