@@ -41,9 +41,6 @@
 		8B4749CB28EDA4C9007DE402 /* Record.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B4749C728ED9771007DE402 /* Record.mp4 */; };
 		8B4749CE28EEA756007DE402 /* record2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B4749CC28EEA752007DE402 /* record2.mp4 */; };
 		8B4749CF28EEA75A007DE402 /* Siberia.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B4749CD28EEA752007DE402 /* Siberia.mp4 */; };
-		8B4749D128F018EF007DE402 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4749D028F018EF007DE402 /* NetworkService.swift */; };
-		8B4749D528F6BF26007DE402 /* ManagerDataModelPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4749D428F6BF26007DE402 /* ManagerDataModelPlanet.swift */; };
-		8B4749D728F7FB13007DE402 /* ManagerDataResidentsPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4749D628F7FB13007DE402 /* ManagerDataResidentsPlanet.swift */; };
 		8B474A1228FAC698007DE402 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B474A1128FAC697007DE402 /* GoogleService-Info.plist */; };
 		8B474A1328FAC698007DE402 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B474A1128FAC697007DE402 /* GoogleService-Info.plist */; };
 		8B474A1628FAD9B1007DE402 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8B474A1528FAD9B1007DE402 /* FirebaseAuth */; };
@@ -56,8 +53,6 @@
 		8B510F2D28E4339100698606 /* CustomErrorNovigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B510F2C28E4339100698606 /* CustomErrorNovigation.swift */; };
 		8B695C5528BCEED9008F0414 /* TestUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B695C5428BCEED9008F0414 /* TestUserService.swift */; };
 		8B77B93329448CAC00A8D1A3 /* ExtensionUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B77B93229448CAC00A8D1A3 /* ExtensionUIColor.swift */; };
-		8B77B9802950607A00A8D1A3 /* ManagerDataModelDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B77B97F2950607A00A8D1A3 /* ManagerDataModelDataTests.swift */; };
-		8B77B9852951BF1E00A8D1A3 /* ProfileCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B77B9842951BF1E00A8D1A3 /* ProfileCoordinatorTests.swift */; };
 		8B77B98C2951E0AC00A8D1A3 /* CoreDataCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B77B98B2951E0AC00A8D1A3 /* CoreDataCoordinatorProtocol.swift */; };
 		8B77B98F2951E23200A8D1A3 /* CoreDataCoordinatorDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B77B98E2951E23200A8D1A3 /* CoreDataCoordinatorDummy.swift */; };
 		8B77B9912951EEBD00A8D1A3 /* CoreDataCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B77B98B2951E0AC00A8D1A3 /* CoreDataCoordinatorProtocol.swift */; };
@@ -211,9 +206,6 @@
 		8B4749C828EDA32B007DE402 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B4749CC28EEA752007DE402 /* record2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = record2.mp4; sourceTree = "<group>"; };
 		8B4749CD28EEA752007DE402 /* Siberia.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Siberia.mp4; sourceTree = "<group>"; };
-		8B4749D028F018EF007DE402 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		8B4749D428F6BF26007DE402 /* ManagerDataModelPlanet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerDataModelPlanet.swift; sourceTree = "<group>"; };
-		8B4749D628F7FB13007DE402 /* ManagerDataResidentsPlanet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerDataResidentsPlanet.swift; sourceTree = "<group>"; };
 		8B474A1128FAC697007DE402 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8B474A1928FD37D7007DE402 /* CheckServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckServiceProtocol.swift; sourceTree = "<group>"; };
 		8B474A6E290BBF12007DE402 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
@@ -224,8 +216,6 @@
 		8B695C5428BCEED9008F0414 /* TestUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserService.swift; sourceTree = "<group>"; };
 		8B77B93229448CAC00A8D1A3 /* ExtensionUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIColor.swift; sourceTree = "<group>"; };
 		8B77B969294F3C6D00A8D1A3 /* NovigationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NovigationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B77B97F2950607A00A8D1A3 /* ManagerDataModelDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerDataModelDataTests.swift; sourceTree = "<group>"; };
-		8B77B9842951BF1E00A8D1A3 /* ProfileCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinatorTests.swift; sourceTree = "<group>"; };
 		8B77B98B2951E0AC00A8D1A3 /* CoreDataCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B77B98E2951E23200A8D1A3 /* CoreDataCoordinatorDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCoordinatorDummy.swift; sourceTree = "<group>"; };
 		8B77B99C29530DAC00A8D1A3 /* ProfileViewControllerDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerDummy.swift; sourceTree = "<group>"; };
@@ -369,10 +359,9 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		8B138F3228DA489900ACA1B9 /* Service layer */ = {
+		8B138F3228DA489900ACA1B9 /* ServiceLayer */ = {
 			isa = PBXGroup;
 			children = (
-				8B14FAB928BC9043006DE94A /* UsersStarWars */,
 				8B8870D9297134920066884E /* FileManagerService */,
 				8B474A792910F1B2007DE402 /* CoreDataService */,
 				8B474A73290BEE73007DE402 /* RealmService */,
@@ -382,17 +371,7 @@
 				8B88711229A782610066884E /* CodeService */,
 				8B88711129A781DC0066884E /* CheckerPasswordService */,
 			);
-			path = "Service layer";
-			sourceTree = "<group>";
-		};
-		8B14FAB928BC9043006DE94A /* UsersStarWars */ = {
-			isa = PBXGroup;
-			children = (
-				8B4749D028F018EF007DE402 /* NetworkService.swift */,
-				8B4749D428F6BF26007DE402 /* ManagerDataModelPlanet.swift */,
-				8B4749D628F7FB13007DE402 /* ManagerDataResidentsPlanet.swift */,
-			);
-			path = UsersStarWars;
+			path = ServiceLayer;
 			sourceTree = "<group>";
 		};
 		8B30DF1C283A1CC6006763B9 = {
@@ -422,12 +401,11 @@
 			isa = PBXGroup;
 			children = (
 				8B474A1128FAC697007DE402 /* GoogleService-Info.plist */,
+				8BED12DE28C8BD9B006FF146 /* ApplicationLayer */,
 				8BF7CEAC29407EDE001FD64C /* Localizable  */,
-				8BED12DE28C8BD9B006FF146 /* Application layer */,
-				8B138F3228DA489900ACA1B9 /* Service layer */,
+				8B138F3228DA489900ACA1B9 /* ServiceLayer */,
 				8B975F4928D1C91200CC47D9 /* PresentationLayer */,
 				8BED12DA28C8BD59006FF146 /* Models */,
-				8B975F3328D0A87A00CC47D9 /* Coordinators */,
 				8B4749C828EDA32B007DE402 /* Assets.xcassets */,
 				8B30DF36283A1CC7006763B9 /* Info.plist */,
 			);
@@ -503,8 +481,6 @@
 		8B77B96A294F3C6D00A8D1A3 /* NovigationTests */ = {
 			isa = PBXGroup;
 			children = (
-				8B77B97F2950607A00A8D1A3 /* ManagerDataModelDataTests.swift */,
-				8B77B9842951BF1E00A8D1A3 /* ProfileCoordinatorTests.swift */,
 				8B77B9A62953345E00A8D1A3 /* CoreDataCoordinatorTests.swift */,
 				8B77B98D2951E10800A8D1A3 /* TestDoubles */,
 			);
@@ -611,6 +587,7 @@
 			children = (
 				8B77B99B295308A100A8D1A3 /* Interfase */,
 				8B975F4A28D1CAFE00CC47D9 /* Assembly */,
+				8B975F3328D0A87A00CC47D9 /* Coordinators */,
 				8BED12DD28C8BD84006FF146 /* Controllers */,
 				8B138F2228D87EAF00ACA1B9 /* View */,
 				8B138F1F28D87E1B00ACA1B9 /* ViewModel */,
@@ -678,21 +655,21 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		8BED12DE28C8BD9B006FF146 /* Application layer */ = {
+		8BED12DE28C8BD9B006FF146 /* ApplicationLayer */ = {
 			isa = PBXGroup;
 			children = (
 				8B30DF28283A1CC6006763B9 /* AppDelegate.swift */,
 				8B30DF2A283A1CC6006763B9 /* SceneDelegate.swift */,
 			);
-			path = "Application layer";
+			path = ApplicationLayer;
 			sourceTree = "<group>";
 		};
 		8BF7CEAC29407EDE001FD64C /* Localizable  */ = {
 			isa = PBXGroup;
 			children = (
 				8B8870E429864A9B0066884E /* StringExtension.swift */,
-				8B8870E2298647360066884E /* AllLocalizable.strings */,
 				8BF7CEF32941F3A5001FD64C /* LocalizableDict.stringsdict */,
+				8B8870E2298647360066884E /* AllLocalizable.strings */,
 				8BF7CEA929407A96001FD64C /* FeedViewControllerLocalizable.strings */,
 				8BF7CEB229409575001FD64C /* LoginViewControllerLocalizable.strings */,
 				8BF7CEC02940AB72001FD64C /* SavedPostsViewControllerLocalizable.strings */,
@@ -1002,7 +979,6 @@
 				8B8871012998D2C10066884E /* ViewEditPost.swift in Sources */,
 				8B474A782910F19E007DE402 /* CoreDadaModel.xcdatamodeld in Sources */,
 				8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */,
-				8B4749D728F7FB13007DE402 /* ManagerDataResidentsPlanet.swift in Sources */,
 				8BED12D928C6848D006FF146 /* ArrayFoto.swift in Sources */,
 				8B8870DD2984FACE0066884E /* AddNewPostViewController.swift in Sources */,
 				8B77B9B629570BE500A8D1A3 /* LocalAuthorizationService.swift in Sources */,
@@ -1012,7 +988,6 @@
 				8B138F2E28D9E86000ACA1B9 /* LoginViewProtocol.swift in Sources */,
 				8BED12C828BF3802006FF146 /* CheckService.swift in Sources */,
 				8BED12D428C5DD91006FF146 /* Post.swift in Sources */,
-				8B4749D528F6BF26007DE402 /* ManagerDataModelPlanet.swift in Sources */,
 				8B30E001283F98C2006763B9 /* ProfileViewController.swift in Sources */,
 				8B88711429A784E20066884E /* ProfileViewControllerDelegate.swift in Sources */,
 				8BED12CA28BF581F006FF146 /* MyLoginFactory.swift in Sources */,
@@ -1045,7 +1020,6 @@
 				8B474A7B2910F386007DE402 /* CoreDataCoordinator.swift in Sources */,
 				8B0F0D1D285868FA008F75C0 /* ModelPost.swift in Sources */,
 				8B8870DB297134FC0066884E /* FileManagerServable.swift in Sources */,
-				8B4749D128F018EF007DE402 /* NetworkService.swift in Sources */,
 				8B77B98C2951E0AC00A8D1A3 /* CoreDataCoordinatorProtocol.swift in Sources */,
 				8B8870EB2990FBE90066884E /* EducationViewController.swift in Sources */,
 			);
@@ -1063,7 +1037,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B77B9802950607A00A8D1A3 /* ManagerDataModelDataTests.swift in Sources */,
 				8B77B9A129530E5B00A8D1A3 /* ProfileViewControllable.swift in Sources */,
 				8B77B9942952F65B00A8D1A3 /* ProfileCoordinator.swift in Sources */,
 				8B77B9932952F4C400A8D1A3 /* CoreDadaModel.xcdatamodeld in Sources */,
@@ -1075,7 +1048,6 @@
 				8B77B9912951EEBD00A8D1A3 /* CoreDataCoordinatorProtocol.swift in Sources */,
 				8B77B9952952F71600A8D1A3 /* AppCoordinatorProtocol.swift in Sources */,
 				8B77B9A72953345E00A8D1A3 /* CoreDataCoordinatorTests.swift in Sources */,
-				8B77B9852951BF1E00A8D1A3 /* ProfileCoordinatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,8 +24,8 @@ class ProfileCoordinator: AppCoordinatorProtocol {
         self.transitionHandler = transitionHandler
         self.coreDataCoordinator = coreDataCoordinator
         self.profileViewController = profileViewController
-
     }
+    
 
 
     func start(user: ProfileCoreData) -> Bool {

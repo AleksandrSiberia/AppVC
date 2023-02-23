@@ -254,6 +254,7 @@ class LoginViewController: UIViewController {
             }
         }
 
+        
         var buttonBiometric = UIButton(frame: CGRect(), primaryAction: action)
 
         if self.localAuthorizationService.biometricType == .faceID {
@@ -340,7 +341,6 @@ class LoginViewController: UIViewController {
 
 
 
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -357,7 +357,7 @@ class LoginViewController: UIViewController {
         }
 
         handle = Auth.auth().addStateDidChangeListener { auth, user in
-            // ...
+
         }
 
         self.navigationController?.navigationBar.isHidden = true
@@ -366,7 +366,6 @@ class LoginViewController: UIViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
 
 
 
@@ -428,6 +427,7 @@ class LoginViewController: UIViewController {
 
         userService.checkTheLogin( self.textFieldLogin.text ?? "", password: self.textFieldPassword.text ?? "", loginInspector: self.loginDelegate!, loginViewController: self) { user in
 
+
             guard user != nil  else {
 
                 print(CustomErrorNovigation.invalidPasswordOrLogin.rawValue)
@@ -443,12 +443,14 @@ class LoginViewController: UIViewController {
 
             self.keychain.set(self.textFieldLogin.text ?? "", forKey: "userOnline")
 
-            
             for (index, user) in RealmService.shared.getAllUsers()!.enumerated() {
                 if user.login == self.textFieldLogin.text {
                     RealmService.shared.deleteUser(indexInArrayUsers: index)
                 }
             }
+
+            self.corseDataCoordinator?.appendDefaultPostsFromCoreData(currentProfile: user)
+
             let newUser = RealmUserModel()
             newUser.login = self.textFieldLogin.text ?? ""
             newUser.password = self.textFieldPassword.text ?? ""

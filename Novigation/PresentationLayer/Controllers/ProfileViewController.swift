@@ -100,8 +100,13 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        coreDataCoordinator?.getPostsInFetchedResultsController(nameFolder: KeychainSwift().get("userOnline") )
+
         loadUserFromCoreData()
-        loadDefaultPostsFromCoreData()
+
+        coreDataCoordinator?.appendDefaultPostsFromCoreData(currentProfile: currentProfile)
+
+   //     loadDefaultPostsFromCoreData()
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
@@ -125,10 +130,10 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
         reloadTableView()
         
-        handle = Auth.auth().addStateDidChangeListener { auth, user in
-        }
+        handle = Auth.auth().addStateDidChangeListener { auth, user in }
 
         saveNewViewsPost()
+
     }
 
 
@@ -175,28 +180,26 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
 
-    private func loadDefaultPostsFromCoreData() {
-
-        self.coreDataCoordinator?.getPosts(nameFolder: KeychainSwift().get("userOnline") )
-
-        if let allPosts = coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?.first?.objects, allPosts.isEmpty {
-
-            for post in arrayModelPost {
-
-
-                let values: [String: Any]  =  ["author":  currentProfile?.name ?? "User",
-                                               "surname": currentProfile?.surname ?? "Test",
-                                               "image": post.image,
-                                               "text": post.description,
-                                               "likes": post.likes,
-                                               "views": post.views,
-                                               "nameForUrlFoto": "",
-                ]
-
-                self.coreDataCoordinator?.appendPost(values: values, currentProfile: currentProfile, folderName: KeychainSwift().get("userOnline")) { _ in }
-            }
-        }
-    }
+//    private func loadDefaultPostsFromCoreData() {
+//
+//        if let allPosts = coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?.first?.objects, allPosts.isEmpty {
+//
+//            for post in arrayModelPost {
+//
+//
+//                let values: [String: Any]  =  ["author":  currentProfile?.name ?? "User",
+//                                               "surname": currentProfile?.surname ?? "Test",
+//                                               "image": post.image,
+//                                               "text": post.description,
+//                                               "likes": post.likes,
+//                                               "views": post.views,
+//                                               "nameForUrlFoto": "",
+//                ]
+//
+//                self.coreDataCoordinator?.appendPost(values: values, currentProfile: currentProfile, folderName: KeychainSwift().get("userOnline")) { _ in }
+//            }
+//        }
+//    }
 
 
 

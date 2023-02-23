@@ -30,10 +30,7 @@ final class CoreDataCoordinatorTests: XCTestCase {
         self.sut = nil
 
         try super.tearDownWithError()
-      
     }
-
-
 
 
     func testInitFetchedResultsControllerPostCoreData() throws {
@@ -95,7 +92,6 @@ final class CoreDataCoordinatorTests: XCTestCase {
 
                 sut.deleteFolder(folder: folder )
             }
-            
         }
 
         let foldersNSArray = sut.getFolderByName(nameFolder: "TestPosts")

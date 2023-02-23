@@ -16,7 +16,7 @@ protocol CoreDataCoordinatorProtocol {
 
     var fetchedResultsControllerSavePostCoreData: NSFetchedResultsController<PostCoreData>? { get set }
 
-    func getPosts(nameFolder: String?)
+    func getPostsInFetchedResultsController(nameFolder: String?)
 
     func performFetchAllPostCoreData()
 
@@ -46,7 +46,11 @@ protocol CoreDataCoordinatorProtocol {
 
     func appendNewCommentInPost(for post: PostCoreData?, text: String?)
 
-    func getSavedPost() -> [PostCoreData]? 
+    func getSavedPost() -> [PostCoreData]?
+
+    func appendDefaultPostsFromCoreData(currentProfile: ProfileCoreData?)
+
+    func setupFetchedResultsControllerPostCoreData() -> NSFetchedResultsController<PostCoreData>? 
 }
 
 

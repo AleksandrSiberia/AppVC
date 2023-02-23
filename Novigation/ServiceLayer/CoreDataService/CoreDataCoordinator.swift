@@ -13,6 +13,7 @@ import KeychainSwift
 
 
 final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
+   
 
 
     private lazy var persistentContainer: NSPersistentContainer = {
@@ -37,15 +38,18 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
+    var fetchedResultsControllerPostCoreData: NSFetchedResultsController<PostCoreData>?
 
-    lazy var fetchedResultsControllerPostCoreData: NSFetchedResultsController<PostCoreData>? = {
+
+
+    func setupFetchedResultsControllerPostCoreData() -> NSFetchedResultsController<PostCoreData>? {
 
         let request = PostCoreData.fetchRequest()
 
         request.sortDescriptors = [NSSortDescriptor(key: "image", ascending: true)]
 
         guard let folder = getFolderByName(nameFolder: KeychainSwift().get("userOnline")) else {
-            print("getFolderByName(nameFolder: KeychainSwift().get(userOnline) == nil" )
+            print("‼️ getFolderByName(nameFolder: KeychainSwift().get(userOnline) == nil" )
             return nil
         }
 
@@ -53,8 +57,10 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         let fetchResultController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.backgroundContext, sectionNameKeyPath: nil, cacheName: nil)
 
+        self.fetchedResultsControllerPostCoreData = fetchResultController
+
         return fetchResultController
-    }()
+    }
 
 
 
@@ -108,19 +114,21 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
     init() {
 
-        guard let userFolder = KeychainSwift().get("userOnline") else {
-            print("‼️ KeychainSwift().get(userOnline) == nil")
-            return
-        }
+        fetchedResultsControllerPostCoreData =   setupFetchedResultsControllerPostCoreData()
 
-        if getFolderByName(nameFolder: userFolder) == nil {
-            appendFolder(name: userFolder)
-        }
+//        guard let userFolder = KeychainSwift().get("userOnline") else {
+//            print("‼️ KeychainSwift().get(userOnline) == nil")
+//            return
+//        }
+//
+//        if getFolderByName(nameFolder: userFolder) == nil {
+//            appendFolder(name: userFolder)
+//        }
     }
 
 
 
-    func getPosts(nameFolder: String?) {
+    func getPostsInFetchedResultsController(nameFolder: String?) {
 
         guard let nameFolder else {
             print("‼️ nameFolder KeyChain == nil")
@@ -433,6 +441,46 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
             }
         }
     }
+
+
+
+    func appendDefaultPostsFromCoreData(currentProfile: ProfileCoreData?) {
+
+        guard let userFolder = KeychainSwift().get("userOnline") else {
+            print("‼️ KeychainSwift().get(userOnline) == nil")
+            return
+        }
+
+        appendFolder(name: userFolder)
+        
+        fetchedResultsControllerPostCoreData = setupFetchedResultsControllerPostCoreData()
+
+        getPostsInFetchedResultsController(nameFolder: KeychainSwift().get("userOnline") )
+
+        guard  let allPosts = fetchedResultsControllerPostCoreData?.sections?.first?.objects, allPosts.isEmpty else {
+            print("‼️ guard  let allPosts = fetchedResultsControllerPostCoreData?.sections?.first?.objects, allPosts.isEmpty")
+            return
+        }
+
+        for post in arrayModelPost {
+
+            let values: [String: Any]  =  ["author":  currentProfile?.name ?? "User",
+                                           "surname": currentProfile?.surname ?? "Test",
+                                           "image": post.image,
+                                           "text": post.description,
+                                           "likes": post.likes,
+                                           "views": post.views,
+                                           "nameForUrlFoto": "",
+            ]
+
+            appendPost(values: values, currentProfile: currentProfile, folderName: KeychainSwift().get("userOnline")) { _ in }
+
+
+        }
+
+    }
+
+    
 }
 
 
