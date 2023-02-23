@@ -13,7 +13,6 @@ final class LoginAssembly {
 
     static func createLoginViewController(coordinator: RootCoordinator, coreData: CoreDataCoordinatorProtocol) -> LoginViewController {
 
-
         let view = LoginViewController()
         let viewModel = LoginViewModel(coordinator: coordinator)
         let loginInspector = MyLoginFactory().makeLoginInspector()

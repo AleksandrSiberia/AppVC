@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol CellProtocol: AnyObject {
-    
-    static var nameCollectionCell: String { get }
-}
 
 class PhotosCollectionViewCell: UICollectionViewCell {
 
@@ -35,7 +31,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
 
     private func setupConstraint() {
 
-
         NSLayoutConstraint.activate([
             self.imageView.topAnchor.constraint(equalTo: self.topAnchor),
             self.imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -44,14 +39,18 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         ])
     }
 
+
     func setupImage(_ name: UIImage) {
         imageView.image = name
     }
+
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+
 
 extension PhotosCollectionViewCell: CellProtocol {
     static var nameCollectionCell: String {

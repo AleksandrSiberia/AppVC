@@ -8,9 +8,6 @@
 import UIKit
 import AVFoundation
 
-protocol NameClass {
-    static var name: String { get }
-}
 
 class VideoTableViewCell: UITableViewCell {
 
@@ -122,6 +119,4 @@ extension VideoTableViewCell: VideoViewControllerOutput {
         play = true
         videoImageView.isHidden = true
     }
-
-
 }

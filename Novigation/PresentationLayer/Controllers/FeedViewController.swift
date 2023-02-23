@@ -41,6 +41,7 @@ class FeedViewController: UIViewController, ViewControllersDelegate {
             }
 
         }
+
         var button = UIButton(frame: CGRect(), primaryAction: action)
 
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -56,14 +57,12 @@ class FeedViewController: UIViewController, ViewControllersDelegate {
 
 
 
-    
     private lazy var buttonAudioPlayer: UIButton = {
 
         let action = UIAction() { _ in
 
             let audioViewController = AudioViewController()
             self.present(audioViewController, animated: true)
-
 
             let image = UIImage(systemName: "headphones.circle.fill", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
 
@@ -77,6 +76,7 @@ class FeedViewController: UIViewController, ViewControllersDelegate {
             }
 
         }
+
         var button = UIButton(frame: CGRect(), primaryAction: action)
 
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -187,8 +187,6 @@ class FeedViewController: UIViewController, ViewControllersDelegate {
     }
 
 
-
-
     func showEditPostTextViewController(currentPost: PostCoreData?) {
 
         let controller = EditPostTextViewController(currentPost: currentPost, delegate: self, coreData: coreData)
@@ -252,7 +250,6 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         cell.setupCell(post: post, coreDataCoordinator: coreData, delegate: self)
 
         return cell
-
     }
 
 
@@ -264,7 +261,6 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 extension FeedViewController: NSFetchedResultsControllerDelegate {
-
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 

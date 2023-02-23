@@ -13,31 +13,16 @@ import UniformTypeIdentifiers
 import KeychainSwift
 
 
-protocol ProfileViewControllerDelegate {
-
-    func addNewPost()
-    func showSettingViewController()
-    func loadUserFromCoreData()
-    func showDetailedInformationsViewController()
-
-}
-
-
-protocol ProfileViewControllerOutput {
-    func timerStop()
-}
 
 
 final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate, ProfileViewControllable, ProfileViewControllerDelegate, ViewControllersDelegate {
 
     private var arrayCells: [PostCell] = []
 
-
     var currentProfile: ProfileCoreData? {
 
         willSet {
             tableView.reloadData()
-            print("🙂 willSet")
         }
     }
 
@@ -115,7 +100,8 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
+        loadUserFromCoreData()
+        loadDefaultPostsFromCoreData()
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
@@ -130,9 +116,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        loadUserFromCoreData()
-        loadDefaultPostsFromCoreData()
-
         navigationController?.navigationBar.isHidden = true
 
         if coreDataCoordinator?.fetchedResultsControllerPostCoreData?.delegate == nil {
@@ -140,12 +123,9 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
             coreDataCoordinator?.fetchedResultsControllerPostCoreData?.delegate = self
         }
 
-
-
         reloadTableView()
         
         handle = Auth.auth().addStateDidChangeListener { auth, user in
-            // ...
         }
 
         saveNewViewsPost()
@@ -159,6 +139,8 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         self.output?.timerStop()
         Auth.auth().removeStateDidChangeListener(handle!)
     }
+
+
 
 
     func loadUserFromCoreData() {
@@ -195,7 +177,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
     private func loadDefaultPostsFromCoreData() {
 
-
         self.coreDataCoordinator?.getPosts(nameFolder: KeychainSwift().get("userOnline") )
 
         if let allPosts = coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections?.first?.objects, allPosts.isEmpty {
@@ -204,21 +185,19 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
                 let values: [String: Any]  =  ["author":  currentProfile?.name ?? "User",
-                                                  "surname": currentProfile?.surname ?? "Test",
-                                                  "image": post.image,
-                                                  "text": post.description,
-                                                  "likes": post.likes,
-                                                  "views": post.views,
-                                                  "nameForUrlFoto": "",
-                                                 
+                                               "surname": currentProfile?.surname ?? "Test",
+                                               "image": post.image,
+                                               "text": post.description,
+                                               "likes": post.likes,
+                                               "views": post.views,
+                                               "nameForUrlFoto": "",
                 ]
-
-
 
                 self.coreDataCoordinator?.appendPost(values: values, currentProfile: currentProfile, folderName: KeychainSwift().get("userOnline")) { _ in }
             }
         }
     }
+
 
 
     func showMassage(text: String) {
@@ -234,7 +213,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
 
-
     func addNewPost() {
 
         let controller = AddNewPostViewController(coreDataCoordinator: coreDataCoordinator, fileManagerService: fileManager, delegate: self )
@@ -245,11 +223,13 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     }
 
 
+
     func showSettingViewController() {
         let settingViewController = SettingViewController(coreData: coreDataCoordinator, delegate: self)
         let nav = UINavigationController(rootViewController: settingViewController)
         present(nav, animated: true)
     }
+
 
 
     func showDetailedInformationsViewController() {
@@ -259,6 +239,8 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         present(navDetailedInformationViewController, animated: true)
     }
 
+
+
     func showEditPostTextViewController(currentPost: PostCoreData?)  {
         let controller = EditPostTextViewController(currentPost: currentPost, delegate: self, coreData: coreDataCoordinator)
         let navController = UINavigationController(rootViewController: controller)
@@ -267,29 +249,25 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     }
 
 
+
     func beginUpdatesTableView() {
         tableView.beginUpdates()
     }
 
 
     func endUpdatesTableView() {
-       tableView.endUpdates()
+        tableView.endUpdates()
     }
 
 
-
     func reloadTableView() {
-
         tableView.reloadData()
-    
     }
 
 
     func dismissController() {
         dismiss(animated: true)
     }
-
-
 
 
     private func setupConstraints() {
@@ -326,7 +304,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         }
     }
 }
-
 
 
 
@@ -376,7 +353,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
             cell.selectionStyle = .none
 
-
             guard let section = coreDataCoordinator?.fetchedResultsControllerPostCoreData?.sections, section.isEmpty == false, let arrayPosts = section.first, arrayPosts.numberOfObjects - 1 >= indexPath.row, let post = arrayPosts.objects?[indexPath.row] as? PostCoreData
             else { return  self.tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)}
 
@@ -411,7 +387,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
-
         if section == 0 {
             guard let profileHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "ProfileHeaderView") as? ProfileHeaderView else { return nil }
 
@@ -434,6 +409,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
     }
 
 
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
         view.endEditing(true)
@@ -446,43 +422,11 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource  {
 
 extension ProfileViewController: NSFetchedResultsControllerDelegate {
 
-
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-
-
-//        switch type {
-//
-//        case .insert:
-//            guard var newIndexPath else { return }
-//            newIndexPath.section = 1
-//            self.tableView.insertRows(at: [newIndexPath], with: .automatic)
-//            print("🛍️", newIndexPath.row)
-//
-//        case .delete:
-//            guard var indexPath else { return }
-//            indexPath.section = 1
-//            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-//
-//        case .move:
-//            guard var indexPath else { return }
-//            indexPath.section = 1
-//            guard var newIndexPath else { return }
-//            newIndexPath.section = 1
-//            self.tableView.moveRow(at: indexPath, to: newIndexPath)
-//
-//        case .update:
-//            guard var indexPath else { return }
-//            indexPath.section = 1
-//            self.tableView.reloadRows(at: [indexPath], with: .automatic)
-//
-//        @unknown default:
-//            self.tableView.reloadData()
-//        }
 
         self.tableView.reloadData()
     }
 }
-
 
 
 
@@ -515,7 +459,6 @@ extension ProfileViewController: UITableViewDragDelegate {
 
 extension ProfileViewController: UITableViewDropDelegate {
 
-
     func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
 
         coordinator.session.loadObjects(ofClass: UIImage.self) { array in
@@ -523,10 +466,6 @@ extension ProfileViewController: UITableViewDropDelegate {
             if array.count > 0 {
 
                 let image = array.first as! UIImage
-
-
-                //let group = DispatchGroup()
-
 
                 self.fileManager?.saveImage(imageData: image) {
 
@@ -550,7 +489,6 @@ extension ProfileViewController: UITableViewDropDelegate {
 
 
                     self.coreDataCoordinator?.performFetchAllPostCoreData()
-
                 }
             }
         }
@@ -562,18 +500,4 @@ extension ProfileViewController: UITableViewDropDelegate {
 
         return session.canLoadObjects(ofClass: UIImage.self) || session.canLoadObjects(ofClass: NSString.self)
     }
-
-
-
-//    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
-//        //        guard session.items.count == 2 else {
-//        //            return UITableViewDropProposal(operation: .cancel)
-//        //        }
-//
-//        if tableView.hasActiveDrag {
-//            return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-//        } else {
-//            return UITableViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
-//        }
-//    }
 }

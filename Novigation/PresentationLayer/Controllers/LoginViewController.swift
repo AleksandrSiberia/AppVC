@@ -14,12 +14,10 @@ import KeychainSwift
 
 class LoginViewController: UIViewController {
 
-
     private var localAuthorizationService = LocalAuthorizationService()
 
     var corseDataCoordinator: CoreDataCoordinatorProtocol?
 
-    
     lazy var userService: UserServiceProtocol = {
 #if DEBUG
         return TestUserService(coreDataCoordinator: corseDataCoordinator)
@@ -27,7 +25,6 @@ class LoginViewController: UIViewController {
         return CurrentUserService(coreDataCoordinator: corseDataCoordinator)
 #endif
     }()
-
 
     lazy var currentUserService = TestUserService(coreDataCoordinator: corseDataCoordinator)
 
@@ -42,6 +39,8 @@ class LoginViewController: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
 
     var userDatabase: [ String: String] = [:]
+
+
 
     private lazy var activityIndicator: UIActivityIndicatorView = {
         var activityIndicator = UIActivityIndicatorView()
@@ -208,7 +207,6 @@ class LoginViewController: UIViewController {
 
                         self.localAuthorizationService.evaluateBiometric { bool, error in
 
-
                             if let error {
                                 
                                 let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .actionSheet)
@@ -225,7 +223,6 @@ class LoginViewController: UIViewController {
                             if  bool == true {
 
                                 self.autoAuthorization()
-
                             }
                         }
                     }
@@ -255,7 +252,6 @@ class LoginViewController: UIViewController {
 
                 self.present(alert, animated: true)
             }
-
         }
 
         var buttonBiometric = UIButton(frame: CGRect(), primaryAction: action)
@@ -300,9 +296,7 @@ class LoginViewController: UIViewController {
         textFieldPassword.addSubview(activityIndicator)
 
         setupConstrains()
-
     }
-
 
 
 
@@ -366,7 +360,6 @@ class LoginViewController: UIViewController {
             // ...
         }
 
-
         self.navigationController?.navigationBar.isHidden = true
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -401,8 +394,6 @@ class LoginViewController: UIViewController {
 
 
 
-
-
     func autoAuthorization() {
 
         if self.keychain.get("userOnline") != nil
@@ -429,7 +420,6 @@ class LoginViewController: UIViewController {
             }
         }
     }
-
 
 
 
@@ -498,17 +488,15 @@ class LoginViewController: UIViewController {
 
         let viewHaight = view.frame.height
 
-
-
         let scrollViewElementsMaxY = buttonBiometric.frame.maxY
 
         let keyboardMinY = viewHaight - keyboardHaight
 
         if scrollViewElementsMaxY > keyboardMinY {
 
-        let contentOffset = scrollViewElementsMaxY - keyboardMinY
+            let contentOffset = scrollViewElementsMaxY - keyboardMinY
 
-         scrollView.contentOffset.y = contentOffset + 80
+            scrollView.contentOffset.y = contentOffset + 80
         }
     }
 

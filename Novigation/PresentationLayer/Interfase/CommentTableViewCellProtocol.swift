@@ -1,8 +1,8 @@
 //
 //  CommentTableViewCellProtocol.swift
-//  
+//  Novigation
 //
-//  Created by Александр Хмыров on 20.02.2023.
+//  Created by Александр Хмыров on 23.02.2023.
 //
 
 import Foundation
@@ -13,7 +13,6 @@ protocol CommentTableViewCellProtocol { }
 
 
 extension CommentTableViewCellProtocol {
-
 
     func setupViewAuthorAvatar() -> UIImageView {
 

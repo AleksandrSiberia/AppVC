@@ -13,10 +13,8 @@ class ViewEditPost: UIView {
 
     var delegate: ViewControllersDelegate?
 
-    
     var currentPost: PostCoreData? {
         willSet {
-
             tableView.reloadData()        }
     }
 
@@ -28,7 +26,6 @@ class ViewEditPost: UIView {
     ]
     private var arrayImageCell = ["bookmark",
                                   "pencil.line",
-
     ]
 
     private lazy var buttonCancel: UIButton = {
@@ -41,9 +38,7 @@ class ViewEditPost: UIView {
                 self.isHidden = true
 
                 self.buttonCancel.setImage(UIImage(systemName: "xmark.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate), for: .normal)
-
             }
-
         }
 
         var buttonCancel = UIButton(primaryAction: action)
@@ -59,7 +54,6 @@ class ViewEditPost: UIView {
 
         return buttonCancel
     }()
-
 
 
 
@@ -135,7 +129,7 @@ extension ViewEditPost: UITableViewDataSource {
                 else {
                     return arrayNamesCell[indexPath.row]
                 }
-        }
+            }
             else {
 
                 return arrayNamesCell[indexPath.row]
@@ -167,7 +161,6 @@ extension ViewEditPost: UITableViewDataSource {
         cell.tintColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
 
         cell.backgroundColor = UIColor.white.withAlphaComponent(0)
-   //     UIColor.createColorForTheme(lightTheme: .systemGray6, darkTheme: .gray)
 
         cell.selectionStyle = .none
 
@@ -181,8 +174,6 @@ extension ViewEditPost: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-
-
         switch indexPath.row {
 
         case 0:
@@ -194,9 +185,8 @@ extension ViewEditPost: UITableViewDelegate {
 
                 delegate?.showMassage(text: "Пост убран из избранного".allLocalizable)
                 delegate?.reloadTableView()
-
-
             }
+
             else {
                 currentPost?.favourite = "save"
                 coreDataCoordinator?.savePersistentContainerContext()
@@ -211,8 +201,6 @@ extension ViewEditPost: UITableViewDelegate {
 
             self.isHidden = true
             delegate?.showEditPostTextViewController(currentPost: currentPost)
-          
-
 
         default:
             tableView.reloadData()

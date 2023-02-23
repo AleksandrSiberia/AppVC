@@ -28,13 +28,10 @@ class SavedPostsViewController: UIViewController, ViewControllersDelegate {
     }()
 
 
-
-
     private lazy var barButtonItemCancelSearch: UIBarButtonItem = {
         var barButtonItemCancelSearch = UIBarButtonItem(image: UIImage( systemName: "minus.circle"), style: .plain, target: self, action: #selector(actionBarButtonItemCancelSearch))
         return barButtonItemCancelSearch
     }()
-
 
 
 
@@ -43,7 +40,7 @@ class SavedPostsViewController: UIViewController, ViewControllersDelegate {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
-   
+
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
 
         tableView.register(PostCell.self, forCellReuseIdentifier: "PostCell")
@@ -52,7 +49,6 @@ class SavedPostsViewController: UIViewController, ViewControllersDelegate {
 
         return tableView
     }()
-
 
 
 
@@ -71,8 +67,6 @@ class SavedPostsViewController: UIViewController, ViewControllersDelegate {
         setupConstrains()
 
     }
-
-
 
 
 
@@ -104,6 +98,7 @@ class SavedPostsViewController: UIViewController, ViewControllersDelegate {
     }
 
 
+
     func showEditPostTextViewController(currentPost: PostCoreData?) {
 
         let controller = EditPostTextViewController(currentPost: currentPost, delegate: self, coreData: coreDataCoordinator)
@@ -111,6 +106,7 @@ class SavedPostsViewController: UIViewController, ViewControllersDelegate {
 
         present(navController, animated: true)
     }
+
 
 
     func showMassage(text: String) {
@@ -123,6 +119,7 @@ class SavedPostsViewController: UIViewController, ViewControllersDelegate {
             self.dismiss(animated: true)
         }
     }
+
 
 
     func dismissController() {
@@ -145,12 +142,9 @@ class SavedPostsViewController: UIViewController, ViewControllersDelegate {
     }
 
 
-
     @objc private func actionBarButtonItemSearch() {
 
-
         let alert = UIAlertController(title: nil, message: NSLocalizedString("actionBarButtonItemSearchAlert", tableName: "SavedPostsViewControllerLocalizable", comment: "Напишите имя автора") , preferredStyle: .alert)
-
 
         alert.addTextField { textField in
 
@@ -182,7 +176,6 @@ class SavedPostsViewController: UIViewController, ViewControllersDelegate {
 
     @objc private func actionBarButtonItemCancelSearch() {
 
-
         self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.fetchRequest.predicate = NSPredicate(format: "favourite = %@", "save")
 
         self.coreDataCoordinator.performFetchSavePostCoreData()
@@ -194,7 +187,6 @@ class SavedPostsViewController: UIViewController, ViewControllersDelegate {
 
 
 
-
 extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  {
 
 
@@ -202,7 +194,6 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
         return self.coreDataCoordinator.fetchedResultsControllerSavePostCoreData?.sections?[0].numberOfObjects ?? 0
     }
-
 
 
 
@@ -273,11 +264,6 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 
         return actionConfiguration
     }
-
-
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//      2000
-//    }
 }
 
 
@@ -286,7 +272,6 @@ extension SavedPostsViewController: UITableViewDelegate, UITableViewDataSource  
 extension SavedPostsViewController: NSFetchedResultsControllerDelegate {
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-
 
         switch type {
 
@@ -302,5 +287,4 @@ extension SavedPostsViewController: NSFetchedResultsControllerDelegate {
             self.tableView.reloadData()
         }
     }
-
 }

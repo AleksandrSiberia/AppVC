@@ -133,8 +133,7 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
     override func layoutSubviews() {
         super.layoutSubviews()
         avatarImageView.layer.cornerRadius = self.avatarImageView.frame.height / 2
-            }
-
+    }
 
 
     func setupHeader(_ currentUser: ProfileCoreData, delegate: ProfileViewControllerDelegate) {
@@ -155,8 +154,6 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
 
 
     private func setupView() {
-
-
 
         [fullNameLabel, textFieldStatus, buttonAddPost, buttonDetailedInformations, buttonEditingProfile,viewForAnimation, buttonOffAnimation, avatarImageView].forEach({ addSubview($0) })
     }
@@ -236,15 +233,14 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
             self.avatarImageView.center = CGPoint(x: screenMain.width / 2.0, y: screenMain.height / 2.0)
             self.avatarImageView.transform = CGAffineTransform(scaleX: scale, y: scale)
             self.viewForAnimation.backgroundColor = .black
-
         }
     }
 
-   
+
+
     @objc private func handleTapGestureRecognizer(_ gesture: UITapGestureRecognizer) {
         basicAnimation()
     }
-
 
 
     @objc private func buttonOffAnimationTarget() {
@@ -259,15 +255,17 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
             self.viewForAnimation.backgroundColor = nil
 
         }
-        completion: { _ in
-            self.avatarImageView.layer.borderWidth = 1
-            self.avatarImageView.layer.cornerRadius = 50
-            self.avatarImageView.layer.masksToBounds = true
-            self.viewForAnimation.isHidden = true
-            self.buttonOffAnimation.isHidden = true
-        }
+    completion: { _ in
+        self.avatarImageView.layer.borderWidth = 1
+        self.avatarImageView.layer.cornerRadius = 50
+        self.avatarImageView.layer.masksToBounds = true
+        self.viewForAnimation.isHidden = true
+        self.buttonOffAnimation.isHidden = true
+    }
     }
 }
+
+
 
 extension ProfileHeaderView: UITextFieldDelegate {
 

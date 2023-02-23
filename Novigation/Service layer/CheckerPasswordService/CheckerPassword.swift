@@ -37,7 +37,6 @@ class CheckerPassword: LoginViewControllerOutput {
     var s5: String?
     var s6: String?
 
-
     var symbols = ""
 
     var thisIsPassword = ""
@@ -106,7 +105,7 @@ class CheckerPassword: LoginViewControllerOutput {
                                 s4 = number
                                 let numberString = "\(s1!)\(s2!)\(s3!)\(s4!)"
                                 self.symbols = numberString
-       //                         print(self.symbols)
+                                //                         print(self.symbols)
                                 if password == self.symbols {
                                     self.thisIsPassword = self.symbols
                                     print("Пароль: \(self.symbols)")

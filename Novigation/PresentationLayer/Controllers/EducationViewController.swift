@@ -80,7 +80,6 @@ class EducationViewController: UIViewController {
 
 
 
-
     @objc private func tapBarButtonSaveAction() {
 
         currentProfile?.education = textViewEducations.text

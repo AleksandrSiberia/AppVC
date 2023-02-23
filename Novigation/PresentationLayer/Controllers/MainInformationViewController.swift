@@ -25,7 +25,6 @@ class MainInformationViewController: UIViewController {
     private lazy var gestureRecognizerEndEditingInScrollView = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerEndEditingInScrollViewAction))
 
 
-
     private var scrollView: UIScrollView = {
 
         var scrollView = UIScrollView()
@@ -107,7 +106,6 @@ class MainInformationViewController: UIViewController {
     }
 
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -152,7 +150,6 @@ class MainInformationViewController: UIViewController {
 
 
 
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
 
@@ -169,17 +166,16 @@ class MainInformationViewController: UIViewController {
 
 
     private func setupTextField(text: String?) -> UITextField {
-            let textField = UITextField()
-            textField.text = text
-            textField.translatesAutoresizingMaskIntoConstraints = false
-            textField.backgroundColor = .systemGray6
-            textField.layer.cornerRadius = 12
+        let textField = UITextField()
+        textField.text = text
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 12
         textField.keyboardType = .namePhonePad
-            return textField
+        return textField
     }
 
 
-  
 
     private func setupViewGender(_ gender: String) -> UIView {
         let viewGender = UIView()
@@ -276,7 +272,6 @@ class MainInformationViewController: UIViewController {
         dateFormatter.dateFormat = "dd.MM.yyyy"
         return dateFormatter.date(from: currentProfile?.birthday ?? "")
     }
-
 
 
 

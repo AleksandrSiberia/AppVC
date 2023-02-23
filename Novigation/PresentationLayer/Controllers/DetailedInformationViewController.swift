@@ -12,7 +12,6 @@ class DetailedInformationViewController: UIViewController {
     private let currentProfile: ProfileCoreData?
     private let coreDataCoordinator: CoreDataCoordinatorProtocol?
 
-
     private lazy var barButtonItemCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(barButtonItemCancelAction))
 
 
@@ -39,12 +38,12 @@ class DetailedInformationViewController: UIViewController {
     private lazy var labelInterest = UILabel.setupLabelRegular(text: currentProfile?.interest ?? "")
 
 
-
     init(currentProfile: ProfileCoreData?, coreData: CoreDataCoordinatorProtocol?) {
         self.currentProfile = currentProfile
         self.coreDataCoordinator = coreData
         super.init(nibName: nil, bundle: nil)
     }
+    
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

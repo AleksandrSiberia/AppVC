@@ -13,7 +13,6 @@ class PostCell: UITableViewCell {
 
     var currentPost: PostCoreData?
 
-
     private var nameImage: String?
 
     private var nameForUrlFoto: String?
@@ -22,14 +21,12 @@ class PostCell: UITableViewCell {
 
     private var delegate: ViewControllersDelegate?
 
-
     var countViews: Bool?
 
     private var tableViewIsHidden = true
 
     private var myConstraints: [NSLayoutConstraint] = []
 
-   
 
     private var imageViewAuthorAvatar: UIImageView = {
 
@@ -50,13 +47,11 @@ class PostCell: UITableViewCell {
 
                 self.tableViewIsHidden = false
 
-
                 self.delegate?.beginUpdatesTableView()
 
                 self.setupConstrains(newTableViewCommentHeightAnchor: 200)
 
                 self.delegate?.endUpdatesTableView()
-
             }
 
             else {
@@ -68,11 +63,8 @@ class PostCell: UITableViewCell {
                 self.setupConstrains(newTableViewCommentHeightAnchor: 0)
 
                 self.delegate?.endUpdatesTableView()
-
             }
         }
-
-
 
         var buttonComments = UIButton(frame: CGRect(), primaryAction: action)
 
@@ -86,7 +78,6 @@ class PostCell: UITableViewCell {
 
         return buttonComments
     }()
-
 
 
 
@@ -191,6 +182,7 @@ class PostCell: UITableViewCell {
     }()
 
 
+
     private lazy var labelLikes: UILabel = {
         var labelLikes = UILabel()
         labelLikes.translatesAutoresizingMaskIntoConstraints = false
@@ -200,6 +192,7 @@ class PostCell: UITableViewCell {
         labelLikes.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
         return labelLikes
     }()
+
 
 
     private lazy var buttonLike: UIButton = {
@@ -224,22 +217,16 @@ class PostCell: UITableViewCell {
 
                 self.buttonLike.tintColor = .gray
                 self.buttonLike.setImage(image, for: .normal)
-
-
-
             }
-
 
             else {
 
                 self.currentPost?.likeYou = true
                 self.currentPost?.likes += 1
 
-
                 self.coreDataCoordinator?.savePersistentContainerContext()
 
                 self.setupLabelLikes(post: self.currentPost)
-
 
                 let image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
 
@@ -290,7 +277,6 @@ class PostCell: UITableViewCell {
                 self.delegate?.reloadTableView()
             }
 
-
             else {
 
                 self.currentPost?.favourite = "save"
@@ -328,7 +314,6 @@ class PostCell: UITableViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShowNotificationAction(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHideNotificationAction), name: UIResponder.keyboardDidHideNotification, object: nil)
-
     }
 
 
@@ -336,7 +321,6 @@ class PostCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 
 
 
@@ -360,7 +344,6 @@ class PostCell: UITableViewCell {
             viewEditPost.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
             viewEditPost.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 70),
             viewEditPost.heightAnchor.constraint(equalToConstant: 300),
-
 
 
             imageViewAuthorAvatar.centerYAnchor.constraint(equalTo: labelAuthor.centerYAnchor),
@@ -393,10 +376,8 @@ class PostCell: UITableViewCell {
             labelLikes.leadingAnchor.constraint(equalTo: buttonLike.trailingAnchor, constant: 10),
 
 
-
             labelViews.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             labelViews.centerYAnchor.constraint(equalTo: labelLikes.centerYAnchor),
-
 
 
             buttonComments.centerYAnchor.constraint(equalTo: labelViews.centerYAnchor),
@@ -416,12 +397,8 @@ class PostCell: UITableViewCell {
         ]
 
         NSLayoutConstraint.activate( self.myConstraints )
-
-
-
     }
 
-    
 
     
     func reloadTableViewComment() {
@@ -429,13 +406,13 @@ class PostCell: UITableViewCell {
         tableViewComment.reloadData()
 
         delegate?.reloadTableView()
-
     }
 
 
     func viewEditPostIsHidden() {
         viewEditPost.isHidden = true
     }
+
 
 
     func savePost() -> String? {
@@ -445,13 +422,13 @@ class PostCell: UITableViewCell {
             currentPost?.favourite = "save"
             coreDataCoordinator?.savePersistentContainerContext()
 
-
             return nil
         }
         else {
             return "этот пост уже сохранён" .allLocalizable
         }
     }
+
 
 
     private func setupImageForButtonLike(post: PostCoreData) {
@@ -472,9 +449,9 @@ class PostCell: UITableViewCell {
 
             self.buttonLike.tintColor = .gray
             self.buttonLike.setImage(image, for: .normal)
-
         }
     }
+
 
 
     private func setupImageForButtonFavorite(post: PostCoreData) {
@@ -503,7 +480,6 @@ class PostCell: UITableViewCell {
         self.nameImage = post.image
         self.nameForUrlFoto = post.urlFoto
 
-
         let filter = ImageProcessor()
 
         var filteredImage: UIImage?
@@ -513,7 +489,6 @@ class PostCell: UITableViewCell {
             guard let urlDocument else { return }
 
             let fileURL = "file://" + urlDocument + "/" + nameForUrlFoto
-
 
             do {
 
@@ -566,7 +541,6 @@ class PostCell: UITableViewCell {
 
 
 
-
     private func setupLabelViews(post: PostCoreData) {
 
         let localizedViews = NSLocalizedString("LocalizedView", tableName: "LocalizableDict", comment: "")
@@ -575,7 +549,6 @@ class PostCell: UITableViewCell {
 
         let formatLocalizedViews = String(format: localizedViews, viewsValue)
         labelViews.text = formatLocalizedViews
-
     }
 
 
@@ -597,7 +570,6 @@ class PostCell: UITableViewCell {
             buttonComments.setImage(image, for: .normal)
 
             buttonComments.tintColor = UIColor.createColorForTheme(lightTheme: .gray, darkTheme: .white)
-
         }
     }
 
@@ -646,22 +618,17 @@ class PostCell: UITableViewCell {
     }
 
 
-
     @objc private func keyboardDidHideNotificationAction() {
-
     }
-
 }
 
 
 
 extension PostCell: UITableViewDataSource, UITableViewDelegate {
 
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         if section == 0 {
-
 
             guard let comments = currentPost?.relationshipArrayComments?.allObjects as? [CommentCoreData] else {
 
@@ -673,11 +640,9 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
             return comments.count
         }
 
-
-
         else {
 
-           return  1
+            return  1
         }
     }
 
@@ -690,8 +655,6 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-
 
         if indexPath.section == 0 {
 
@@ -711,7 +674,6 @@ extension PostCell: UITableViewDataSource, UITableViewDelegate {
             }
 
             let commentsSortByTime = comments.sorted { $0.time! < $1.time! }
-
 
             cell.setupCellAllComments(currentPost: currentPost, coreData: coreDataCoordinator, currentComment: commentsSortByTime[indexPath.row] )
 

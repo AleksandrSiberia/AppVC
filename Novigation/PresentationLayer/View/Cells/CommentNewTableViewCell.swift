@@ -16,10 +16,7 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
     private var currentProfile: ProfileCoreData?
     private var delegate: PostCell?
 
-
-
     private lazy var imageViewAuthorAvatar: UIImageView = setupViewAuthorAvatar()
-
 
     private lazy var textFieldNewComment = {
 
@@ -32,17 +29,17 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
         textField.placeholder = "Напишите комментарий".allLocalizable
         return textField
     }()
-    
+
+
+
     private lazy var buttonSentComment: UIButton = {
 
         let action = UIAction() { _ in
-            
             
             let image = UIImage(systemName: "arrow.up.circle.fill", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
             
             self.buttonSentComment.setImage(image, for: .normal)
             self.buttonSentComment.translatesAutoresizingMaskIntoConstraints = false
-
 
             if self.textFieldNewComment.text != "" {
 
@@ -51,7 +48,6 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
                 self.textFieldNewComment.text = ""
             }
 
-
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 
                 let image = UIImage(systemName: "arrow.up.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
@@ -59,7 +55,6 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
                 self.buttonSentComment.setImage(image, for: .normal)
 
                 self.delegate?.reloadTableViewComment()
-
             }
         }
 
@@ -83,13 +78,10 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-
         [imageViewAuthorAvatar, textFieldNewComment, buttonSentComment].forEach { contentView.addSubview( $0) }
         setupConstraints()
-
-
-
     }
+
 
 
     required init?(coder: NSCoder) {
@@ -100,13 +92,10 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-
     }
 
 
     private func setupConstraints() {
-
 
         NSLayoutConstraint.activate([
 
@@ -126,8 +115,6 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
             buttonSentComment.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
         ])
     }
-
-
 
 
     func setupCellNewComment(currentPost: PostCoreData?, coreData: CoreDataCoordinatorProtocol?, delegate: PostCell?) {
@@ -153,9 +140,6 @@ class CommentNewTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
         }
     }
 }
-
-
-
 
 
 extension CommentNewTableViewCell {

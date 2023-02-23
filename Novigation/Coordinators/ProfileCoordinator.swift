@@ -8,13 +8,17 @@
 import UIKit
 
 class ProfileCoordinator: AppCoordinatorProtocol {
-    
+
+
     var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
     private weak var transitionHandler: UINavigationController?
+
     var childs: [AppCoordinatorProtocol] = []
 
     var profileViewController: ProfileViewControllable?
+
+
 
     init(transitionHandler: UINavigationController?, coreDataCoordinator: CoreDataCoordinatorProtocol, profileViewController: ProfileViewControllable?) {
         self.transitionHandler = transitionHandler
@@ -29,11 +33,8 @@ class ProfileCoordinator: AppCoordinatorProtocol {
         profileViewController?.currentProfile = user
         profileViewController?.coreDataCoordinator = coreDataCoordinator
 
-
-
         transitionHandler?.pushViewController(profileViewController as! UIViewController, animated: true)
 
         return true
-
     }
 }

@@ -10,11 +10,12 @@ import UIKit
 class FeedCoordinator: AppCoordinatorProtocol {
 
 
-
     private weak var transitionHandler: UINavigationController?
 
     var childs: [AppCoordinatorProtocol] = []
 
+
+    
     init(transitionHandler: UINavigationController) {
         self.transitionHandler = transitionHandler
     }

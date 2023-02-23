@@ -13,11 +13,7 @@ final class FeedAssembly {
     static func createFeedViewController() -> FeedViewController {
         
         let view = FeedViewController()
-        let feedModel = FeedModel()
-        let viewModel = FeedViewModel(director: view, feedModel: feedModel)
 
-
-      
         return  view
     }
 }

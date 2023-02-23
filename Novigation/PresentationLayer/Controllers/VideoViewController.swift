@@ -34,6 +34,7 @@ class VideoViewController: UIViewController {
     }()
 
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableViewVideo)
@@ -50,9 +51,11 @@ class VideoViewController: UIViewController {
         ])
     }
 
+
     func reloadTableViewVideo() {
         tableViewVideo.reloadData()
     }
+
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -66,7 +69,7 @@ class VideoViewController: UIViewController {
 extension VideoViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return videos.count
+        return videos.count
     }
 
 
@@ -92,8 +95,6 @@ extension VideoViewController: UITableViewDelegate, UITableViewDataSource {
         cell.playPauseVideo(videoViewController: self)
 
     }
-
-
 }
 
 

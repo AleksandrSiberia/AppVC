@@ -29,6 +29,7 @@ class PhotosViewController: UIViewController {
         return collectionFlowLayout
     }()
 
+
     private lazy var collectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionFlowLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +39,7 @@ class PhotosViewController: UIViewController {
         collectionView.dataSource = self
         return collectionView
     }()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +56,7 @@ class PhotosViewController: UIViewController {
 
             guard arrayImages.isEmpty == false else {
                 preconditionFailure("Массив с фотографиями пуст")
-                    }
+            }
 
             let start = DispatchTime.now()
             self.imageProcessor?.processImagesOnThread(sourceImages: arrayImages, filter: .chrome, qos: .utility, completion:
@@ -82,24 +84,19 @@ class PhotosViewController: UIViewController {
             self.collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-            ])
+        ])
     }
 }
-
-
 
 
 
 extension PhotosViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
 
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
         self.arrayUIImage.count
-
     }
-
 
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -9,7 +9,6 @@ import UIKit
 
 // обертка UITabBarController
 class RootCoordinator: AppCoordinatorProtocol {
- 
 
 
     private weak var transitionHandler: UITabBarController?
@@ -17,6 +16,11 @@ class RootCoordinator: AppCoordinatorProtocol {
     var childs: [AppCoordinatorProtocol] = []
 
     var coreDataCoordinator = CoreDataCoordinator()
+
+    var navLoginView: UINavigationController?
+
+    var navSavedPosts: UINavigationController?
+
 
 
     init(transitionHandler : UITabBarController) {
@@ -27,13 +31,11 @@ class RootCoordinator: AppCoordinatorProtocol {
 
     func start() -> UITabBarController? {
         if transitionHandler != nil {
-        return showTabBarScreen()!
+            return showTabBarScreen()!
         }
         return nil
     }
 
-    var navLoginView: UINavigationController?
-    var navSavedPosts: UINavigationController?
 
 
     fileprivate func showTabBarScreen() -> UITabBarController? {
@@ -49,9 +51,8 @@ class RootCoordinator: AppCoordinatorProtocol {
         let navLoginView = UINavigationController(rootViewController: LoginAssembly.createLoginViewController(coordinator: self, coreData: self.coreDataCoordinator))
 
 
-
         navLoginView.tabBarItem = UITabBarItem(title: NSLocalizedString("navLoginView", tableName: "TabBarItemLocalizable", comment: "Profile") , image: UIImage(systemName: "person.circle"), tag: 2)
-                self.childs.append(feedCoordinator)
+        self.childs.append(feedCoordinator)
 
 
         let savedPostsViewController = SavedPostsViewController()
@@ -60,7 +61,6 @@ class RootCoordinator: AppCoordinatorProtocol {
         let navSavedPosts = UINavigationController(rootViewController: savedPostsViewController)
         self.navSavedPosts = navSavedPosts
         navSavedPosts.tabBarItem = UITabBarItem(title: NSLocalizedString("navSavedPosts", tableName: "TabBarItemLocalizable", comment: "Saved"), image: UIImage(systemName: "heart"), tag: 3)
-
 
 
         self.navLoginView = navLoginView
@@ -73,6 +73,7 @@ class RootCoordinator: AppCoordinatorProtocol {
     }
 
 
+    
     func startProfileCoordinator(user: ProfileCoreData) {
         
         let profileCoordinator = ProfileCoordinator(transitionHandler: navLoginView, coreDataCoordinator: coreDataCoordinator, profileViewController: ProfileAssembly.createProfileViewController() as? ProfileViewController)

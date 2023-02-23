@@ -12,7 +12,6 @@ import StorageService
 
 class PhotosTableViewCell: UITableViewCell {
 
-
     private var widthItem: CGFloat = 0
     private var neededWidth: CGFloat = 0
     var timer: Timer?
@@ -73,7 +72,6 @@ class PhotosTableViewCell: UITableViewCell {
     }
 
 
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -89,8 +87,6 @@ class PhotosTableViewCell: UITableViewCell {
 
         let widthHeightCollection = (screenWidth - sectionInsetLR - allInteritemSpacing) / 4 + collectionFlowLayout.sectionInset.top + collectionFlowLayout.sectionInset.bottom
 
-
-        print(sectionInsetLR)
 
         NSLayoutConstraint.activate([
 
@@ -108,8 +104,7 @@ class PhotosTableViewCell: UITableViewCell {
             photoCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             photoCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             photoCollectionView.heightAnchor.constraint(equalToConstant: widthHeightCollection )
-
-         ])
+        ])
     }
 
 
@@ -130,16 +125,10 @@ class PhotosTableViewCell: UITableViewCell {
             if contentOffset + width + 20 > contentSizeWidth {
                 count = 0
                 self.photoCollectionView.contentOffset = CGPoint(x: 0, y: 0)
-                //   self.timer = timer
-                //    timer.invalidate()
             }
-
         }
-
     }
 }
-
-
 
 
 
@@ -178,10 +167,10 @@ extension PhotosTableViewCell: UICollectionViewDelegateFlowLayout, UICollectionV
     }
 }
 
+
+
 extension PhotosTableViewCell: ProfileViewControllerOutput {
     func timerStop() {
         self.timer?.invalidate()
     }
-
-
 }

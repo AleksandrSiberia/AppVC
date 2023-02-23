@@ -22,7 +22,6 @@ final class CodeService {
 
         let dataUrl = string.data(using: .utf8)
 
-
         var arrayUInt8: [UInt8] = []
         var arrayInt: [Int] = []
 
@@ -37,10 +36,7 @@ final class CodeService {
             arrayInt.append(int)
         }
 
-        print("🍇 arrayInt", arrayInt)
     }
-
-
 
 
 
@@ -62,5 +58,4 @@ final class CodeService {
         return string
 
     }
-
 }

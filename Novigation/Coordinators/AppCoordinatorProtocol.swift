@@ -10,10 +10,6 @@ import Foundation
 
 protocol AppCoordinatorProtocol {
 
-    // дерево дочерних координаторов у текущего координатора, дерево скринов
-    // также может быть один координатор вместо массива
-    // для того чтобы все держалось в памяти
-
     var childs: [AppCoordinatorProtocol] { get set }
  
 }

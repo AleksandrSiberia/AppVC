@@ -9,17 +9,13 @@
 import UIKit
 import KeychainSwift
 
-class CommentAllTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
-    
 
+class CommentAllTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
 
     private var currentPost: PostCoreData?
     private var coreData: CoreDataCoordinatorProtocol?
     private var currentProfile: ProfileCoreData?
     private var delegate: PostCell?
-
-
-
 
     private lazy var imageViewAuthorAvatar: UIImageView = setupViewAuthorAvatar()
 
@@ -46,11 +42,8 @@ class CommentAllTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
     }()
 
 
-
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
 
         [imageViewAuthorAvatar, labelComment, labelDate].forEach { contentView.addSubview( $0) }
         setupConstraints()
@@ -59,12 +52,9 @@ class CommentAllTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
 
 
 
-
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -74,7 +64,6 @@ class CommentAllTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
 
 
     private func setupConstraints() {
-
 
         NSLayoutConstraint.activate([
 
@@ -96,10 +85,10 @@ class CommentAllTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
     }
 
 
+
     func setupLabelDate(currentComment: CommentCoreData?) {
 
         let dateFormater = DateFormatter()
-
 
         dateFormater.dateFormat = "HH:mm"
 

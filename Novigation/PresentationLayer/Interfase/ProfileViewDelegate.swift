@@ -15,6 +15,5 @@ protocol ProfileViewDelegate {
 
     func showPost()
 
-    
 }
 

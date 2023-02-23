@@ -38,16 +38,18 @@ class AddNewPostViewController: UIViewController {
             labelAddImage.isHidden = true
         }
 
-
         labelAddImage.text = "labelAddImage".allLocalizable
         return labelAddImage
     }()
+
 
 
     private lazy var barButtonItemCancel: UIBarButtonItem = {
         var barButtonItemCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(barButtonItemCancelAction))
         return barButtonItemCancel
     }()
+
+
 
     private lazy var scrollView: UIScrollView = {
 
@@ -57,11 +59,11 @@ class AddNewPostViewController: UIViewController {
     }()
 
 
+
     private lazy var gestureRecognizer: UITapGestureRecognizer = {
         var gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector( gestureRecognizerAction(recogniser:)))
 
         return gestureRecognizer
-
     }()
 
 
@@ -90,12 +92,9 @@ class AddNewPostViewController: UIViewController {
     
     private lazy var buttonAddPost: CustomButton = {
 
-
         var buttonAddPost = CustomButton(title: "buttonAddPost".allLocalizable) {
 
-
             if let imagePost = self.imagePost, let text = self.textViewAddNewPost.text, text != ""  {
-
 
                 self.fileManagerService?.saveImage(imageData: imagePost, completionHandler: { tuple in
 
@@ -105,15 +104,13 @@ class AddNewPostViewController: UIViewController {
 
                     let imageURL = tuple.2
 
-
-
                     let values: [String: Any]  =  ["author": self.currentProfile?.name ?? "",
-                                                      "surname": self.currentProfile?.surname ?? "",
-                                                      "image": "",
-                                                      "text": text,
-                                                      "likes": 0,
-                                                      "views": 0,
-                                                      "nameForUrlFoto": imageURL ]
+                                                   "surname": self.currentProfile?.surname ?? "",
+                                                   "image": "",
+                                                   "text": text,
+                                                   "likes": 0,
+                                                   "views": 0,
+                                                   "nameForUrlFoto": imageURL ]
 
                     guard let nameUserFolder = KeychainSwift().get("userOnline")
 
@@ -130,8 +127,6 @@ class AddNewPostViewController: UIViewController {
                     self.alert(alertMassage: "buttonAddPostAlertSuccess".allLocalizable, handler: {
 
                         self.dismiss(animated: true)
-
-
                     })
                 })
             }

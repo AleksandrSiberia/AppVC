@@ -34,9 +34,9 @@ final class CustomButton: UIButton {
     }
 
     override func setTitle(_ title: String?, for state: UIControl.State) {
-           let uppercasedTitle = title?.uppercased()
-           super.setTitle(uppercasedTitle, for: state)
-       }
+        let uppercasedTitle = title?.uppercased()
+        super.setTitle(uppercasedTitle, for: state)
+    }
 
     @objc private func actionButton() {
         buttonAction()

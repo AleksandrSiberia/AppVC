@@ -9,11 +9,7 @@ import UIKit
 
 class EditPostTextViewController: UIViewController {
 
-
-
     private var delegate: ViewControllersDelegate?
-
-
 
     private var currentPost: PostCoreData?
 
@@ -44,9 +40,6 @@ class EditPostTextViewController: UIViewController {
         self.delegate = delegate
 
         self.coreDataCoordinator = coreData
-
-
-
     }
 
 
@@ -70,6 +63,7 @@ class EditPostTextViewController: UIViewController {
 
         setupConstrains()
     }
+
 
 
     func setupConstrains() {
@@ -96,8 +90,8 @@ class EditPostTextViewController: UIViewController {
     @objc func barButtonCancelAction() {
 
         delegate?.dismissController()
-
     }
+
 
     @objc func barButtonSaveAction() {
 
@@ -106,8 +100,5 @@ class EditPostTextViewController: UIViewController {
 
         delegate?.dismissController()
         delegate?.reloadTableView()
-  
-
     }
-
 }

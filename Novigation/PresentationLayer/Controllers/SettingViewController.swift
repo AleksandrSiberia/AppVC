@@ -14,7 +14,7 @@ class SettingViewController: UIViewController {
 
     private var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
-    private var currentProfile: ProfileCoreData? 
+    private var currentProfile: ProfileCoreData?
 
     private var delegate: ProfileViewControllerDelegate
 
@@ -39,18 +39,16 @@ class SettingViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Default")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
-        tableView.delegate = self 
+        tableView.delegate = self
         return tableView
     }()
 
 
     private lazy var nameUser: UILabel = {
-
         var nameUser = UILabel()
         nameUser.text = "nameUser".allLocalizable
         return nameUser
     }()
-
 
 
     private lazy var buttonExit: UIButton = {
@@ -82,13 +80,13 @@ class SettingViewController: UIViewController {
     }
 
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white, darkTheme: .black)
 
         navigationItem.title = NSLocalizedString("navigationItem.title", tableName: "InfoViewControllerLocalizable", comment: "Настройки")
-
 
         coreDataCoordinator?.getCurrentProfile { currentProfile in
             self.currentProfile = currentProfile
@@ -139,9 +137,8 @@ class SettingViewController: UIViewController {
         alertExit.addAction(cancelAction)
 
         let exitAction = UIAlertAction(title: NSLocalizedString("buttonExitExitAction", tableName: "InfoViewControllerLocalizable", comment: ""),
-                                         style: .destructive,
-                                         handler: {_ in
-
+                                       style: .destructive,
+                                       handler: {_ in
 
             KeychainSwift().delete("userOnline")
             self.dismiss(animated: true)
@@ -153,8 +150,8 @@ class SettingViewController: UIViewController {
 }
 
 
-extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
 
+extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         namesCells.count
@@ -187,19 +184,16 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
 
         case 0:
-
             let vc = MainInformationViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator, delegate: self.delegate)
             vc.navigationItem.title = navigationBarTitle
             navigationController?.pushViewController(vc, animated: true)
 
 
         case 1:
-
             let vc = EducationViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator, delegate: self.delegate)
             vc.navigationItem.title = navigationBarTitle
             navigationController?.pushViewController(vc, animated: true)
 
-            
         case 2:
             let vc = CareerViewController(profile: currentProfile, coreDataCoordinator: self.coreDataCoordinator, delegate: self.delegate)
             vc.navigationItem.title = navigationBarTitle
@@ -220,6 +214,4 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             print("‼️ this page does not exist")
         }
     }
-
-
 }

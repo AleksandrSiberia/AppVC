@@ -34,6 +34,7 @@ class AudioViewController: UIViewController {
         return playerLayer
     }()
 
+
     private lazy var audioPlayerView: UIView = {
         var audioPlayerView = UIView()
         audioPlayerView.backgroundColor = .black
@@ -42,6 +43,7 @@ class AudioViewController: UIViewController {
         return audioPlayerView
     }()
 
+
     private lazy var labelTrackName: UILabel = {
         var labelTrackName = UILabel()
         labelTrackName.text = self.tracks[self.numberTrack]
@@ -49,9 +51,9 @@ class AudioViewController: UIViewController {
         labelTrackName.textColor = .white
         labelTrackName.numberOfLines = 0
         labelTrackName.clipsToBounds = true
-
         return labelTrackName
     }()
+
 
     private lazy var buttonPlayPauseAudio: UIButton = {
         let action = UIAction { action in
@@ -74,6 +76,7 @@ class AudioViewController: UIViewController {
         return buttonPlayPauseAudio
     }()
 
+
     private lazy var buttonStopPlay: UIButton = {
         let action = UIAction { _ in
             self.player.seek(to: CMTime.zero)
@@ -88,6 +91,7 @@ class AudioViewController: UIViewController {
         buttonStopPlay.translatesAutoresizingMaskIntoConstraints = false
         return buttonStopPlay
     }()
+
 
     private lazy var buttonTrackBack: UIButton = {
         var action = UIAction { _ in
@@ -109,6 +113,7 @@ class AudioViewController: UIViewController {
         buttonTrackBack.translatesAutoresizingMaskIntoConstraints = false
         return buttonTrackBack
     }()
+
 
     private lazy var buttonTrackForward: UIButton = {
         var action = UIAction { _ in
@@ -133,7 +138,6 @@ class AudioViewController: UIViewController {
     }()
 
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -145,7 +149,6 @@ class AudioViewController: UIViewController {
         audioPlayerView.addSubview(buttonTrackForward)
 
         setupConstrains()
-
     }
 
 
@@ -154,6 +157,8 @@ class AudioViewController: UIViewController {
 
         self.playerLayer.frame = self.audioPlayerView.bounds
     }
+
+
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -188,15 +193,14 @@ class AudioViewController: UIViewController {
 
             buttonStopPlay.centerXAnchor.constraint(equalTo: buttonPlayPauseAudio.centerXAnchor),
             buttonStopPlay.topAnchor.constraint(equalTo: buttonPlayPauseAudio.bottomAnchor, constant: 20),
-
-
         ])
     }
-
 }
+
+
 
 extension String {
     var audioViewControllerLocalizable: String {
-       return NSLocalizedString(self, tableName: "AudioViewControllerLocalizable", comment: "")
+        return NSLocalizedString(self, tableName: "AudioViewControllerLocalizable", comment: "")
     }
 }
