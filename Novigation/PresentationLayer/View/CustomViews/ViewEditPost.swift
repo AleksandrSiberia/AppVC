@@ -17,8 +17,7 @@ class ViewEditPost: UIView {
     var currentPost: PostCoreData? {
         willSet {
 
-            tableView.reloadData()
-        }
+            tableView.reloadData()        }
     }
 
     var coreDataCoordinator: CoreDataCoordinatorProtocol?

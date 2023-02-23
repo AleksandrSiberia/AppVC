@@ -21,6 +21,8 @@ class AddNewPostViewController: UIViewController {
 
     var currentProfile: ProfileCoreData?
 
+    var delegate: ViewControllersDelegate?
+
 
     private lazy var gestureRecognizerEndEditingInScrollView = UITapGestureRecognizer(target: self, action: #selector(gestureRecognizerEndEditingInScrollViewAction))
 
@@ -87,10 +89,13 @@ class AddNewPostViewController: UIViewController {
 
     
     private lazy var buttonAddPost: CustomButton = {
+
+
         var buttonAddPost = CustomButton(title: "buttonAddPost".allLocalizable) {
 
 
             if let imagePost = self.imagePost, let text = self.textViewAddNewPost.text, text != ""  {
+
 
                 self.fileManagerService?.saveImage(imageData: imagePost, completionHandler: { tuple in
 
@@ -120,8 +125,14 @@ class AddNewPostViewController: UIViewController {
                     self.coreDataCoordinator?.appendPost(values: values, currentProfile: self.currentProfile, folderName: nameUserFolder)
                     {_ in}
 
+                    self.delegate?.reloadTableView()
 
-                    self.alert(alertMassage: "buttonAddPostAlertSuccess".allLocalizable, handler: { self.dismiss(animated: true) })
+                    self.alert(alertMassage: "buttonAddPostAlertSuccess".allLocalizable, handler: {
+
+                        self.dismiss(animated: true)
+
+
+                    })
                 })
             }
 
@@ -135,11 +146,12 @@ class AddNewPostViewController: UIViewController {
 
 
 
-    init(coreDataCoordinator: CoreDataCoordinatorProtocol?, fileManagerService: FileManagerServiceable?) {
+    init(coreDataCoordinator: CoreDataCoordinatorProtocol?, fileManagerService: FileManagerServiceable?, delegate: ViewControllersDelegate?) {
         super.init(nibName: nil, bundle: nil)
 
         self.coreDataCoordinator = coreDataCoordinator
         self.fileManagerService = fileManagerService
+        self.delegate = delegate
     }
 
 
@@ -338,7 +350,7 @@ extension AddNewPostViewController: UITextViewDelegate {
 
         if textViewAddNewPost.textColor == .systemGray {
             textView.text = nil
-            textView.textColor = .black
+            textView.textColor = UIColor.createColorForTheme(lightTheme: .black, darkTheme: .white)
         }
     }
 }

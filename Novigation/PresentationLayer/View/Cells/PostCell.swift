@@ -59,7 +59,6 @@ class PostCell: UITableViewCell {
 
             }
 
-
             else {
 
                 self.tableViewIsHidden = true
@@ -218,6 +217,7 @@ class PostCell: UITableViewCell {
                 }
 
                 self.coreDataCoordinator?.savePersistentContainerContext()
+
                 self.setupLabelLikes(post: self.currentPost)
 
                 let image = UIImage(systemName: "heart", withConfiguration: symbolConfiguration)?.withRenderingMode(.alwaysTemplate)
@@ -237,6 +237,7 @@ class PostCell: UITableViewCell {
 
 
                 self.coreDataCoordinator?.savePersistentContainerContext()
+
                 self.setupLabelLikes(post: self.currentPost)
 
 
@@ -339,11 +340,6 @@ class PostCell: UITableViewCell {
 
 
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-
-    }
-
-
     private func setupViews() {
 
         [imageViewAuthorAvatar, labelAuthor, buttonEditPost, imageViewPost, labelText, buttonLike, labelLikes, labelViews, viewEditPost, buttonFavorite,  tableViewComment, buttonComments].forEach {
@@ -421,6 +417,8 @@ class PostCell: UITableViewCell {
 
         NSLayoutConstraint.activate( self.myConstraints )
 
+
+
     }
 
     
@@ -429,6 +427,8 @@ class PostCell: UITableViewCell {
     func reloadTableViewComment() {
 
         tableViewComment.reloadData()
+
+        delegate?.reloadTableView()
 
     }
 
@@ -444,6 +444,8 @@ class PostCell: UITableViewCell {
             
             currentPost?.favourite = "save"
             coreDataCoordinator?.savePersistentContainerContext()
+
+
             return nil
         }
         else {
@@ -587,6 +589,16 @@ class PostCell: UITableViewCell {
 
             buttonComments.tintColor = UIColor(named: "orange")
         }
+
+        else {
+
+            let image = UIImage(systemName: "message", withConfiguration: UIImage.SymbolConfiguration(scale: .large))?.withRenderingMode(.alwaysTemplate)
+
+            buttonComments.setImage(image, for: .normal)
+
+            buttonComments.tintColor = UIColor.createColorForTheme(lightTheme: .gray, darkTheme: .white)
+
+        }
     }
 
 
@@ -628,16 +640,15 @@ class PostCell: UITableViewCell {
 
         if let keyboard = notification.userInfo?[ UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect
         {
-            delegate?.beginUpdatesTableView()
 
-            frame.origin.y -= (keyboard.height * 0.9)
+            frame.origin.y -= (keyboard.height * 0.5)
         }
     }
 
 
 
     @objc private func keyboardDidHideNotificationAction() {
-           delegate?.endUpdatesTableView()
+
     }
 
 }

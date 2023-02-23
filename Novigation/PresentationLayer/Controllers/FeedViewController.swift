@@ -11,17 +11,6 @@ import SwiftUI
 import CoreData
 
 
-//protocol FeedViewControllerDelegate {
-//
-//
-//    func showEditPostTextViewController(currentPost: PostCoreData?)
-//    func dismissController()
-//
-//    func reloadTableView()
-//    func beginUpdatesTableView()
-//    func endUpdatesTableView()
-//}
-
 
 class FeedViewController: UIViewController, ViewControllersDelegate {
 
@@ -136,7 +125,6 @@ class FeedViewController: UIViewController, ViewControllersDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-  //      coreData?.performFetchAllPostCoreData()
         tableView.reloadData()
     }
 

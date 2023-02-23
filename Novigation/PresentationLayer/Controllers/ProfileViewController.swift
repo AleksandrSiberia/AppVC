@@ -139,9 +139,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
             coreDataCoordinator?.fetchedResultsControllerPostCoreData?.delegate = self
         }
 
-//        if self.delegate != nil {
-//            self.delegate.showPost()
-//        }
+
 
         reloadTableView()
         
@@ -237,10 +235,12 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
     func addNewPost() {
-        let controller = AddNewPostViewController(coreDataCoordinator: coreDataCoordinator, fileManagerService: fileManager)
+
+        let controller = AddNewPostViewController(coreDataCoordinator: coreDataCoordinator, fileManagerService: fileManager, delegate: self )
         controller.currentProfile = currentProfile
         let nav = UINavigationController(rootViewController: controller)
         present(nav, animated: true)
+
     }
 
 
@@ -272,7 +272,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
 
     func endUpdatesTableView() {
-        tableView.endUpdates()
+       tableView.endUpdates()
     }
 
 

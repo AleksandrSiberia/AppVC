@@ -9,15 +9,6 @@ import UIKit
 import CoreData
 
 
-//protocol ViewControllersDelegate {
-//
-//    func showEditPostTextViewController(currentPost: PostCoreData?)
-//    func dismissController()
-//    func reloadTableView()
-//    func beginUpdatesTableView()
-//    func endUpdatesTableView()
-//}
-
 
 class SavedPostsViewController: UIViewController, ViewControllersDelegate {
 
@@ -88,7 +79,7 @@ class SavedPostsViewController: UIViewController, ViewControllersDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.coreDataCoordinator.performFetchSavePostCoreData()
+        coreDataCoordinator.performFetchSavePostCoreData()
         reloadTableView()
     }
 
