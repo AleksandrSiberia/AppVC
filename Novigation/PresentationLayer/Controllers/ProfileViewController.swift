@@ -449,7 +449,7 @@ extension ProfileViewController: UITableViewDropDelegate {
 
                 self.fileManager?.saveImage(imageData: image) {
 
-                    ( tuple: (completion: Bool, urlString: String, nameFoto: String)? ) -> Void   in
+                    ( tuple: (completion: Bool, urlNewFile: String, nameFoto: String)? ) -> Void   in
 
                     guard let tuple else {
                         print("‼️ (completion: Bool, urlString: String, nameFoto: String)? == nil")

@@ -445,7 +445,11 @@ class LoginViewController: UIViewController {
 
             self.keychain.set(self.textFieldLogin.text ?? "", forKey: "userOnline")
 
+            UserDefaults.standard.set("ThisUserSavedInCoreData", forKey: self.textFieldLogin.text ?? "")
+
+
             for (index, user) in RealmService.shared.getAllUsers()!.enumerated() {
+
                 if user.login == self.textFieldLogin.text {
                     RealmService.shared.deleteUser(indexInArrayUsers: index)
                 }

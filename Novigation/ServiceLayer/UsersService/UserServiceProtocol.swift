@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import KeychainSwift
 
 
 
@@ -53,6 +54,8 @@ extension UserServiceProtocol {
                 return
             }
 
+            print("📺", email, profileCoreData.first?.email, profileCoreData.count, coreDataCoordinator?.getAllFolders()?.count)
+
             let currentsProfile = profileCoreData.filter { $0.email == email}
 
             guard currentsProfile.isEmpty == false else {
@@ -74,44 +77,24 @@ extension UserServiceProtocol {
         loginInspector.checkCredentials(withEmail: login, password: password) {string in
 
             guard string == "Открыть доступ" else {
+                print("‼️ в доступе отказано")
                 completion(nil)
                 return
             }
 
 
-            if RealmService.shared.getAllUsers()?.isEmpty == false {
+            if UserDefaults.standard.string(forKey: login) == "ThisUserSavedInCoreData" {
+                /// cached user
 
-                for user in RealmService.shared.getAllUsers() ?? [] {
+                self.getUserByEmail(email: login) { currentUser in
 
-                    if login == user.login {
-
-                        /// this is cached user
-
-                        self.getUserByEmail(email: login) { currentUser in
-
-                            completion(currentUser)
-                        }
-                    }
-
-
-
-                    else {
-                        /// save new user
-
-                        self.saveDefaultProfile(login: login)
-
-                        self.getUserByEmail(email: login) { currentUser in
-                            completion(currentUser)
-                        }
-                    }
+                    completion(currentUser)
                 }
             }
 
 
             else {
-
-                /// save new user, 0 cashed users
-
+                /// save new user
                 self.saveDefaultProfile(login: login)
 
                 self.getUserByEmail(email: login) { currentUser in
