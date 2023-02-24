@@ -271,13 +271,7 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         func append(values: [String: String]) {
 
-            guard let folder = getFolderByName(nameFolder: "FolderProfile") else {
-                print(" ‼️ getFolderByName(nameFolder: FolderProfile) == nil " )
-                return}
-
             let newProfile = ProfileCoreData(context: self.backgroundContext)
-
-            newProfile.relationFolder = folder
 
             newProfile.email = values["email"]
             newProfile.name = values["name"]
@@ -301,14 +295,8 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
     func getProfiles(completionHandler: @escaping ([ProfileCoreData]?) -> Void ) {
 
-//        guard let folder = getFolderByName(nameFolder: "FolderProfile") else {
-//            print(" ‼️ getFolderByName(nameFolder: FolderProfile) == nil " )
-//            return completionHandler(nil)
-//        }
-
+        
         let request = ProfileCoreData.fetchRequest()
-
-  //      request.predicate = NSPredicate(format: "relationFolder == %@", folder)
 
         do {
 
@@ -448,8 +436,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
         fetchedResultsControllerPostCoreData = setupFetchedResultsControllerPostCoreData()
 
         getPostsInFetchedResultsController(nameFolder: KeychainSwift().get("userOnline") )
-
-        print("🥝", currentProfile?.name)
 
 
         guard  let allPosts = fetchedResultsControllerPostCoreData?.sections?.first?.objects, allPosts.isEmpty else {

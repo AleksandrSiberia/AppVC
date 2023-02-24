@@ -8,11 +8,11 @@
         <attribute name="text" optional="YES" attributeType="String"/>
         <attribute name="time" attributeType="Date" defaultDateTimeInterval="698239320" usesScalarValueType="NO"/>
         <attribute name="youLike" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="relationshipPost" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostCoreData" inverseName="relationshipArrayComments" inverseEntity="PostCoreData"/>
     </entity>
     <entity name="FoldersCoreData" representedClassName="FoldersCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="relationPost" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PostCoreData" inverseName="relationFolder" inverseEntity="PostCoreData"/>
-        <relationship name="relationProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileCoreData" inverseName="relationFolder" inverseEntity="ProfileCoreData"/>
     </entity>
     <entity name="PostCoreData" representedClassName="PostCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="author" optional="YES" attributeType="String"/>
@@ -25,8 +25,8 @@
         <attribute name="urlFoto" optional="YES" attributeType="String"/>
         <attribute name="views" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="relationFolder" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FoldersCoreData" inverseName="relationPost" inverseEntity="FoldersCoreData"/>
-        <relationship name="relationshipArrayComments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CommentCoreData"/>
-        <relationship name="relationshipProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileCoreData"/>
+        <relationship name="relationshipArrayComments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CommentCoreData" inverseName="relationshipPost" inverseEntity="CommentCoreData"/>
+        <relationship name="relationshipProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileCoreData" inverseName="relationshipPost" inverseEntity="ProfileCoreData"/>
     </entity>
     <entity name="ProfileCoreData" representedClassName="ProfileCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="avatar" optional="YES" attributeType="String"/>
@@ -41,6 +41,6 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="status" optional="YES" attributeType="String"/>
         <attribute name="surname" optional="YES" attributeType="String"/>
-        <relationship name="relationFolder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FoldersCoreData" inverseName="relationProfile" inverseEntity="FoldersCoreData"/>
+        <relationship name="relationshipPost" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PostCoreData" inverseName="relationshipProfile" inverseEntity="PostCoreData"/>
     </entity>
 </model>

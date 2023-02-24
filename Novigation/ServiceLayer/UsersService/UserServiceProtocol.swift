@@ -54,7 +54,6 @@ extension UserServiceProtocol {
                 return
             }
 
-            print("📺", email, profileCoreData.first?.email, profileCoreData.count, coreDataCoordinator?.getAllFolders()?.count)
 
             let currentsProfile = profileCoreData.filter { $0.email == email}
 
