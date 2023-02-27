@@ -112,7 +112,7 @@ class CommentAllTableViewCell: UITableViewCell, CommentTableViewCellProtocol {
             self.imageViewAuthorAvatar.image = image
         }
 
-        labelComment.text = currentComment?.text
+        labelComment.text = "  " + (currentComment?.text ?? "") + "  "
     }
 }
 

@@ -72,7 +72,9 @@ class AddNewPostViewController: UIViewController {
 
         imageViewPost.translatesAutoresizingMaskIntoConstraints = false
         imageViewPost.backgroundColor = .systemGray6
-        imageViewPost.sizeToFit()
+//      imageViewPost.sizeToFit()
+        imageViewPost.contentMode = .scaleAspectFit
+
 
         return imageViewPost
     }()
@@ -188,7 +190,6 @@ class AddNewPostViewController: UIViewController {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-
         self.view.endEditing(true)
     }
 
@@ -209,8 +210,8 @@ class AddNewPostViewController: UIViewController {
             imageViewImageForNewPost.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             imageViewImageForNewPost.heightAnchor.constraint(equalTo: scrollView.widthAnchor),
 
-            textViewAddNewPost.topAnchor.constraint(equalTo: imageViewImageForNewPost.bottomAnchor, constant: 15),
-            textViewAddNewPost.heightAnchor.constraint(equalToConstant: 200),
+            textViewAddNewPost.topAnchor.constraint(equalTo: imageViewImageForNewPost.bottomAnchor, constant: 20),
+            textViewAddNewPost.heightAnchor.constraint(equalToConstant: 150),
             textViewAddNewPost.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
 
             buttonAddPost.topAnchor.constraint(equalTo: textViewAddNewPost.bottomAnchor, constant: 15),
@@ -223,14 +224,16 @@ class AddNewPostViewController: UIViewController {
     }
 
 
+
     @objc private func barButtonItemCancelAction() {
         dismiss(animated: true)
     }
 
 
+
     private func setupNotifications() {
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -255,22 +258,21 @@ class AddNewPostViewController: UIViewController {
 
 
 
-    @objc private func keyboardWillShow(notification: Notification) {
+    @objc private func keyboardDidShow(notification: Notification) {
 
-        var keyboardHeight: CGFloat?
+        let keyboardHeight: CGFloat?
+
+                if let keyboardHeightUserDefaults = UserDefaults.standard.object(forKey: "keyboardHeight")  {
+                    keyboardHeight = keyboardHeightUserDefaults as? CGFloat
+                }
+
+                else {
+                    keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey ] as? NSValue)?.cgRectValue.height
+                    UserDefaults.standard.set(keyboardHeight, forKey: "keyboardHeight")
+                }
 
 
-        if let keyboardHeightUserDefaults = UserDefaults.standard.object(forKey: "keyboardHeight")  {
-            keyboardHeight = keyboardHeightUserDefaults as? CGFloat
-        }
-
-        else {
-            keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey ] as? NSValue)?.cgRectValue.height
-            UserDefaults.standard.set(keyboardHeight, forKey: "keyboardHeight")
-        }
-
-
-        guard  let screen = view.window?.screen.bounds.height, let keyboardHeight else { return }
+        guard  let screen = view.window?.screen.bounds.height, let keyboardHeight else { return}
 
         let heightView = view.frame.height
 
@@ -284,14 +286,14 @@ class AddNewPostViewController: UIViewController {
 
             let contentOffSet = bottomScrollViewElements - keyboardTop
 
-            scrollView.contentOffset.y = contentOffSet + 130
+            scrollView.contentOffset.y = contentOffSet
+            + 50
         }
     }
 
 
 
     @objc private func keyboardWillHide(notification: Notification) {
-
         scrollView.contentOffset.y = 0.0
     }
 
@@ -304,7 +306,6 @@ class AddNewPostViewController: UIViewController {
 
 
     @objc func gestureRecognizerAction(recogniser: UITapGestureRecognizer) {
-
 
         if recogniser.state == .ended {
 
@@ -333,7 +334,6 @@ extension AddNewPostViewController: UIImagePickerControllerDelegate,  UINavigati
         self.imagePost = image
 
         self.labelAddImage.isHidden = true
-
     }
 }
 
