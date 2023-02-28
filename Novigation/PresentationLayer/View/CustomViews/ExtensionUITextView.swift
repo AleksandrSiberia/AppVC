@@ -16,6 +16,7 @@ extension UITextView {
         textView.backgroundColor = .systemGray6
         textView.text = text
         textView.font = UIFont.systemFont(ofSize: 14)
+        textView.keyboardType = .namePhonePad
      
         return textView
     }

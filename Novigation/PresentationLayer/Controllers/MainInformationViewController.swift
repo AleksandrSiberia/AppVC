@@ -10,7 +10,9 @@ import CoreData
 
 
 
-class MainInformationViewController: UIViewController {
+class MainInformationViewController: UIViewController, KeyboardServiceProtocol {
+  
+
 
 
     private var currentProfile: ProfileCoreData?
@@ -275,27 +277,11 @@ class MainInformationViewController: UIViewController {
 
 
 
+
     @objc private func keyboardWillShowAction(_ notifications: Notification) {
 
-        guard let keyboardHeight = (notifications.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height, let screenHeight = view.window?.frame.height
-        else { print("‼️ UIResponder.keyboardFrameEndUserInfoKey && view.window?.frame.height == nil")
-            return }
+        keyboardWillShow(notifications: notifications, view: view, viewScroll: scrollView, bottomElement: textFieldHometown, correction: nil)
 
-
-        let viewHeight = view.frame.height
-
-        let navigationBarHeight = screenHeight - viewHeight
-
-        let scrollViewElementsMaxY = textFieldHometown.frame.maxY + navigationBarHeight
-
-        let keyboardMinY = viewHeight - keyboardHeight
-
-        if scrollViewElementsMaxY > keyboardMinY {
-
-            let contentOffset = scrollViewElementsMaxY - keyboardMinY
-
-            scrollView.contentOffset.y = contentOffset + 15
-        }
     }
 
 

@@ -9,7 +9,7 @@ import UIKit
 import KeychainSwift
 
 
-class AddNewPostViewController: UIViewController {
+class AddNewPostViewController: UIViewController, KeyboardServiceProtocol {
 
     private var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
@@ -51,7 +51,7 @@ class AddNewPostViewController: UIViewController {
 
 
 
-    private lazy var scrollView: UIScrollView = {
+    private lazy var scrollViewAddNewPostController: UIScrollView = {
 
         var scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +72,6 @@ class AddNewPostViewController: UIViewController {
 
         imageViewPost.translatesAutoresizingMaskIntoConstraints = false
         imageViewPost.backgroundColor = .systemGray6
-//      imageViewPost.sizeToFit()
         imageViewPost.contentMode = .scaleAspectFit
 
 
@@ -128,7 +127,7 @@ class AddNewPostViewController: UIViewController {
 
                     self.alert(alertMassage: "buttonAddPostAlertSuccess".allLocalizable, handler: {
 
-                        self.dismiss(animated: true)
+                        self.navigationController?.popViewController(animated: true)
                     })
                 })
             }
@@ -149,6 +148,8 @@ class AddNewPostViewController: UIViewController {
         self.coreDataCoordinator = coreDataCoordinator
         self.fileManagerService = fileManagerService
         self.delegate = delegate
+
+
     }
 
 
@@ -162,9 +163,11 @@ class AddNewPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(scrollView)
+        setupNotifications()
 
-        [imageViewImageForNewPost, textViewAddNewPost, buttonAddPost, labelAddImage].forEach { scrollView.addSubview($0) }
+        view.addSubview(scrollViewAddNewPostController)
+
+        [imageViewImageForNewPost, textViewAddNewPost, buttonAddPost, labelAddImage].forEach { scrollViewAddNewPostController.addSubview($0) }
 
         navigationItem.leftBarButtonItem = barButtonItemCancel
 
@@ -173,7 +176,7 @@ class AddNewPostViewController: UIViewController {
         imageViewImageForNewPost.addGestureRecognizer(gestureRecognizer)
         imageViewImageForNewPost.isUserInteractionEnabled = true
 
-        scrollView.addGestureRecognizer(gestureRecognizerEndEditingInScrollView)
+        scrollViewAddNewPostController.addGestureRecognizer(gestureRecognizerEndEditingInScrollView)
 
         view.backgroundColor = UIColor.createColorForTheme(lightTheme: .white , darkTheme: .black )
         navigationItem.title = "AddNewPostViewControllerTitle".allLocalizable
@@ -183,9 +186,16 @@ class AddNewPostViewController: UIViewController {
 
         setupConstrains()
 
-        setupNotifications()
+
     }
 
+
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.navigationBar.isHidden = false
+    }
 
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -201,22 +211,22 @@ class AddNewPostViewController: UIViewController {
 
         NSLayoutConstraint.activate([
 
-            scrollView.topAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.topAnchor, constant: 15),
-            scrollView.leadingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.leadingAnchor, constant: 15),
-            scrollView.trailingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.trailingAnchor, constant: -15),
-            scrollView.bottomAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.bottomAnchor, constant: -15),
+            scrollViewAddNewPostController.topAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.topAnchor),
+            scrollViewAddNewPostController.leadingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.leadingAnchor, constant: 15),
+            scrollViewAddNewPostController.trailingAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.trailingAnchor, constant: -15),
+            scrollViewAddNewPostController.bottomAnchor.constraint(equalTo: viewSafeAreaLayoutGuide.bottomAnchor, constant: -15),
 
-            imageViewImageForNewPost.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            imageViewImageForNewPost.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            imageViewImageForNewPost.heightAnchor.constraint(equalTo: scrollView.widthAnchor),
+            imageViewImageForNewPost.topAnchor.constraint(equalTo: scrollViewAddNewPostController.topAnchor),
+            imageViewImageForNewPost.widthAnchor.constraint(equalTo: scrollViewAddNewPostController.widthAnchor),
+            imageViewImageForNewPost.heightAnchor.constraint(equalTo: scrollViewAddNewPostController.widthAnchor),
 
             textViewAddNewPost.topAnchor.constraint(equalTo: imageViewImageForNewPost.bottomAnchor, constant: 20),
             textViewAddNewPost.heightAnchor.constraint(equalToConstant: 150),
-            textViewAddNewPost.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            textViewAddNewPost.widthAnchor.constraint(equalTo: scrollViewAddNewPostController.widthAnchor),
 
             buttonAddPost.topAnchor.constraint(equalTo: textViewAddNewPost.bottomAnchor, constant: 15),
-            buttonAddPost.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            buttonAddPost.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            buttonAddPost.widthAnchor.constraint(equalTo: scrollViewAddNewPostController.widthAnchor),
+            buttonAddPost.bottomAnchor.constraint(equalTo: scrollViewAddNewPostController.bottomAnchor),
 
             labelAddImage.centerXAnchor.constraint(equalTo: imageViewImageForNewPost.centerXAnchor),
             labelAddImage.centerYAnchor.constraint(equalTo: imageViewImageForNewPost.centerYAnchor),
@@ -226,14 +236,14 @@ class AddNewPostViewController: UIViewController {
 
 
     @objc private func barButtonItemCancelAction() {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 
 
 
     private func setupNotifications() {
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -258,43 +268,16 @@ class AddNewPostViewController: UIViewController {
 
 
 
-    @objc private func keyboardDidShow(notification: Notification) {
+    @objc private func keyboardWillShow(notification: Notification) {
 
-        let keyboardHeight: CGFloat?
-
-                if let keyboardHeightUserDefaults = UserDefaults.standard.object(forKey: "keyboardHeight")  {
-                    keyboardHeight = keyboardHeightUserDefaults as? CGFloat
-                }
-
-                else {
-                    keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey ] as? NSValue)?.cgRectValue.height
-                    UserDefaults.standard.set(keyboardHeight, forKey: "keyboardHeight")
-                }
-
-
-        guard  let screen = view.window?.screen.bounds.height, let keyboardHeight else { return}
-
-        let heightView = view.frame.height
-
-        let navigationBarHeight = screen - heightView
-
-        let bottomScrollViewElements = buttonAddPost.frame.maxY + navigationBarHeight
-
-        let keyboardTop = heightView - keyboardHeight
-
-        if bottomScrollViewElements > keyboardTop {
-
-            let contentOffSet = bottomScrollViewElements - keyboardTop
-
-            scrollView.contentOffset.y = contentOffSet
-            + 50
-        }
+        keyboardWillShow(notifications: notification, view: view, viewScroll: scrollViewAddNewPostController, bottomElement: buttonAddPost, correction: 90)
     }
 
 
 
     @objc private func keyboardWillHide(notification: Notification) {
-        scrollView.contentOffset.y = 0.0
+
+        scrollViewAddNewPostController.contentOffset.y = 0.0
     }
 
 

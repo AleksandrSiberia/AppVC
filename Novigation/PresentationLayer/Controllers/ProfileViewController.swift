@@ -197,8 +197,10 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
 
         let controller = AddNewPostViewController(coreDataCoordinator: coreDataCoordinator, fileManagerService: fileManager, delegate: self )
         controller.currentProfile = currentProfile
-        let nav = UINavigationController(rootViewController: controller)
-        present(nav, animated: true)
+
+        navigationController?.pushViewController(controller, animated: true)
+  //      let nav = UINavigationController(rootViewController: controller)
+ //       present(nav, animated: true)
 
     }
 
@@ -248,6 +250,7 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
     func dismissController() {
         dismiss(animated: true)
     }
+
 
 
     private func setupConstraints() {

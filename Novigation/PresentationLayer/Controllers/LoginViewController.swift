@@ -12,7 +12,7 @@ import KeychainSwift
 
 
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, KeyboardServiceProtocol {
 
     private var localAuthorizationService = LocalAuthorizationService()
 
@@ -413,7 +413,13 @@ class LoginViewController: UIViewController {
                                 return
                             }
 
+                            NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
+
+                            NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
+
                             self.output.coordinator.startProfileCoordinator(user: user)
+
+
                         }
 
                     }
@@ -467,10 +473,11 @@ class LoginViewController: UIViewController {
                 print("‼️ user == nil")
                 return }
 
+            self.view.endEditing(true)
+
             self.output.coordinator.startProfileCoordinator(user: user)
         }
     }
-
 
 
 
@@ -488,24 +495,7 @@ class LoginViewController: UIViewController {
 
 
     @objc private func keyboardWillShow(_ notification: Notification ) {
-
-        guard let keyboardHaight = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height
-        else { print(" ‼️ UIResponder.keyboardFrameEndUserInfoKey == nil")
-            return
-        }
-
-        let viewHaight = view.frame.height
-
-        let scrollViewElementsMaxY = buttonBiometric.frame.maxY
-
-        let keyboardMinY = viewHaight - keyboardHaight
-
-        if scrollViewElementsMaxY > keyboardMinY {
-
-            let contentOffset = scrollViewElementsMaxY - keyboardMinY
-
-            scrollView.contentOffset.y = contentOffset + 80
-        }
+        keyboardWillShow(notifications: notification, view: view, viewScroll: scrollView, bottomElement: buttonBiometric, correction: 40)
     }
 
 

@@ -100,6 +100,7 @@
 		8B88711829A7898A0066884E /* CellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88711729A7898A0066884E /* CellProtocol.swift */; };
 		8B88711A29A789D10066884E /* NameClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88711929A789D10066884E /* NameClass.swift */; };
 		8B88711C29A78A8A0066884E /* CommentTableViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88711B29A78A8A0066884E /* CommentTableViewCellProtocol.swift */; };
+		8B88712129AE267A0066884E /* KeyboardServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88712029AE267A0066884E /* KeyboardServiceProtocol.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F4728D1BC3D00CC47D9 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */; };
@@ -252,6 +253,7 @@
 		8B88711729A7898A0066884E /* CellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellProtocol.swift; sourceTree = "<group>"; };
 		8B88711929A789D10066884E /* NameClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameClass.swift; sourceTree = "<group>"; };
 		8B88711B29A78A8A0066884E /* CommentTableViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellProtocol.swift; sourceTree = "<group>"; };
+		8B88712029AE267A0066884E /* KeyboardServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardServiceProtocol.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAssembly.swift; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 				8B474A71290BC455007DE402 /* UsersService */,
 				8B88710F29A7669E0066884E /* AuthorizationService */,
 				8B88710E29A7666F0066884E /* NotificationsService */,
+				8B88711F29AE26130066884E /* KeyboardService */,
 				8B88711229A782610066884E /* CodeService */,
 				8B88711129A781DC0066884E /* CheckerPasswordService */,
 			);
@@ -569,6 +572,14 @@
 				8B857E202922248600ABD4A0 /* CodeService.swift */,
 			);
 			path = CodeService;
+			sourceTree = "<group>";
+		};
+		8B88711F29AE26130066884E /* KeyboardService */ = {
+			isa = PBXGroup;
+			children = (
+				8B88712029AE267A0066884E /* KeyboardServiceProtocol.swift */,
+			);
+			path = KeyboardService;
 			sourceTree = "<group>";
 		};
 		8B975F3328D0A87A00CC47D9 /* Coordinators */ = {
@@ -1009,6 +1020,7 @@
 				8B8870D6295DACC20066884E /* LocalNotificationsService.swift in Sources */,
 				8B8870E529864A9B0066884E /* StringExtension.swift in Sources */,
 				8B8870F72993BE870066884E /* DetailedInformationViewController.swift in Sources */,
+				8B88712129AE267A0066884E /* KeyboardServiceProtocol.swift in Sources */,
 				8B8870E7298934250066884E /* SettingViewController.swift in Sources */,
 				8B35326D2859F47200704D08 /* PostCell.swift in Sources */,
 				8B975F5028D1FE8100CC47D9 /* ProfileCoordinator.swift in Sources */,
