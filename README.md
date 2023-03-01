@@ -84,7 +84,9 @@ https://user-images.githubusercontent.com/103641721/221496376-0f6b94f5-3626-4421
 
 13. Новый пост кэшируется в CoreData и доступен во всех местах программы, и моментально обновляется при изменении
 
-https://user-images.githubusercontent.com/103641721/221517192-dad9081b-021f-4760-8e7c-5fb00bdaf20f.mp4
+https://user-images.githubusercontent.com/103641721/221863013-1d6b1fce-4867-4799-b53a-2d355d6eb49c.mp4
+
+
 
 
 14. Удобное редактирование поста
