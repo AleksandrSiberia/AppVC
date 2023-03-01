@@ -12,6 +12,71 @@ import CoreData
 
 
 class CoreDataCoordinatorDummy: CoreDataCoordinatorProtocol {
+    func getFolderByName(nameFolder: String?) -> FoldersCoreData? {
+        return nil
+    }
+
+    func getAllFolders() -> [FoldersCoreData]? {
+        return nil
+    }
+
+    func deleteFolder(folder: FoldersCoreData) {
+
+    }
+
+    
+    func getPostsInFetchedResultsController(nameFolder: String?) {
+
+    }
+
+    func performFetchAllPostCoreData() {
+
+    }
+
+    func performFetchSavePostCoreData() {
+
+    }
+
+    func appendFolder(name: String?) {
+
+    }
+
+    func appendPost(values: [String : Any], currentProfile: ProfileCoreData?, folderName: String?, completion: (String?) -> Void) {
+
+    }
+
+    func appendProfile(values: [String : String]) {
+
+    }
+
+    func getCurrentProfile(completionHandler: @escaping (ProfileCoreData?) -> Void) {
+
+    }
+
+    func deleteCurrentProfile(completionHandler: @escaping (String?) -> Void) {
+
+    }
+
+    func getProfiles(completionHandler: @escaping ([ProfileCoreData]?) -> Void) {
+
+    }
+
+    func appendNewCommentInPost(for post: PostCoreData?, text: String?) {
+
+    }
+
+    func getSavedPost() -> [PostCoreData]? {
+        return nil
+    }
+
+    func appendDefaultPostsFromCoreData(currentProfile: ProfileCoreData?) {
+
+    }
+
+    func setupFetchedResultsControllerPostCoreData() -> NSFetchedResultsController<PostCoreData>? {
+        return nil
+    }
+
     var fetchedResultsControllerSavePostCoreData: NSFetchedResultsController<PostCoreData>?
 
     var fetchedResultsControllerPostCoreData: NSFetchedResultsController<PostCoreData>?
@@ -26,11 +91,7 @@ class CoreDataCoordinatorDummy: CoreDataCoordinatorProtocol {
 
     func appendFolder(name: String) {}
 
-    func getFolderByName(nameFolder: String) -> FoldersPostCoreData? { return nil }
 
-    func getAllFolders() -> [FoldersPostCoreData]? { return nil }
-
-    func deleteFolder(folder: FoldersPostCoreData) {}
 
     func deletePost(post: PostCoreData) {}
 

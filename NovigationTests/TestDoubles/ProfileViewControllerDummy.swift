@@ -9,10 +9,9 @@ import Foundation
 
 
 class ProfileViewControllerDummy: ProfileViewControllable {
+    var currentProfile: ProfileCoreData?
 
-    var currentUser: User? = nil
-
-    var coreDataCoordinator: CoreDataCoordinatorProtocol!
+    var coreDataCoordinator: CoreDataCoordinatorProtocol?
 
 
     

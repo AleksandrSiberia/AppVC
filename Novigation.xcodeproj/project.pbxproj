@@ -101,6 +101,8 @@
 		8B88711A29A789D10066884E /* NameClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88711929A789D10066884E /* NameClass.swift */; };
 		8B88711C29A78A8A0066884E /* CommentTableViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88711B29A78A8A0066884E /* CommentTableViewCellProtocol.swift */; };
 		8B88712129AE267A0066884E /* KeyboardServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88712029AE267A0066884E /* KeyboardServiceProtocol.swift */; };
+		8B88712229AF2B730066884E /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BED12D328C5DD91006FF146 /* Post.swift */; };
+		8B88712329AF2BA10066884E /* ModelPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0F0D1C285868FA008F75C0 /* ModelPost.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F4728D1BC3D00CC47D9 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */; };
@@ -371,8 +373,8 @@
 				8B88710F29A7669E0066884E /* AuthorizationService */,
 				8B88710E29A7666F0066884E /* NotificationsService */,
 				8B88711F29AE26130066884E /* KeyboardService */,
-				8B88711229A782610066884E /* CodeService */,
 				8B88711129A781DC0066884E /* CheckerPasswordService */,
+				8B88711229A782610066884E /* CodeService */,
 			);
 			path = ServiceLayer;
 			sourceTree = "<group>";
@@ -450,16 +452,8 @@
 				8B14FABE28BC9E87006DE94A /* CurrentUserService.swift */,
 				8B695C5428BCEED9008F0414 /* TestUserService.swift */,
 				8B14FABC28BC90A7006DE94A /* User.swift */,
-				8B474A72290BC5CB007DE402 /* OffService */,
 			);
 			path = UsersService;
-			sourceTree = "<group>";
-		};
-		8B474A72290BC5CB007DE402 /* OffService */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = OffService;
 			sourceTree = "<group>";
 		};
 		8B474A73290BEE73007DE402 /* RealmService */ = {
@@ -1052,9 +1046,11 @@
 				8B77B9A129530E5B00A8D1A3 /* ProfileViewControllable.swift in Sources */,
 				8B77B9942952F65B00A8D1A3 /* ProfileCoordinator.swift in Sources */,
 				8B77B9932952F4C400A8D1A3 /* CoreDadaModel.xcdatamodeld in Sources */,
+				8B88712229AF2B730066884E /* Post.swift in Sources */,
 				8B88711029A771610066884E /* ViewControllersDelegate.swift in Sources */,
 				8B77B98F2951E23200A8D1A3 /* CoreDataCoordinatorDummy.swift in Sources */,
 				8B77B9962952F73B00A8D1A3 /* User.swift in Sources */,
+				8B88712329AF2BA10066884E /* ModelPost.swift in Sources */,
 				8B77B9A5295333FE00A8D1A3 /* CoreDataCoordinator.swift in Sources */,
 				8B77B99D29530DAC00A8D1A3 /* ProfileViewControllerDummy.swift in Sources */,
 				8B77B9912951EEBD00A8D1A3 /* CoreDataCoordinatorProtocol.swift in Sources */,

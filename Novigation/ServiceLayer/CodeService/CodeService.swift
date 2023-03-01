@@ -35,7 +35,6 @@ final class CodeService {
 
             arrayInt.append(int)
         }
-
     }
 
 

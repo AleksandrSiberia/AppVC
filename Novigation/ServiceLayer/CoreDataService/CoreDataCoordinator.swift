@@ -42,29 +42,6 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
 
 
-    func setupFetchedResultsControllerPostCoreData() -> NSFetchedResultsController<PostCoreData>? {
-
-        let request = PostCoreData.fetchRequest()
-
-        request.sortDescriptors = [NSSortDescriptor(key: "image", ascending: true)]
-
-        guard let folder = getFolderByName(nameFolder: KeychainSwift().get("userOnline")) else {
-            print("‼️ getFolderByName(nameFolder: KeychainSwift().get(userOnline) == nil" )
-            return nil
-        }
-
-        request.predicate = NSPredicate(format: "relationFolder == %@", folder)
-
-        let fetchResultController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.backgroundContext, sectionNameKeyPath: nil, cacheName: nil)
-
-        self.fetchedResultsControllerPostCoreData = fetchResultController
-
-        return fetchResultController
-    }
-
-
-
-
     lazy var fetchedResultsControllerSavePostCoreData: NSFetchedResultsController<PostCoreData>? = {
 
         let request = PostCoreData.fetchRequest()
@@ -116,6 +93,21 @@ final class CoreDataCoordinator: CoreDataCoordinatorProtocol {
 
         fetchedResultsControllerPostCoreData =   setupFetchedResultsControllerPostCoreData()
 
+    }
+
+
+    
+    func setupFetchedResultsControllerPostCoreData() -> NSFetchedResultsController<PostCoreData>? {
+
+        let request = PostCoreData.fetchRequest()
+
+        request.sortDescriptors = [NSSortDescriptor(key: "image", ascending: true)]
+
+        let fetchResultController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.backgroundContext, sectionNameKeyPath: nil, cacheName: nil)
+
+        self.fetchedResultsControllerPostCoreData = fetchResultController
+
+        return fetchResultController
     }
 
 

@@ -11,7 +11,6 @@ import CoreData
 
 
 class MainInformationViewController: UIViewController, KeyboardServiceProtocol {
-  
 
 
 
