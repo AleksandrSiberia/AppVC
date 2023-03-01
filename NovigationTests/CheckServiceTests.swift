@@ -10,6 +10,7 @@ import XCTest
 import FirebaseAuth
 import FirebaseCore
 
+
 @testable import Novigation
 
 
@@ -20,8 +21,6 @@ final class CheckServiceTests: XCTestCase {
 
     var handle: AuthStateDidChangeListenerHandle?
 
-    var resultCheck: String?
-
 
 
 
@@ -29,38 +28,53 @@ final class CheckServiceTests: XCTestCase {
 
         FirebaseApp.configure()
 
+        NetworkService.shared.startMonitoring()
+
         sut = CheckService()
     }
 
 
+
     override func tearDownWithError() throws {
 
+
+
+        NetworkService.shared.stopMonitoring()
+
+        sut = nil
     }
 
 
-    func testCheckCredentials() {
+
+    func testCheckCredentialsSuccess() throws {
+
+        try XCTSkipUnless(
+            NetworkService.shared.statusNetworkIsSatisfied,
+                    "‼️ Network connectivity needed for this test."
+                )
+
+        // given
+
+        var result: String?
 
 
         // when
 
-        handle = Auth.auth().addStateDidChangeListener { auth, user in
-
-        }
-
-//        Auth.auth().signIn(withEmail: "unit@test.ru", password: "123456789a") {_,_ in
-//
-//            print("🏓")
-//        }
+        let expectation = expectation(description: "")
 
         sut?.checkCredentials(withEmail: "unit@test.ru", password: "123456789a", completion: {  resultCheck in
 
 
             // then
 
-            self.resultCheck = resultCheck
+            result = resultCheck
+
+            expectation.fulfill()
         })
 
-        XCTAssertEqual(self.resultCheck , "Открыть доступ")
+        wait(for: [expectation], timeout: 5)
 
+        XCTAssertEqual(result, "Открыть доступ")
     }
+
 }

@@ -107,6 +107,7 @@
 		8B88712629AF394C0066884E /* CheckServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88712529AF394C0066884E /* CheckServiceTests.swift */; };
 		8B88712729AF3E770066884E /* LoginViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BED12CD28C5DBD5006FF146 /* LoginViewControllerDelegate.swift */; };
 		8B88712829AF3E8E0066884E /* CheckServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B474A1928FD37D7007DE402 /* CheckServiceProtocol.swift */; };
+		8B88712A29AF551F0066884E /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88712929AF551F0066884E /* NetworkService.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F4728D1BC3D00CC47D9 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */; };
@@ -261,6 +262,7 @@
 		8B88711B29A78A8A0066884E /* CommentTableViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellProtocol.swift; sourceTree = "<group>"; };
 		8B88712029AE267A0066884E /* KeyboardServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardServiceProtocol.swift; sourceTree = "<group>"; };
 		8B88712529AF394C0066884E /* CheckServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckServiceTests.swift; sourceTree = "<group>"; };
+		8B88712929AF551F0066884E /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAssembly.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				8B88711F29AE26130066884E /* KeyboardService */,
 				8B88711129A781DC0066884E /* CheckerPasswordService */,
 				8B88711229A782610066884E /* CodeService */,
+				8B88712929AF551F0066884E /* NetworkService.swift */,
 			);
 			path = ServiceLayer;
 			sourceTree = "<group>";
@@ -967,6 +970,7 @@
 				8B138F3028D9E8C600ACA1B9 /* LoginViewModel.swift in Sources */,
 				8BED12E028C8C01D006FF146 /* CustomButton.swift in Sources */,
 				8B8870F9299640EF0066884E /* ExtensionUILabel.swift in Sources */,
+				8B88712A29AF551F0066884E /* NetworkService.swift in Sources */,
 				8B77B9A029530E4E00A8D1A3 /* ProfileViewControllable.swift in Sources */,
 				8B30DF29283A1CC6006763B9 /* AppDelegate.swift in Sources */,
 				8B88710729A355260066884E /* CommentAllTableViewCell.swift in Sources */,
