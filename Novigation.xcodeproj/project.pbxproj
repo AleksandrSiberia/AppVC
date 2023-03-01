@@ -103,6 +103,10 @@
 		8B88712129AE267A0066884E /* KeyboardServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88712029AE267A0066884E /* KeyboardServiceProtocol.swift */; };
 		8B88712229AF2B730066884E /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BED12D328C5DD91006FF146 /* Post.swift */; };
 		8B88712329AF2BA10066884E /* ModelPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0F0D1C285868FA008F75C0 /* ModelPost.swift */; };
+		8B88712429AF39210066884E /* CheckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BED12C728BF3801006FF146 /* CheckService.swift */; };
+		8B88712629AF394C0066884E /* CheckServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88712529AF394C0066884E /* CheckServiceTests.swift */; };
+		8B88712729AF3E770066884E /* LoginViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BED12CD28C5DBD5006FF146 /* LoginViewControllerDelegate.swift */; };
+		8B88712829AF3E8E0066884E /* CheckServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B474A1928FD37D7007DE402 /* CheckServiceProtocol.swift */; };
 		8B975F3228D0A71500CC47D9 /* AppCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */; };
 		8B975F3B28D0B5E100CC47D9 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */; };
 		8B975F4728D1BC3D00CC47D9 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */; };
@@ -256,6 +260,7 @@
 		8B88711929A789D10066884E /* NameClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameClass.swift; sourceTree = "<group>"; };
 		8B88711B29A78A8A0066884E /* CommentTableViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellProtocol.swift; sourceTree = "<group>"; };
 		8B88712029AE267A0066884E /* KeyboardServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardServiceProtocol.swift; sourceTree = "<group>"; };
+		8B88712529AF394C0066884E /* CheckServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckServiceTests.swift; sourceTree = "<group>"; };
 		8B975F3128D0A71500CC47D9 /* AppCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		8B975F3A28D0B5E100CC47D9 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		8B975F4628D1BC3D00CC47D9 /* FeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAssembly.swift; sourceTree = "<group>"; };
@@ -409,6 +414,7 @@
 				8BED12DE28C8BD9B006FF146 /* ApplicationLayer */,
 				8BF7CEAC29407EDE001FD64C /* Localizable  */,
 				8B138F3228DA489900ACA1B9 /* ServiceLayer */,
+				8B975F3328D0A87A00CC47D9 /* Coordinators */,
 				8B975F4928D1C91200CC47D9 /* PresentationLayer */,
 				8BED12DA28C8BD59006FF146 /* Models */,
 				8B4749C828EDA32B007DE402 /* Assets.xcassets */,
@@ -478,8 +484,9 @@
 		8B77B96A294F3C6D00A8D1A3 /* NovigationTests */ = {
 			isa = PBXGroup;
 			children = (
-				8B77B9A62953345E00A8D1A3 /* CoreDataCoordinatorTests.swift */,
 				8B77B98D2951E10800A8D1A3 /* TestDoubles */,
+				8B77B9A62953345E00A8D1A3 /* CoreDataCoordinatorTests.swift */,
+				8B88712529AF394C0066884E /* CheckServiceTests.swift */,
 			);
 			path = NovigationTests;
 			sourceTree = "<group>";
@@ -592,7 +599,6 @@
 			children = (
 				8B77B99B295308A100A8D1A3 /* Interfase */,
 				8B975F4A28D1CAFE00CC47D9 /* Assembly */,
-				8B975F3328D0A87A00CC47D9 /* Coordinators */,
 				8BED12DD28C8BD84006FF146 /* Controllers */,
 				8B138F2228D87EAF00ACA1B9 /* View */,
 				8B138F1F28D87E1B00ACA1B9 /* ViewModel */,
@@ -1048,12 +1054,16 @@
 				8B77B9932952F4C400A8D1A3 /* CoreDadaModel.xcdatamodeld in Sources */,
 				8B88712229AF2B730066884E /* Post.swift in Sources */,
 				8B88711029A771610066884E /* ViewControllersDelegate.swift in Sources */,
+				8B88712629AF394C0066884E /* CheckServiceTests.swift in Sources */,
 				8B77B98F2951E23200A8D1A3 /* CoreDataCoordinatorDummy.swift in Sources */,
 				8B77B9962952F73B00A8D1A3 /* User.swift in Sources */,
 				8B88712329AF2BA10066884E /* ModelPost.swift in Sources */,
+				8B88712429AF39210066884E /* CheckService.swift in Sources */,
 				8B77B9A5295333FE00A8D1A3 /* CoreDataCoordinator.swift in Sources */,
 				8B77B99D29530DAC00A8D1A3 /* ProfileViewControllerDummy.swift in Sources */,
 				8B77B9912951EEBD00A8D1A3 /* CoreDataCoordinatorProtocol.swift in Sources */,
+				8B88712729AF3E770066884E /* LoginViewControllerDelegate.swift in Sources */,
+				8B88712829AF3E8E0066884E /* CheckServiceProtocol.swift in Sources */,
 				8B77B9952952F71600A8D1A3 /* AppCoordinatorProtocol.swift in Sources */,
 				8B77B9A72953345E00A8D1A3 /* CoreDataCoordinatorTests.swift in Sources */,
 			);

@@ -20,9 +20,7 @@ final class CoreDataCoordinatorTests: XCTestCase {
         try super.setUpWithError()
         self.sut = CoreDataCoordinator()
 
-//        if sut.getFolderByName(nameFolder: "SavedPosts") == nil {
-//            sut.appendFolder(name: "SavedPosts")
-//        }
+        
     }
 
 
