@@ -4,6 +4,15 @@
 * AppVC * - проект демонстрирующий возможности продвинутого промышленного программирования на языке swift с использованием фреймворка
 UIKit без использования сторибордов и с использованием последних нововведений языка.
 
+### Используемые библиотеки
+CoreData, Dispatch (GCD), Firebase, LocalAuthentication, Realm, KeychainSwift,  CoreGraphics, AVFoundation, SnapKit, UIKit, 
+UserNotification, XCTest
+
+### Архитектура 
+MVC + MVVM + Coordinator + Assembly 
+
+### Слои 
+ApplicationLayer, ServiceLayer, Coordinators, PresentationLayer, Models
 
 
 ## Использованные преимущества 
