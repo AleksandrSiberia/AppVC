@@ -201,7 +201,6 @@ final class ProfileViewController: UIViewController, UIGestureRecognizerDelegate
         navigationController?.pushViewController(controller, animated: true)
   //      let nav = UINavigationController(rootViewController: controller)
  //       present(nav, animated: true)
-
     }
 
 
